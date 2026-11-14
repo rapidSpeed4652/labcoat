@@ -1,7 +1,7 @@
 extends StaticBody3D
 
 @export var requires_reflected_beam: bool = true
-@export var target_door: NodePath
+@export var target_door: Node
 @export var activation_time_required: float = 0.3
 @export var is_permanent: bool = true
 
@@ -69,10 +69,12 @@ func trigger_activation():
 	AudioManager.play_sfx("switch_flip", 1.2)
 	AudioManager.play_sfx("door_open")
 	
-	if target_door:
-		var door_node = get_node_or_null(target_door)
-		if door_node and door_node.has_method("open"):
-			door_node.open()
+	if target_door and target_door.has_method("open"):
+		target_door.open()
+	else:
+		var fallback_door = get_node_or_null("../Act1SecurityDoor")
+		if fallback_door and fallback_door.has_method("open"):
+			fallback_door.open()
 	
 	GameManager.unlock_act1_door()
 

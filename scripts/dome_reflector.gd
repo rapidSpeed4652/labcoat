@@ -14,6 +14,9 @@ func _ready():
 	rotation_degrees.y = current_angle_deg
 	_check_alignment()
 
+func get_mirror_normal() -> Vector3:
+	return global_transform.basis.z.normalized()
+
 func get_category_badge() -> String:
 	return "📡 [ASTRONOMY: " + station_name.to_upper() + "]"
 

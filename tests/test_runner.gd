@@ -62,6 +62,8 @@ func _ready():
 	
 	# Test 3: Optical Receptor (Act 1 Door)
 	var receptor = get_node("Main/Observatory/Act1_ControlRoom/OpticalReceptor_Act1")
+	var mirror = get_node("Main/Observatory/Act1_ControlRoom/WallMirror_Act1")
+	var door = get_node("Main/Observatory/Act1_ControlRoom/Act1SecurityDoor")
 	assert(receptor != null, "Optical receptor must exist")
 	assert(GameManager.act1_door_unlocked == false, "Door must be locked initially")
 	
@@ -70,10 +72,32 @@ func _ready():
 	assert(GameManager.act1_door_unlocked == false, "Raw beam must not unlock door")
 	print("✓ Test 3A: Raw beam rejected by optical security receptor")
 	
-	# Reflected beam should activate receptor
-	receptor.on_laser_hit(true, 0.5)
-	assert(GameManager.act1_door_unlocked == true, "Reflected beam must unlock door")
-	print("✓ Test 3B: Reflected beam successfully unlocked Act 1 security door")
+	# Physical In-World Laser Reflection off WallMirror_Act1 into Receptor
+	player.global_position = Vector3(-2.4, 0.0, 0.0)
+	player.camera.look_at(mirror.global_position + Vector3(0, 0, 0.02), Vector3.UP)
+	var laser_sys_test = player.laser_system
+	laser_sys_test.is_firing = true
+	for f in range(25):
+		laser_sys_test._process(0.016)
+		await get_tree().physics_frame
+	laser_sys_test.is_firing = false
+	
+	# Verify Law of Reflection: theta_i == theta_r
+	var seg0 = laser_sys_test.beam_segments[0]
+	var seg1 = laser_sys_test.beam_segments[1]
+	assert(seg0.visible and seg1.visible, "Both incident and reflected beams must be rendered")
+	var inc_dir = seg0.global_transform.basis.y
+	var ref_dir = seg1.global_transform.basis.y
+	var mir_n = mirror.global_transform.basis.z.normalized()
+	var theta_i = rad_to_deg(acos(-inc_dir.dot(mir_n)))
+	var theta_r = rad_to_deg(acos(ref_dir.dot(mir_n)))
+	assert(abs(theta_i - theta_r) < 0.001, "Law of reflection violated in test runner")
+	print("✓ Test 3B: Physical in-world reflection strictly obeys Law of Reflection (theta_i == theta_r: %.2f°)" % [theta_i])
+	
+	assert(receptor.is_activated == true, "In-world reflected beam must activate receptor")
+	assert(GameManager.act1_door_unlocked == true, "Reflected beam must unlock door in GameManager")
+	assert(door.is_open == true, "Security door must open")
+	print("✓ Test 3C: Reflected laser beam successfully unlocked and opened Act 1 security door")
 	
 	# Test 4: Laser Overheat
 	var laser_sys = player.laser_system

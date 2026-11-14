@@ -11,6 +11,9 @@ func _ready():
 	if is_rotatable:
 		add_to_group("Interactable")
 
+func get_mirror_normal() -> Vector3:
+	return global_transform.basis.z.normalized()
+
 func get_category_badge() -> String:
 	return "🪞 [OPTICS: RETRO-REFLECTOR MIRROR]"
 
