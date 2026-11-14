@@ -49,9 +49,11 @@ func _input(event: InputEvent):
 	if GameManager.is_inspecting_polaroid:
 		if event.is_action_pressed("interact") or event.is_action_pressed("pause") or event.is_action_pressed("fire_laser"):
 			GameManager.close_polaroid()
+		elif event is InputEventKey and event.pressed and (event.keycode == KEY_E or event.keycode == KEY_ESCAPE or event.physical_keycode == KEY_E):
+			GameManager.close_polaroid()
 		return
 	
-	# Mouse look: rock solid pitch & yaw with no inversion or drift
+	# Mouse look: rock solid pitch & yaw with zero drift
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		var mouse_x = event.relative.x * mouse_sensitivity
 		var mouse_y = event.relative.y * mouse_sensitivity
@@ -59,7 +61,7 @@ func _input(event: InputEvent):
 		# Yaw on player body
 		rotate_y(-mouse_x)
 		
-		# Pitch directly on camera rotation.x (moving mouse UP decreases rotation.x to look UP)
+		# Pitch directly on camera rotation.x
 		camera.rotation.x = clamp(camera.rotation.x - mouse_y, deg_to_rad(-85.0), deg_to_rad(85.0))
 		
 		# Weapon lag sway
@@ -73,13 +75,13 @@ func _input(event: InputEvent):
 		if laser_system:
 			laser_system.set_firing(false)
 	
-	if event.is_action_pressed("place_mirror"):
+	if event.is_action_pressed("place_mirror") or (event is InputEventKey and event.pressed and (event.keycode == KEY_Q or event.physical_keycode == KEY_Q)):
 		_try_place_portable_mirror()
 	
-	if event.is_action_pressed("interact"):
+	if event.is_action_pressed("interact") or (event is InputEventKey and event.pressed and (event.keycode == KEY_E or event.keycode == KEY_F or event.physical_keycode == KEY_E or event.physical_keycode == KEY_F)):
 		_try_interact()
 	
-	if event.is_action_pressed("restart"):
+	if event.is_action_pressed("restart") or (event is InputEventKey and event.pressed and (event.keycode == KEY_R or event.physical_keycode == KEY_R)):
 		GameManager.restart_checkpoint()
 
 func _physics_process(delta: float):
@@ -96,15 +98,23 @@ func _physics_process(delta: float):
 		velocity.y -= gravity * delta
 	else:
 		velocity.y = -0.5 # downward stickiness to prevent ground bounce
-		if Input.is_action_just_pressed("jump"):
+		var jump_triggered = Input.is_action_just_pressed("jump") or Input.is_key_pressed(KEY_SPACE) or Input.is_physical_key_pressed(KEY_SPACE)
+		if jump_triggered:
 			velocity.y = jump_velocity
 	
-	# Sprint check
-	is_sprinting = Input.is_action_pressed("sprint")
+	# Sprint check with direct hardware fallback
+	is_sprinting = Input.is_action_pressed("sprint") or Input.is_key_pressed(KEY_SHIFT) or Input.is_physical_key_pressed(KEY_SHIFT)
 	var target_speed = sprint_speed if is_sprinting else walk_speed
 	
-	# Movement input
+	# Movement input with direct hardware WASD fallback
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
+	if input_dir == Vector2.ZERO:
+		var left = 1.0 if (Input.is_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT)) else 0.0
+		var right = 1.0 if (Input.is_key_pressed(KEY_D) or Input.is_physical_key_pressed(KEY_D) or Input.is_key_pressed(KEY_RIGHT)) else 0.0
+		var fwd = 1.0 if (Input.is_key_pressed(KEY_W) or Input.is_physical_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP)) else 0.0
+		var back = 1.0 if (Input.is_key_pressed(KEY_S) or Input.is_physical_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN)) else 0.0
+		input_dir = Vector2(right - left, back - fwd)
+	
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
 	if direction != Vector3.ZERO:
@@ -134,13 +144,9 @@ func _physics_process(delta: float):
 func _update_weapon_sway_and_bob(delta: float):
 	if not laser_mount:
 		return
-	# Smoothly center sway
 	sway_offset = sway_offset.lerp(Vector2.ZERO, delta * 10.0)
-	
-	# Weapon bobbing on gun mount (NOT on camera!)
 	var bob_x = cos(weapon_bob_timer * 0.5) * 0.015
 	var bob_y = sin(weapon_bob_timer) * 0.018
-	
 	var target_mount_pos = default_gun_pos + Vector3(sway_offset.x + bob_x, sway_offset.y + bob_y, 0.0)
 	laser_mount.position = laser_mount.position.lerp(target_mount_pos, delta * 14.0)
 
@@ -155,7 +161,7 @@ func _update_interaction_target():
 	var cam_pos = camera.global_position
 	var cam_forward = -camera.global_transform.basis.z.normalized()
 	var max_reach = 3.4
-	var best_dot = 0.55 # generous ~55 deg cone
+	var best_dot = 0.55
 	var best_candidate: Node = null
 	var best_dist: float = max_reach
 	
@@ -164,7 +170,6 @@ func _update_interaction_target():
 		if not is_instance_valid(item):
 			continue
 		var item_pos = item.global_position
-		# Use center of item if available
 		var center_pos = item_pos
 		var mesh_child = item.get_node_or_null("MeshInstance3D")
 		if mesh_child:
@@ -175,7 +180,6 @@ func _update_interaction_target():
 		if dist <= max_reach:
 			var dot = cam_forward.dot(to_item.normalized())
 			if dot > best_dot:
-				# Line of sight check
 				var space_state = get_world_3d().direct_space_state
 				var query = PhysicsRayQueryParameters3D.create(cam_pos, center_pos)
 				query.exclude = [get_rid()]

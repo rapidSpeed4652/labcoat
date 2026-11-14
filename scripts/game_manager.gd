@@ -39,17 +39,16 @@ signal game_lost()
 signal mirror_count_changed(count: int)
 
 var is_inspecting_polaroid: bool = false
-var is_paused: bool = false
 
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	# Setup input actions if missing
+	is_inspecting_polaroid = false
 	_setup_inputs()
 	call_deferred("_start_intro_radio")
 
 func _setup_inputs():
-	# Ensure default actions exist
-	var actions = {
+	# Ensure default actions have both keycode and physical_keycode registered
+	var key_actions = {
 		"move_forward": [KEY_W, KEY_UP],
 		"move_backward": [KEY_S, KEY_DOWN],
 		"move_left": [KEY_A, KEY_LEFT],
@@ -57,23 +56,35 @@ func _setup_inputs():
 		"sprint": [KEY_SHIFT],
 		"jump": [KEY_SPACE],
 		"interact": [KEY_E, KEY_F],
-		"place_mirror": [MOUSE_BUTTON_RIGHT, KEY_Q],
-		"fire_laser": [MOUSE_BUTTON_LEFT],
+		"place_mirror": [KEY_Q],
 		"restart": [KEY_R],
 		"pause": [KEY_ESCAPE]
 	}
-	for act_name in actions:
+	for act_name in key_actions:
 		if not InputMap.has_action(act_name):
 			InputMap.add_action(act_name)
-		for key_or_btn in actions[act_name]:
-			if key_or_btn is MouseButton:
-				var ev = InputEventMouseButton.new()
-				ev.button_index = key_or_btn
-				InputMap.action_add_event(act_name, ev)
-			else:
-				var ev = InputEventKey.new()
-				ev.physical_keycode = key_or_btn
-				InputMap.action_add_event(act_name, ev)
+		for k in key_actions[act_name]:
+			# Register keycode
+			var ev_k = InputEventKey.new()
+			ev_k.keycode = k
+			InputMap.action_add_event(act_name, ev_k)
+			# Register physical_keycode
+			var ev_p = InputEventKey.new()
+			ev_p.physical_keycode = k
+			InputMap.action_add_event(act_name, ev_p)
+	
+	# Mouse button actions
+	if not InputMap.has_action("fire_laser"):
+		InputMap.add_action("fire_laser")
+	var ev_lmb = InputEventMouseButton.new()
+	ev_lmb.button_index = MOUSE_BUTTON_LEFT
+	InputMap.action_add_event("fire_laser", ev_lmb)
+	
+	if not InputMap.has_action("place_mirror"):
+		InputMap.add_action("place_mirror")
+	var ev_rmb = InputEventMouseButton.new()
+	ev_rmb.button_index = MOUSE_BUTTON_RIGHT
+	InputMap.action_add_event("place_mirror", ev_rmb)
 
 func _start_intro_radio():
 	await get_tree().create_timer(1.2).timeout

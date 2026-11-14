@@ -13,6 +13,30 @@ func _ready():
 	assert(player != null, "Player must exist in scene")
 	print("✓ Player instantiated successfully")
 	
+	# Test 0: WASD Movement Verification
+	var start_pos = player.global_position
+	# Simulate pressing W key
+	var ev_w = InputEventKey.new()
+	ev_w.keycode = KEY_W
+	ev_w.pressed = true
+	Input.parse_input_event(ev_w)
+	Input.flush_buffered_events()
+	
+	# Wait for physics frames
+	for i in range(10):
+		await get_tree().physics_frame
+	
+	var moved_pos = player.global_position
+	var dist = start_pos.distance_to(moved_pos)
+	print("Start: ", start_pos, " Moved: ", moved_pos, " Dist: ", dist)
+	assert(dist > 0.05, "Player must move when W key is pressed!")
+	print("✓ Test 0: WASD movement triggers cleanly and moves player!")
+	
+	# Release W
+	ev_w.pressed = false
+	Input.parse_input_event(ev_w)
+	Input.flush_buffered_events()
+	
 	# Test 1: Laser pickup
 	assert(GameManager.has_laser == false, "Player should start without laser")
 	var laser_pickup = get_node("Main/Observatory/Act1_ControlRoom/LaserPickup")
@@ -93,7 +117,7 @@ func _ready():
 	print("✓ Test 7: Emergency shutdown lever seals roof shutter")
 	
 	print("========================================")
-	print("ALL 7 GAMEPLAY & MECHANIC TESTS PASSED!")
+	print("ALL 8 GAMEPLAY & WASD TESTS PASSED!")
 	print("========================================")
 	
 	get_tree().quit(0)
