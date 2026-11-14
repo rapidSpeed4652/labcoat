@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RETRO-REFLECTOR</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- ===== UI OVERLAYS ===== -->
+  <!-- Title Screen -->
+  <div id="title-screen">
+    <div class="title-content">
+      <h1 class="glitch" data-text="RETRO-REFLECTOR">RETRO-REFLECTOR</h1>
+      <p class="subtitle">A Light-Bounce Horror Experience</p>
+      <div class="start-prompt" id="start-btn">[ CLICK TO BEGIN ]</div>
+      <p class="controls-hint">WASD - Move &nbsp;|&nbsp; Mouse - Look &nbsp;|&nbsp; LMB - Fire Laser &nbsp;|&nbsp; E - Interact &nbsp;|&nbsp; Q - Place Mirror</p>
+    </div>
+  </div>
+
+  <!-- HUD -->
+  <div id="hud" class="hidden">
+    <div id="crosshair">+</div>
+    <div id="battery-container">
+      <div id="battery-label">LASER TEMP</div>
+      <div id="battery-bar-bg">
+        <div id="battery-bar"></div>
+      </div>
+    </div>
+    <div id="interact-prompt" class="hidden">[E] Interact</div>
+    <div id="mirror-count" class="hidden">Mirrors: <span id="mirror-num">0</span></div>
+    <div id="objective" class="hidden"></div>
+  </div>
+
+  <!-- Dialogue / Story overlay -->
+  <div id="dialogue-overlay" class="hidden">
+    <div id="dialogue-box">
+      <div id="dialogue-speaker"></div>
+      <div id="dialogue-text"></div>
+      <div id="dialogue-continue">[CLICK or SPACE to continue]</div>
+    </div>
+  </div>
+
+  <!-- Act transition -->
+  <div id="act-transition" class="hidden">
+    <div id="act-title"></div>
+    <div id="act-subtitle"></div>
+  </div>
+
+  <!-- Death / game over -->
+  <div id="death-screen" class="hidden">
+    <div class="death-content">
+      <h2>CONSUMED BY SHADOW</h2>
+      <p>The darkness has claimed you.</p>
+      <div class="restart-btn" id="restart-btn">[ TRY AGAIN ]</div>
+    </div>
+  </div>
+
+  <!-- Ending screen -->
+  <div id="ending-screen" class="hidden">
+    <div class="ending-content">
+      <h2>RETRO-REFLECTOR</h2>
+      <p id="ending-text"></p>
+      <div class="restart-btn" id="replay-btn">[ PLAY AGAIN ]</div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div id="loading-screen">
+    <div class="loading-text">INITIALIZING SYSTEMS...</div>
+    <div class="loading-bar-bg"><div class="loading-bar" id="loading-bar"></div></div>
+  </div>
+
+  <!-- Three.js container -->
+  <div id="game-container"></div>
+
+  <!-- Import Map for ES Modules -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
