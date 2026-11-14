@@ -19,6 +19,54 @@ var has_been_used: bool = false
 func _ready():
 	add_to_group("Interactable")
 
+func get_category_badge() -> String:
+	match interaction_type:
+		InteractType.PICKUP_LASER:
+			return "⚡ [EQUIPMENT: MODEL 74 EMITTER]"
+		InteractType.POLAROID:
+			return "📷 [EVIDENCE: DR. VANCE'S POLAROID]"
+		InteractType.TAPE_RECORDER:
+			return "📻 [AUDIO LOG: C-60 REEL CASSETTE]"
+		InteractType.CAPACITOR_SWITCH:
+			return "⚡ [POWER GRID: AUXILIARY CAPACITOR]"
+		InteractType.SHUTDOWN_LEVER:
+			return "🚨 [OVERRIDE: EMERGENCY SHUTDOWN]"
+		InteractType.EXIT_DOOR:
+			return "🚪 [EXIT: MOUNTAIN ESCAPE APERTURE]"
+	return "🔍 [INTERACTABLE]"
+
+func get_category_color() -> Color:
+	match interaction_type:
+		InteractType.PICKUP_LASER:
+			return Color(0.1, 0.9, 1.0)
+		InteractType.POLAROID:
+			return Color(1.0, 0.85, 0.3)
+		InteractType.TAPE_RECORDER:
+			return Color(0.9, 0.75, 0.2)
+		InteractType.CAPACITOR_SWITCH:
+			return Color(1.0, 0.55, 0.1)
+		InteractType.SHUTDOWN_LEVER:
+			return Color(1.0, 0.2, 0.2)
+		InteractType.EXIT_DOOR:
+			return Color(0.2, 1.0, 0.5)
+	return Color(1.0, 1.0, 1.0)
+
+func get_hint() -> String:
+	match interaction_type:
+		InteractType.PICKUP_LASER:
+			return "Heavy optical laser. Raw beam is absorbed by shadows; must bounce off mirrors to banish."
+		InteractType.POLAROID:
+			return "Last photograph taken before backup power failed. Look closely at the mirror behind him."
+		InteractType.TAPE_RECORDER:
+			return "Audio log from night astronomer. Press [E] to listen to recorded audio."
+		InteractType.CAPACITOR_SWITCH:
+			return "Engage both capacitors in the gallery to restore power to the Dome blast doors." if not has_been_used else "Capacitor engaged. Power routed to Dome blast door."
+		InteractType.SHUTDOWN_LEVER:
+			return "Banish the shadow entities using the 3 telescope reflectors before accessing console." if not GameManager.dome_puzzle_solved else "Pull lever to seal dome shutter and sever deep space return beam!"
+		InteractType.EXIT_DOOR:
+			return "Shutter sealed. Escape into the mountain air." if GameManager.shutdown_lever_pulled else "Locked until primary roof shutter is sealed."
+	return ""
+
 func get_interaction_prompt() -> String:
 	match interaction_type:
 		InteractType.PICKUP_LASER:
@@ -28,7 +76,7 @@ func get_interaction_prompt() -> String:
 		InteractType.TAPE_RECORDER:
 			return "Play Audio Tape (" + tape_title + ")"
 		InteractType.CAPACITOR_SWITCH:
-			return "Engage Capacitor Switch" if not has_been_used else "[ENGAGED]"
+			return "Engage Capacitor Breaker" if not has_been_used else "[ENGAGED]"
 		InteractType.SHUTDOWN_LEVER:
 			if not GameManager.dome_puzzle_solved:
 				return "[LOCKED - Shadow entities blocking console]"
@@ -59,7 +107,6 @@ func interact():
 			if not has_been_used:
 				has_been_used = true
 				AudioManager.play_sfx("switch_flip", 0.8)
-				# Animate lever switch
 				var lever_mesh = get_node_or_null("LeverHandle")
 				if lever_mesh:
 					var tween = create_tween()

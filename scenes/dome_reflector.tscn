@@ -1,46 +1,67 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/dome_reflector.gd" id="1_dref"]
 [ext_resource type="Texture2D" path="res://assets/textures/mirror_glass.png" id="2_gls"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_col"]
-height = 2.4
-radius = 1.0
+height = 2.6
+radius = 1.2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ped"]
-albedo_color = Color(0.2, 0.22, 0.25, 1)
-metallic = 0.8
-roughness = 0.4
+albedo_color = Color(0.22, 0.25, 0.28, 1) 
+metallic = 0.9
+roughness = 0.35
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_brass"]
+albedo_color = Color(0.85, 0.65, 0.2, 1) 
+metallic = 0.85
+roughness = 0.3
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glass"]
 albedo_texture = ExtResource("2_gls")
-metallic = 0.95
-roughness = 0.05
+metallic = 1.0
+roughness = 0.02
 emission_enabled = true
-emission = Color(0.1, 0.4, 0.5, 1)
-emission_energy_multiplier = 0.7
+emission = Color(0.2, 0.7, 0.9, 1)
+emission_energy_multiplier = 0.8
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_ped"]
 material = SubResource("StandardMaterial3D_ped")
-top_radius = 0.4
-bottom_radius = 0.7
+top_radius = 0.45
+bottom_radius = 0.85
 height = 1.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_gear"]
+material = SubResource("StandardMaterial3D_brass")
+top_radius = 0.6
+bottom_radius = 0.6
+height = 0.15
 
 [sub_resource type="BoxMesh" id="BoxMesh_dish"]
 material = SubResource("StandardMaterial3D_glass")
-size = Vector3(1.8, 1.4, 0.1)
+size = Vector3(2.2, 1.6, 0.12)
 
 [node name="DomeReflector" type="StaticBody3D"]
 script = ExtResource("1_dref")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
 shape = SubResource("CylinderShape3D_col")
 
 [node name="Pedestal" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6, 0)
 mesh = SubResource("CylinderMesh_ped")
 
+[node name="GearRing" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0)
+mesh = SubResource("CylinderMesh_gear")
+
 [node name="ReflectorDish" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 mesh = SubResource("BoxMesh_dish")
+
+[node name="StatusBeacon" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.6, 0)
+light_color = Color(0.2, 0.85, 1, 1)
+light_energy = 2.0
+omni_range = 4.0

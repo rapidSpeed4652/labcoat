@@ -1,25 +1,24 @@
 extends CharacterBody3D
 
-@export var walk_speed: float = 4.8
-@export var sprint_speed: float = 7.5
-@export var acceleration: float = 18.0
-@export var friction: float = 22.0
-@export var jump_velocity: float = 4.5
-@export var mouse_sensitivity: float = 0.0022
+@export var walk_speed: float = 4.4
+@export var sprint_speed: float = 6.8
+@export var acceleration: float = 24.0
+@export var friction: float = 28.0
+@export var jump_velocity: float = 4.2
+@export var mouse_sensitivity: float = 0.002
 
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity", 9.8)
 
 @onready var camera: Camera3D = $Camera3D
 @onready var laser_mount: Node3D = $Camera3D/LaserMount
 @onready var laser_system: Node3D = $Camera3D/LaserMount/LaserSystem
-@onready var gun_mesh: MeshInstance3D = $Camera3D/LaserMount/GunBody
 @onready var portable_mirror_scene = preload("res://scenes/portable_mirror.tscn")
 
-var default_cam_y: float = 1.6
-var bob_timer: float = 0.0
+var default_gun_pos: Vector3 = Vector3(0.28, -0.22, -0.45)
+var weapon_bob_timer: float = 0.0
 var sway_offset: Vector2 = Vector2.ZERO
 var footstep_distance: float = 0.0
-var step_interval: float = 2.0
+var step_interval: float = 2.2
 var is_sprinting: bool = false
 var checkpoint_pos: Vector3 = Vector3.ZERO
 
@@ -28,19 +27,18 @@ var current_interactable: Node = null
 
 func _ready():
 	add_to_group("Player")
-	floor_snap_length = 0.35
+	floor_snap_length = 0.4
 	floor_constant_speed = true
 	floor_max_angle = deg_to_rad(45.0)
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	checkpoint_pos = global_position
-	default_cam_y = camera.position.y
 	
 	GameManager.player_respawn_requested.connect(respawn_at_checkpoint)
 	_update_gun_visibility()
 
 func _unhandled_input(event: InputEvent):
-	# Recapture mouse on click
+	# Recapture mouse on any click inside window
 	if event is InputEventMouseButton and event.pressed:
 		if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED and not get_tree().paused and not GameManager.is_inspecting_polaroid:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -53,16 +51,20 @@ func _input(event: InputEvent):
 			GameManager.close_polaroid()
 		return
 	
+	# Mouse look: rock solid pitch & yaw with no inversion or drift
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		var mouse_x = -event.relative.x * mouse_sensitivity
-		var mouse_y = -event.relative.y * mouse_sensitivity
-		rotate_y(mouse_x)
-		camera.rotate_x(mouse_y)
-		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-85), deg_to_rad(85))
+		var mouse_x = event.relative.x * mouse_sensitivity
+		var mouse_y = event.relative.y * mouse_sensitivity
 		
-		# Weapon sway target
-		sway_offset.x = clamp(sway_offset.x - event.relative.x * 0.0008, -0.04, 0.04)
-		sway_offset.y = clamp(sway_offset.y - event.relative.y * 0.0008, -0.04, 0.04)
+		# Yaw on player body
+		rotate_y(-mouse_x)
+		
+		# Pitch directly on camera rotation.x (moving mouse UP decreases rotation.x to look UP)
+		camera.rotation.x = clamp(camera.rotation.x - mouse_y, deg_to_rad(-85.0), deg_to_rad(85.0))
+		
+		# Weapon lag sway
+		sway_offset.x = clamp(sway_offset.x - mouse_x * 0.15, -0.03, 0.03)
+		sway_offset.y = clamp(sway_offset.y - mouse_y * 0.15, -0.03, 0.03)
 	
 	if event.is_action_pressed("fire_laser"):
 		if laser_system and GameManager.has_laser:
@@ -93,50 +95,54 @@ func _physics_process(delta: float):
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	else:
-		velocity.y = -0.5 # downward stickiness
+		velocity.y = -0.5 # downward stickiness to prevent ground bounce
 		if Input.is_action_just_pressed("jump"):
 			velocity.y = jump_velocity
 	
 	# Sprint check
 	is_sprinting = Input.is_action_pressed("sprint")
-	var current_target_speed = sprint_speed if is_sprinting else walk_speed
+	var target_speed = sprint_speed if is_sprinting else walk_speed
 	
 	# Movement input
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	
 	if direction != Vector3.ZERO:
-		var target_vel = direction * current_target_speed
-		velocity.x = move_toward(velocity.x, target_vel.x, acceleration * delta * current_target_speed)
-		velocity.z = move_toward(velocity.z, target_vel.z, acceleration * delta * current_target_speed)
+		var target_vel = direction * target_speed
+		velocity.x = move_toward(velocity.x, target_vel.x, acceleration * delta * target_speed)
+		velocity.z = move_toward(velocity.z, target_vel.z, acceleration * delta * target_speed)
 		
-		# Head bobbing & footsteps
+		# Footsteps & weapon bob
 		if is_on_floor():
 			var h_speed = Vector2(velocity.x, velocity.z).length()
-			bob_timer += delta * (h_speed * 2.4)
-			camera.position.y = default_cam_y + sin(bob_timer) * 0.035
+			weapon_bob_timer += delta * (h_speed * 2.5)
 			
 			footstep_distance += h_speed * delta
 			var required_step = step_interval * (0.75 if is_sprinting else 1.0)
 			if footstep_distance >= required_step:
 				footstep_distance = 0.0
-				AudioManager.play_sfx("footstep", randf_range(0.9, 1.1), -4.0)
+				AudioManager.play_sfx("footstep", randf_range(0.9, 1.1), -5.0)
 	else:
-		velocity.x = move_toward(velocity.x, 0.0, friction * delta * current_target_speed)
-		velocity.z = move_toward(velocity.z, 0.0, friction * delta * current_target_speed)
-		camera.position.y = move_toward(camera.position.y, default_cam_y, delta * 2.0)
+		velocity.x = move_toward(velocity.x, 0.0, friction * delta * target_speed)
+		velocity.z = move_toward(velocity.z, 0.0, friction * delta * target_speed)
+		weapon_bob_timer = move_toward(weapon_bob_timer, 0.0, delta * 3.0)
 	
 	move_and_slide()
-	_update_weapon_sway(delta)
+	_update_weapon_sway_and_bob(delta)
 	_update_interaction_target()
 
-func _update_weapon_sway(delta: float):
+func _update_weapon_sway_and_bob(delta: float):
 	if not laser_mount:
 		return
-	# Smoothly return sway to center
-	sway_offset = sway_offset.lerp(Vector2.ZERO, delta * 8.0)
-	var target_pos = Vector3(0.28 + sway_offset.x, -0.22 + sway_offset.y, -0.45)
-	laser_mount.position = laser_mount.position.lerp(target_pos, delta * 12.0)
+	# Smoothly center sway
+	sway_offset = sway_offset.lerp(Vector2.ZERO, delta * 10.0)
+	
+	# Weapon bobbing on gun mount (NOT on camera!)
+	var bob_x = cos(weapon_bob_timer * 0.5) * 0.015
+	var bob_y = sin(weapon_bob_timer) * 0.018
+	
+	var target_mount_pos = default_gun_pos + Vector3(sway_offset.x + bob_x, sway_offset.y + bob_y, 0.0)
+	laser_mount.position = laser_mount.position.lerp(target_mount_pos, delta * 14.0)
 
 func _update_gun_visibility():
 	if laser_mount:
@@ -146,11 +152,10 @@ func _update_interaction_target():
 	var ui = get_tree().get_first_node_in_group("UI")
 	current_interactable = null
 	
-	# Best candidate search in front of player
 	var cam_pos = camera.global_position
 	var cam_forward = -camera.global_transform.basis.z.normalized()
-	var max_reach = 3.2
-	var best_dot = 0.6 # within ~50 deg cone
+	var max_reach = 3.4
+	var best_dot = 0.55 # generous ~55 deg cone
 	var best_candidate: Node = null
 	var best_dist: float = max_reach
 	
@@ -159,14 +164,20 @@ func _update_interaction_target():
 		if not is_instance_valid(item):
 			continue
 		var item_pos = item.global_position
-		var to_item = item_pos - cam_pos
+		# Use center of item if available
+		var center_pos = item_pos
+		var mesh_child = item.get_node_or_null("MeshInstance3D")
+		if mesh_child:
+			center_pos = mesh_child.global_position
+			
+		var to_item = center_pos - cam_pos
 		var dist = to_item.length()
 		if dist <= max_reach:
 			var dot = cam_forward.dot(to_item.normalized())
 			if dot > best_dot:
-				# Check direct line of sight
+				# Line of sight check
 				var space_state = get_world_3d().direct_space_state
-				var query = PhysicsRayQueryParameters3D.create(cam_pos, item_pos)
+				var query = PhysicsRayQueryParameters3D.create(cam_pos, center_pos)
 				query.exclude = [get_rid()]
 				var hit = space_state.intersect_ray(query)
 				if hit.is_empty() or hit.collider == item or hit.collider.get_parent() == item:
@@ -175,13 +186,8 @@ func _update_interaction_target():
 						best_candidate = item
 	
 	current_interactable = best_candidate
-	if ui:
-		if current_interactable and current_interactable.has_method("get_interaction_prompt"):
-			var prompt = current_interactable.get_interaction_prompt()
-			if not prompt.is_empty():
-				ui.show_interaction_prompt(prompt)
-				return
-		ui.hide_interaction_prompt()
+	if ui and ui.has_method("set_targeted_object"):
+		ui.set_targeted_object(current_interactable)
 
 func _try_interact():
 	if current_interactable and is_instance_valid(current_interactable) and current_interactable.has_method("interact"):
@@ -191,7 +197,7 @@ func _try_place_portable_mirror():
 	if GameManager.portable_mirrors_count <= 0:
 		return
 	
-	var spawn_pos = global_position - global_transform.basis.z * 1.5
+	var spawn_pos = global_position - global_transform.basis.z * 1.6
 	spawn_pos.y = global_position.y
 	
 	var mirror = portable_mirror_scene.instantiate()

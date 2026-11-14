@@ -11,10 +11,19 @@ func _ready():
 	if is_rotatable:
 		add_to_group("Interactable")
 
+func get_category_badge() -> String:
+	return "🪞 [OPTICS: RETRO-REFLECTOR MIRROR]"
+
+func get_category_color() -> Color:
+	return Color(0.3, 0.9, 1.0)
+
+func get_hint() -> String:
+	return "Inverts and reflects laser beams. Reflected beams vaporize shadow entities and unlock optical door sensors."
+
 func get_interaction_prompt() -> String:
 	if is_rotatable:
 		return prompt_message + " [" + str(int(current_angle_deg)) + "°]"
-	return ""
+	return "Wall Calibration Mirror"
 
 func interact():
 	if not is_rotatable:

@@ -14,19 +14,29 @@ func _ready():
 	rotation_degrees.y = current_angle_deg
 	_check_alignment()
 
+func get_category_badge() -> String:
+	return "📡 [ASTRONOMY: " + station_name.to_upper() + "]"
+
+func get_category_color() -> Color:
+	return Color(0.1, 1.0, 0.4) if is_aligned else Color(0.2, 0.85, 1.0)
+
+func get_hint() -> String:
+	if is_aligned:
+		return "ALIGNED: Beam locked into triangle trajectory across dome."
+	return "Rotate 45° to reflect beam toward the next dome station."
+
 func get_interaction_prompt() -> String:
-	var status = " [ALIGNED]" if is_aligned else ""
+	var status = " [ALIGNED ✓]" if is_aligned else ""
 	return "Rotate " + station_name + " (" + str(int(current_angle_deg)) + "°)" + status
 
 func interact():
 	current_angle_deg = fmod(current_angle_deg + 45.0, 360.0)
 	
-	# Smooth tween or rotation
 	var tween = create_tween()
 	tween.tween_property(self, "rotation_degrees:y", current_angle_deg, 0.25).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	
 	AudioManager.play_sfx("switch_flip", 0.7)
-	AudioManager.play_sfx("footstep", 0.6) # heavy mechanical clunk
+	AudioManager.play_sfx("footstep", 0.6)
 	
 	_check_alignment()
 

@@ -2,7 +2,7 @@ extends StaticBody3D
 
 @export var requires_reflected_beam: bool = true
 @export var target_door: NodePath
-@export var activation_time_required: float = 0.3 # must hold beam briefly
+@export var activation_time_required: float = 0.3
 @export var is_permanent: bool = true
 
 var current_charge: float = 0.0
@@ -15,13 +15,34 @@ signal activated()
 
 func _ready():
 	add_to_group("OpticalReceptor")
+	add_to_group("Interactable")
 	_update_visuals()
+
+func get_category_badge() -> String:
+	return "🎯 [SECURITY: OPTICAL SENSOR LOCK]"
+
+func get_category_color() -> Color:
+	return Color(0.1, 1.0, 0.3) if is_activated else Color(1.0, 0.2, 0.2)
+
+func get_interaction_prompt() -> String:
+	if is_activated:
+		return "[STATUS: DISENGAGED - DOOR OPEN]"
+	return "[OPTICAL TARGET: REQUIRES REFLECTED BEAM]"
+
+func get_hint() -> String:
+	if is_activated:
+		return "Security sensor powered. The magnetic door to the gallery is open."
+	return "Direct light has no effect. Angle your laser off the angled wall mirror to bounce the beam onto this sensor."
+
+func interact():
+	if not is_activated:
+		AudioManager.play_sfx("laser_click", 0.6)
+		GameManager.trigger_radio("LEO", "Direct access is blocked by the baffle wall. I need to bounce the laser beam off that wall mirror.", 4.5)
 
 func _process(delta: float):
 	if is_activated and is_permanent:
 		return
 	
-	# Slowly lose charge if not continuously hit
 	if current_charge > 0.0:
 		current_charge = max(0.0, current_charge - delta * 0.5)
 		_update_visuals()
@@ -31,7 +52,7 @@ func on_laser_hit(is_reflected: bool, delta: float):
 		return
 	
 	if requires_reflected_beam and not is_reflected:
-		# Direct raw beam rejected!
+		# Direct beam rejected!
 		return
 	
 	current_charge += delta
@@ -66,21 +87,21 @@ func _update_visuals():
 	
 	if is_activated:
 		indicator_light.light_color = Color(0.1, 1.0, 0.3)
-		indicator_light.light_energy = 2.5
+		indicator_light.light_energy = 2.8
 		mat.albedo_color = Color(0.1, 1.0, 0.3)
 		mat.emission_enabled = true
 		mat.emission = Color(0.1, 1.0, 0.3)
-		mat.emission_energy_multiplier = 3.0
+		mat.emission_energy_multiplier = 3.5
 	elif current_charge > 0.0:
 		indicator_light.light_color = Color(1.0, 0.8, 0.1)
-		indicator_light.light_energy = 1.0
+		indicator_light.light_energy = 1.5
 		mat.albedo_color = Color(1.0, 0.8, 0.1)
 		mat.emission_enabled = true
 		mat.emission = Color(1.0, 0.8, 0.1)
 	else:
 		indicator_light.light_color = Color(1.0, 0.1, 0.1)
-		indicator_light.light_energy = 0.8
+		indicator_light.light_energy = 1.8
 		mat.albedo_color = Color(1.0, 0.1, 0.1)
 		mat.emission_enabled = true
 		mat.emission = Color(1.0, 0.1, 0.1)
-		mat.emission_energy_multiplier = 1.0
+		mat.emission_energy_multiplier = 2.0

@@ -1,27 +1,32 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://scripts/interactable.gd" id="1_int"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_col"]
-size = Vector3(0.6, 0.8, 0.4)
+size = Vector3(0.9, 1.2, 0.6)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_box"]
-albedo_color = Color(0.18, 0.2, 0.22, 1)
-metallic = 0.8
+albedo_color = Color(0.85, 0.45, 0.05, 1) 
+metallic = 0.5
 roughness = 0.4
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_handle"]
-albedo_color = Color(0.9, 0.2, 0.1, 1)
-metallic = 0.5
+albedo_color = Color(0.9, 0.1, 0.1, 1) 
+metallic = 0.4
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_metal"]
+albedo_color = Color(0.2, 0.22, 0.25, 1)
+metallic = 0.9
 roughness = 0.3
 
 [sub_resource type="BoxMesh" id="BoxMesh_box"]
 material = SubResource("StandardMaterial3D_box")
-size = Vector3(0.5, 0.7, 0.2)
+size = Vector3(0.65, 0.9, 0.25)
 
 [sub_resource type="BoxMesh" id="BoxMesh_handle"]
 material = SubResource("StandardMaterial3D_handle")
-size = Vector3(0.08, 0.35, 0.08)
+size = Vector3(0.1, 0.45, 0.1)
 
 [node name="CapacitorBreaker" type="StaticBody3D"]
 script = ExtResource("1_int")
@@ -34,11 +39,11 @@ shape = SubResource("BoxShape3D_col")
 mesh = SubResource("BoxMesh_box")
 
 [node name="LeverHandle" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0.12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0.16)
 mesh = SubResource("BoxMesh_handle")
 
 [node name="StatusLight" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0.15)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0.25)
 light_color = Color(1, 0.7, 0.1, 1)
-light_energy = 1.2
-omni_range = 1.5
+light_energy = 2.5
+omni_range = 3.5
