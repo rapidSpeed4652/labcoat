@@ -191,8 +191,32 @@ func _ready():
 	assert(ui.full_map_modal.visible == false, "Full map modal should be closed after second toggle")
 	print("✓ Test 9: Minimap and Fullscreen GUI Facility Map toggle cleanly with live telemetry")
 	
+	# Test 10: 3D Lunar Exterior Surface & Outpost Infrastructure
+	var lunar_ext = get_node_or_null("Main/LunarExterior")
+	assert(lunar_ext != null, "LunarExterior node must exist in main scene")
+	assert(lunar_ext.get_node_or_null("LunarBedrock") != null, "LunarBedrock terrain must exist")
+	assert(lunar_ext.get_node_or_null("CommsDish_Dish") != null, "Earth High-Gain Dish must exist")
+	assert(lunar_ext.get_node_or_null("LatticeTower") != null, "Communications Lattice Tower must exist")
+	assert(lunar_ext.get_node_or_null("SolarArray_1_Wing") != null, "Solar Photovoltaic Wings must exist")
+	assert(lunar_ext.get_node_or_null("RoverBody") != null, "Lunar Rover Sled must exist")
+	print("✓ Test 10: 3D Lunar exterior landscape, craters, comms dishes & solar arrays verified!")
+	
+	# Test 11: Radio Voiceline Engine & Start Menu
+	assert(AudioManager.voice_clips.has("radio_intro"), "Radio intro voice clip must be loaded")
+	assert(AudioManager.voice_clips.has("tape_log_1"), "Dr. Thorne Tape Log 1 must be loaded")
+	assert(AudioManager.voice_clips.has("vocal_warning"), "Base computer vocal clip must be loaded")
+	
+	var menu_scene = load("res://scenes/start_menu.tscn")
+	assert(menu_scene != null, "Start Menu scene must load cleanly")
+	var menu_inst = menu_scene.instantiate()
+	assert(menu_inst != null, "Start Menu must instantiate without error")
+	assert(menu_inst.get_node("VBoxContainer/BtnStart") != null, "Start button must exist")
+	assert(menu_inst.get_node("VBoxContainer/BtnDossier") != null, "Dossier button must exist")
+	menu_inst.queue_free()
+	print("✓ Test 11: Quindar radio voice pipeline, audio logs & Start Menu verified!")
+
 	print("======================================================")
-	print("ALL 10 GAMEPLAY, PHYSICS & MAP CONTINUITY TESTS PASSED!")
+	print("ALL 12 GAMEPLAY, PHYSICS, AUDIO & MAP TESTS PASSED!")
 	print("======================================================")
 	
 	get_tree().quit(0)

@@ -63,6 +63,8 @@ func _draw():
 	var rooms = [
 		["CMD", -6.0, -6.0, 6.0, 6.0],            # Act 1 Control Room
 		["H1", 6.0, -2.0, 24.0, 2.0],             # Hallway 1
+		["OPTICS", 6.0, 2.0, 11.0, 10.0],         # Spectrometry Cleanroom Lab
+		["CREW", 6.0, -10.0, 13.0, -2.0],         # Crew Quarters
 		["BAY-A", 11.0, 2.0, 19.0, 10.0],         # Breaker Room 1
 		["H2", 22.0, -16.0, 26.0, 0.0],           # Hallway 2
 		["BAY-B", 13.0, -12.0, 22.0, -4.0],       # Breaker Room 2

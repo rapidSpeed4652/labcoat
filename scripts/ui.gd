@@ -19,6 +19,10 @@ extends CanvasLayer
 @onready var radio_text: Label = $Control/RadioBox/VBox/MessageLabel
 
 @onready var polaroid_modal: Control = $Control/PolaroidModal
+@onready var tape_modal: Control = $Control/TapeModal
+@onready var tape_title_label: Label = $Control/TapeModal/Center/Panel/VBox/TitleLabel
+@onready var tape_transcript_label: RichTextLabel = $Control/TapeModal/Center/Panel/VBox/TranscriptLabel
+
 @onready var death_screen: Control = $Control/DeathScreen
 @onready var win_screen: Control = $Control/WinScreen
 @onready var pause_menu: Control = $Control/PauseMenu
@@ -36,6 +40,7 @@ func _ready():
 	add_to_group("UI")
 	target_card.visible = false
 	polaroid_modal.visible = false
+	tape_modal.visible = false
 	death_screen.visible = false
 	win_screen.visible = false
 	radio_box.visible = false
@@ -51,6 +56,7 @@ func _ready():
 	GameManager.radio_message_started.connect(show_radio_message)
 	GameManager.polaroid_opened.connect(_on_polaroid_opened)
 	GameManager.polaroid_closed.connect(_on_polaroid_closed)
+	GameManager.tape_played.connect(_on_tape_played)
 	GameManager.mirror_count_changed.connect(_on_mirror_count_changed)
 	GameManager.game_lost.connect(_on_game_lost)
 	GameManager.game_won.connect(_on_game_won)
@@ -61,8 +67,19 @@ func _ready():
 
 func _input(event: InputEvent):
 	if event.is_action_pressed("toggle_map"):
-		if not death_screen.visible and not win_screen.visible and not polaroid_modal.visible and not pause_menu.visible:
+		if not death_screen.visible and not win_screen.visible and not polaroid_modal.visible and not tape_modal.visible and not pause_menu.visible:
 			toggle_full_map()
+			get_viewport().set_input_as_handled()
+			return
+	
+	if event.is_action_pressed("pause") or event.is_action_pressed("interact") or (event is InputEventMouseButton and event.pressed):
+		if tape_modal.visible:
+			tape_modal.visible = false
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+			get_viewport().set_input_as_handled()
+			return
+		if polaroid_modal.visible:
+			GameManager.close_polaroid()
 			get_viewport().set_input_as_handled()
 			return
 	
@@ -70,9 +87,6 @@ func _input(event: InputEvent):
 		if full_map_modal and full_map_modal.visible:
 			toggle_full_map()
 			get_viewport().set_input_as_handled()
-			return
-		if polaroid_modal.visible:
-			GameManager.close_polaroid()
 			return
 		if not death_screen.visible and not win_screen.visible:
 			toggle_pause()
@@ -177,9 +191,19 @@ func show_radio_message(speaker: String, text: String, duration: float):
 
 func _on_polaroid_opened():
 	polaroid_modal.visible = true
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	AudioManager.play_sfx("entity_stalk", 0.9)
 
 func _on_polaroid_closed():
 	polaroid_modal.visible = false
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+func _on_tape_played(title: String, transcript: String):
+	if tape_modal:
+		tape_modal.visible = true
+		tape_title_label.text = "▶ [CASSETTE AUDIO RECORDING // " + title.to_upper() + "]"
+		tape_transcript_label.text = transcript
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _on_mirror_count_changed(count: int):
 	mirror_label.text = "PORTABLE MIRRORS: " + str(count) + " [RMB/Q PLACE]"

@@ -1,0 +1,251 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/start_menu.gd" id="1_menu"]
+[ext_resource type="Texture2D" path="res://assets/textures/lunar_skybox.png" id="2_sky"]
+[ext_resource type="Texture2D" path="res://assets/textures/polaroid.png" id="3_pol"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
+bg_color = Color(0.12, 0.16, 0.22, 0.9)
+border_width_left = 3
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 3
+border_color = Color(0.3, 0.7, 1.0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.06, 0.08, 0.12, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2, 0.8, 1.0, 0.8)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="StartMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+; Background Skybox Vista
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_sky")
+expand_mode = 1
+stretch_mode = 6
+
+; Darkened Vignette Overlay
+[node name="Vignette" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.04, 0.08, 0.7)
+
+; Main Menu Content
+[node name="TitleBox" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 80.0
+offset_right = 720.0
+offset_bottom = 240.0
+
+[node name="Badge" type="Label" parent="TitleBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.8, 1.0, 1)
+theme_override_font_sizes/font_size = 14
+text = "[NASA / LURE EXPEDITION 77 // LUNAR LASER RANGING]"
+
+[node name="Title" type="Label" parent="TitleBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1.0, 1.0, 1.0, 1)
+theme_override_font_sizes/font_size = 54
+text = "RETRO-REFLECTOR"
+
+[node name="Subtitle" type="Label" parent="TitleBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1.0, 0.75, 0.2, 1)
+theme_override_font_sizes/font_size = 18
+text = "MOUNT HALE LUNAR OBSERVATORY // DEEP SPACE ANOMALY"
+
+[node name="Status" type="Label" parent="TitleBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 13
+text = "STATUS: PRIMARY SHUTTER OPEN • COUDÉ LASER FIRING • OPTICAL BREACH ACTIVE"
+
+; Button Menu
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 280.0
+offset_right = 440.0
+offset_bottom = 540.0
+theme_override_constants/separation = 16
+
+[node name="BtnStart" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(0.3, 1, 0.6, 1)
+theme_override_font_sizes/font_size = 18
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+text = "▶  COMMENCE OPERATION"
+
+[node name="BtnDossier" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+text = "📁  MISSION DOSSIER"
+
+[node name="BtnControls" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+text = "⚙  OPTICS & KEYBINDINGS"
+
+[node name="BtnQuit" type="Button" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+text = "✖  ABORT MISSION"
+
+; Mission Dossier Modal
+[node name="DossierModal" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.85)
+
+[node name="Center" type="CenterContainer" parent="DossierModal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="DossierModal/Center"]
+custom_minimum_size = Vector2(850, 540)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="DossierModal/Center/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="DossierModal/Center/Panel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.9, 1.0, 1)
+theme_override_font_sizes/font_size = 22
+text = "TOP SECRET // PROJECT L.U.R.E. MISSION BRIEFING"
+horizontal_alignment = 1
+
+[node name="Text" type="RichTextLabel" parent="DossierModal/Center/Panel/VBox"]
+custom_minimum_size = Vector2(0, 400)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 14
+bbcode_enabled = true
+text = "[color=#ffd24d]PREMISE & SETTING:[/color]
+You play as Leo, an optics recovery specialist deployed to the Mount Hale Lunar Observatory—a 1970s lunar research facility designed to bounce high-powered ruby lasers off Apollo retroreflectors to measure celestial distances.
+
+During an eclipse calibration test, Chief Astronomer Dr. Aris Thorne redirected the primary array toward a void anomaly in deep space. Instead of reflecting, the laser established a quantum waveguide bridge: entities from the dark slipped down the beam directly into the lunar complex!
+
+[color=#ffd24d]CORE MECHANICS (\"BOUNCE BACK\"): [/color]
+• [color=#00e6ff]DIRECT BEAM INEFFECTIVE:[/color] Direct laser fire does not harm shadow entities—it only halts them in stasis. They absorb raw coherent light.
+• [color=#33ff99]REFLECTED BEAM CRITICAL DAMAGE:[/color] Bouncing your beam off mirrors, metal bulkheads, or deployable portable mirrors inverts the quantum polarization of the photons, completely vaporizing the entities in fractions of a second!
+• [color=#ff4d4d]OVERHEAT COOLDOWN:[/color] Continuous laser emission overheats the capacitor cells, forcing a 3-second lockout in the dark.
+• [color=#ffd24d]MISSION OBJECTIVES:[/color]
+1. Search the Command Deck and recover the alignment laser and Dr. Thorne's Polaroid.
+2. Infiltrate the Gallery Spine and shut down all 3 auxiliary capacitors in Bays A, B, and C.
+3. Access the Coudé Dome, align the 3 giant perimeter reflectors into a crossfire triangle, and pull the emergency override lever to seal the roof shutter!"
+
+[node name="BtnCloseDossier" type="Button" parent="DossierModal/Center/Panel/VBox"]
+custom_minimum_size = Vector2(200, 36)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "[ CLOSE DOSSIER ]"
+
+; Controls Modal
+[node name="ControlsModal" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.85)
+
+[node name="Center" type="CenterContainer" parent="ControlsModal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="ControlsModal/Center"]
+custom_minimum_size = Vector2(700, 480)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="ControlsModal/Center/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Title" type="Label" parent="ControlsModal/Center/Panel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.9, 1.0, 1)
+theme_override_font_sizes/font_size = 22
+text = "OPTICS CONTROLS & FLIGHT MANUAL"
+horizontal_alignment = 1
+
+[node name="ControlsList" type="RichTextLabel" parent="ControlsModal/Center/Panel/VBox"]
+custom_minimum_size = Vector2(0, 320)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 15
+bbcode_enabled = true
+text = "[color=#00e6ff]WASD / Arrow Keys[/color] — EVA Mobility (Forward, Left, Back, Right)
+[color=#00e6ff]Mouse Movement[/color] — Optics Pitch & Yaw Aiming
+[color=#00e6ff]Left Mouse Button (Hold)[/color] — Fire Handheld Alignment Laser
+[color=#00e6ff]Right Mouse Button / Q[/color] — Deploy / Retrieve Portable Mirror
+[color=#00e6ff]E / F[/color] — Interact (Examine Polaroid, Play Tape Logs, Flip Breakers, Pull Lever)
+[color=#00e6ff]M / TAB[/color] — Toggle Tactical Facility Schematic Map
+[color=#00e6ff]Shift (Hold)[/color] — Sprint Propulsion
+[color=#00e6ff]Space[/color] — Low-Gravity Leap
+[color=#00e6ff]R[/color] — Emergency Checkpoint Reset
+[color=#00e6ff]Escape[/color] — Pause Station Systems / Close Modals"
+
+[node name="BtnCloseControls" type="Button" parent="ControlsModal/Center/Panel/VBox"]
+custom_minimum_size = Vector2(200, 36)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "[ RETURN TO MENU ]"

@@ -90,17 +90,20 @@ func _setup_inputs():
 func _start_intro_radio():
 	await get_tree().create_timer(1.2).timeout
 	trigger_radio(
-		"SUPERVISOR CHEN (RADIO)",
-		"Leo, do you copy? The main roof shutter jammed open during the eclipse, and the primary laser is still firing into the dark. Shut down the three basement capacitors and get out.",
-		8.5
+		"SUPERVISOR VANCE (EARTH STATION)",
+		"Leo, this is Vance at Earth Station. Do you copy? The October eclipse triggered a rogue cascade—the Mount Hale primary laser locked onto a deep space return vector and jammed the roof shutter wide open! Shut down the three auxiliary capacitors in the lower galleries and seal that dome before the anomaly bridges into full stability!",
+		17.0,
+		"radio_intro"
 	)
 
 func set_objective(text: String):
 	current_objective = text
 	objective_updated.emit(text)
 
-func trigger_radio(speaker: String, text: String, duration: float = 6.0):
+func trigger_radio(speaker: String, text: String, duration: float = 6.0, voice_clip: String = ""):
 	radio_message_started.emit(speaker, text, duration)
+	if voice_clip != "":
+		AudioManager.play_voice(voice_clip)
 
 func inspect_polaroid():
 	is_inspecting_polaroid = true
@@ -110,16 +113,19 @@ func close_polaroid():
 	is_inspecting_polaroid = false
 	polaroid_closed.emit()
 
-func play_tape_log(title: String, transcript: String):
+func play_tape_log(title: String, transcript: String, voice_clip: String = ""):
 	tape_played.emit(title, transcript)
+	if voice_clip != "":
+		AudioManager.play_voice(voice_clip)
 
 func pickup_laser():
 	has_laser = true
 	set_objective("BOUNCE LASER: Aim beam at the wall mirror so the reflection hits the Optical Receptor.")
 	trigger_radio(
-		"LEO",
-		"Got the alignment laser. Direct light won't trigger the optical sensor—I need to bounce the beam off that wall mirror so the reflection hits the sensor above the door!",
-		7.0
+		"SUPERVISOR VANCE (EARTH STATION)",
+		"Good, you found the alignment laser. Remember Dr. Thorne's notes: direct coherent light is useless against the shadow apparitions—it only feeds them! You must bounce the beam off mirrors. Reflected light inverts their quantum phase and burns their silhouette away!",
+		12.5,
+		"radio_laser_acquired"
 	)
 
 func unlock_act1_door():
@@ -128,9 +134,10 @@ func unlock_act1_door():
 	act1_door_unlocked = true
 	set_objective("Enter the Sub-surface Gallery. Shut down all 3 auxiliary capacitors in Bays A, B, and C.")
 	trigger_radio(
-		"SUPERVISOR CHEN (RADIO)",
-		"Security door unlocked! Leo, watch your telemetry. There are 3 capacitor bays down those corridors. Press [M] or [TAB] to check your base schematic.",
-		7.0
+		"SUPERVISOR VANCE (EARTH STATION)",
+		"Security aperture unsealed! Enter the central gallery spine. Open your tactical schematic with M or TAB. Watch the observation windows—sensors detect abnormal electromagnetic movement out on the crater rim.",
+		13.5,
+		"radio_act1_unlocked"
 	)
 
 func activate_capacitor():
@@ -153,16 +160,26 @@ func activate_capacitor():
 		dome_door_unlocked = true
 		set_objective("All 3 capacitors offline! Dome blast doors UNLOCKED. Head to the Central Dome.")
 		trigger_radio(
-			"SUPERVISOR CHEN (RADIO)",
-			"All 3 capacitors disengaged! Main dome power rerouted and blast doors are OPEN! Get to the console and seal that roof shutter!",
-			7.0
+			"SUPERVISOR VANCE (EARTH STATION)",
+			"All three capacitors offline! Power redirected to the central dome! The heavy blast doors are open! Leo, get to the dome and align the tertiary mirror array!",
+			10.5,
+			"radio_cap3"
+		)
+	elif capacitors_activated == 1:
+		set_objective("Capacitor 1/3 offline. Shut down 2 more in the bays (Check Map [M]).")
+		trigger_radio(
+			"SUPERVISOR VANCE (EARTH STATION)",
+			"Capacitor One offline! Cryogenic surge detected in Bay B. Two remaining! Keep your distance from those corrupted drones!",
+			8.5,
+			"radio_cap1"
 		)
 	else:
-		set_objective("Capacitor %d/3 offline. Shut down %d more in the bays (Check Map [M])." % [capacitors_activated, remaining])
+		set_objective("Capacitor 2/3 offline. Shut down Bay C (Check Map [M]).")
 		trigger_radio(
-			"SUPERVISOR CHEN (RADIO)",
-			"Capacitor %d offline! %d more to shut down. Open your base map [M] to locate the remaining bays!" % [capacitors_activated, remaining],
-			6.5
+			"SUPERVISOR VANCE (EARTH STATION)",
+			"Capacitor Two disengaged! One auxiliary capacitor remains in Bay C. The entity signatures are converging on your coordinates!",
+			8.5,
+			"radio_cap2"
 		)
 
 func solve_dome_puzzle():
@@ -183,9 +200,10 @@ func pull_shutdown_lever():
 	current_act = Act.ENDING
 	set_objective("Shutter sealed! Proceed to the main exit door.")
 	trigger_radio(
-		"SUPERVISOR CHEN (RADIO)",
-		"The primary beam just shut down! Shutter is locking. Get out of the facility, Leo. Now!",
-		6.0
+		"SUPERVISOR VANCE (EARTH STATION)",
+		"Shutter sealed! Beam collapse confirmed on Earth telemetry! The return vector is severed! Head through the pressurized mountain hatch, Leo. You did it!",
+		10.0,
+		"radio_ending"
 	)
 
 func player_died():

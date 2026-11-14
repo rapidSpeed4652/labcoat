@@ -245,6 +245,7 @@ material = SubResource("Mat_Desk")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0.95, 0)
 tape_title = "Archive 11-A: Project Apollo LRRR"
 tape_transcript = "BASE TRANQUILLITATIS LUNAR RANGING ARCHIVE (1969-1979)\nIn July 1969, Apollo 11 astronauts Armstrong and Aldrin placed the first 100-corner-cube quartz retroreflector at Mare Tranquillitatis. For a decade, we fired ruby lasers from Earth to measure lunar distance down to centimeters. During the solar eclipse, Dr. Vance rotated our Coude emitter toward the deep Perseus Void. The pulse was returned by something in the dark... and it used our beam as a bridge to cross into the station."
+tape_voice_clip = "vocal_warning"
 
 ; Polaroid on Desk
 [node name="PolaroidItem" parent="Act1_ControlRoom" instance=ExtResource("8_pol")]
@@ -445,6 +446,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1.6, 9.7)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.8, 0.95, 7.5)
 tape_title = "Log 77-B: The Void Return"
 tape_transcript = "The lunar retroreflector array didn't return the beam. Something else did. We detected a focal return from the Perseus Void... but there is no reflector out there. It didn't bounce back. It held on. It's climbing down the beam."
+tape_voice_clip = "tape_log_1"
 
 ; Portable Mirror Stand in Breaker Room 1
 [node name="PortableMirrorPickup1" parent="Act2_Gallery" instance=ExtResource("15_pmir")]
@@ -511,6 +513,7 @@ transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.3, 1
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.95, -9.5)
 tape_title = "Log 78-C: The Reflected Secret"
 tape_transcript = "They absorb raw photons—shining your direct laser beam holds them in place with photon pressure, halting their movement! But direct light cannot kill them. When light bounces off a retro-reflector, the 180-degree phase reversal shatters their silhouette! You have to bounce the beam to banish them!"
+tape_voice_clip = "tape_log_2"
 
 ; Shadow Entity 2
 [node name="ShadowEntity2" parent="Act2_Gallery" instance=ExtResource("11_shd")]
@@ -580,6 +583,7 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 28.7, 
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.0, 0.95, -9.5)
 tape_title = "Log 79-D: The Deep Space Bridge"
 tape_transcript = "Dr. Vance here. The eclipse alignment was intentional. We were not bouncing lasers off Apollo 11 lunar reflectors anymore. I recalibrated the coude dish toward the dark void in deep space... God forgive me. The pulse locked onto something. It used our photons like a bridge, following the beam backward into Mount Hale!"
+tape_voice_clip = "tape_log_3"
 
 ; Room 3 Wall Mirror
 [node name="Mirror_BR3" parent="Act2_Gallery" instance=ExtResource("5_mir")]

@@ -13,6 +13,7 @@ enum InteractType {
 @export var prompt: String = "Interact"
 @export var tape_title: String = "Log 77-B: Perseus Calibration"
 @export_multiline var tape_transcript: String = "The lunar retroreflector array didn't return the beam. Something else did. We detected a focal return from the Perseus Void... but there is no reflector out there. It didn't bounce back. It held on. It's climbing down the beam."
+@export var tape_voice_clip: String = "tape_log_1"
 
 var has_been_used: bool = false
 
@@ -101,7 +102,7 @@ func interact():
 		InteractType.TAPE_RECORDER:
 			AudioManager.play_sfx("interact")
 			AudioManager.play_sfx("radio_static")
-			GameManager.play_tape_log(tape_title, tape_transcript)
+			GameManager.play_tape_log(tape_title, tape_transcript, tape_voice_clip)
 			
 		InteractType.CAPACITOR_SWITCH:
 			if not has_been_used:

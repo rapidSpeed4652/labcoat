@@ -4,8 +4,10 @@ var ambient_player: AudioStreamPlayer
 var radio_player: AudioStreamPlayer
 var sfx_player: AudioStreamPlayer
 var alarm_player: AudioStreamPlayer
+var voice_player: AudioStreamPlayer
 
 var sounds: Dictionary = {}
+var voice_clips: Dictionary = {}
 
 func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -33,6 +35,11 @@ func _setup_audio_players():
 	alarm_player.bus = "Master"
 	alarm_player.volume_db = -10.0
 	add_child(alarm_player)
+	
+	voice_player = AudioStreamPlayer.new()
+	voice_player.bus = "Master"
+	voice_player.volume_db = 0.0
+	add_child(voice_player)
 
 func _load_sound_assets():
 	var audio_files = [
@@ -59,6 +66,30 @@ func _load_sound_assets():
 		var path = "res://assets/audio/" + file
 		if ResourceLoader.exists(path):
 			sounds[key] = load(path)
+			
+	var voice_files = [
+		"radio_intro.wav",
+		"radio_laser_acquired.wav",
+		"radio_act1_unlocked.wav",
+		"radio_cap1.wav",
+		"radio_cap2.wav",
+		"radio_cap3.wav",
+		"radio_dome_enter.wav",
+		"radio_ending.wav",
+		"tape_log_1.wav",
+		"tape_log_2.wav",
+		"tape_log_3.wav",
+		"vocal_warning.wav",
+		"vocal_capacitor_offline.wav",
+		"vocal_dome_unlocked.wav",
+		"vocal_shutter_closing.wav"
+	]
+	
+	for vfile in voice_files:
+		var vkey = vfile.get_basename()
+		var vpath = "res://assets/audio/voice/" + vfile
+		if ResourceLoader.exists(vpath):
+			voice_clips[vkey] = load(vpath)
 
 func play_ambient():
 	if sounds.has("ambient_drone"):
@@ -92,3 +123,14 @@ func start_dome_alarm():
 
 func stop_dome_alarm():
 	alarm_player.stop()
+
+func play_voice(name: String, volume_offset_db: float = 0.0):
+	if voice_clips.has(name):
+		voice_player.stop()
+		voice_player.stream = voice_clips[name]
+		voice_player.volume_db = volume_offset_db
+		voice_player.play()
+
+func stop_voice():
+	if voice_player and voice_player.playing:
+		voice_player.stop()
