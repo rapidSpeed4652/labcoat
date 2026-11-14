@@ -104,6 +104,16 @@ use_collision = true
 size = Vector3(12, 0.4, 12)
 material = SubResource("Mat_Wall")
 
+[node name="Ceiling_Skylight_Cutout" type="CSGBox3D" parent="Act1_ControlRoom/Ceiling"]
+operation = 2
+size = Vector3(4.0, 0.6, 4.0)
+
+[node name="Ceiling_Skylight_Glass" type="CSGBox3D" parent="Act1_ControlRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8, 0)
+use_collision = true
+size = Vector3(4.0, 0.1, 4.0)
+material = SubResource("Mat_Glass")
+
 ; Walls
 [node name="Wall_North_W" type="CSGBox3D" parent="Act1_ControlRoom"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 1.8, -6)
@@ -179,6 +189,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.8, 0)
 use_collision = true
 size = Vector3(0.4, 3.6, 12)
 material = SubResource("Mat_Wall")
+
+[node name="Wall_West_Cutout" type="CSGBox3D" parent="Act1_ControlRoom/Wall_West"]
+operation = 2
+size = Vector3(0.6, 2.0, 6.0)
+
+[node name="Wall_West_Glass" type="CSGBox3D" parent="Act1_ControlRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.8, 0)
+use_collision = true
+size = Vector3(0.1, 2.0, 6.0)
+material = SubResource("Mat_Glass")
+
+[node name="WestLunarGround" type="CSGBox3D" parent="Act1_ControlRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, -0.4, 0)
+use_collision = true
+size = Vector3(16, 0.4, 20)
+material = SubResource("Mat_LunarRegolith")
 
 ; East Wall with doorway to Gallery
 [node name="Wall_East_1" type="CSGBox3D" parent="Act1_ControlRoom"]
@@ -393,6 +419,16 @@ use_collision = true
 size = Vector3(0.4, 3.6, 8)
 material = SubResource("Mat_Wall")
 
+[node name="BR1_Window_Cutout" type="CSGBox3D" parent="Act2_Gallery/BR1_WallW"]
+operation = 2
+size = Vector3(0.6, 1.8, 4.0)
+
+[node name="BR1_Window_Glass" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.8, 6)
+use_collision = true
+size = Vector3(0.1, 1.8, 4.0)
+material = SubResource("Mat_Glass")
+
 ; Breaker 1 Desk
 [node name="BR1_Desk" type="CSGBox3D" parent="Act2_Gallery"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0.45, 7.5)
@@ -436,6 +472,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.8, -8)
 use_collision = true
 size = Vector3(0.4, 3.6, 8)
 material = SubResource("Mat_Wall")
+
+[node name="BR2_Window_Cutout" type="CSGBox3D" parent="Act2_Gallery/BR2_WallW"]
+operation = 2
+size = Vector3(0.6, 1.8, 4.0)
+
+[node name="BR2_Window_Glass" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.8, -8)
+use_collision = true
+size = Vector3(0.1, 1.8, 4.0)
+material = SubResource("Mat_Glass")
 
 [node name="BR2_WallN" type="CSGBox3D" parent="Act2_Gallery"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 1.8, -12)
@@ -490,6 +536,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.0, 1.8, -8)
 use_collision = true
 size = Vector3(0.4, 3.6, 8)
 material = SubResource("Mat_Wall")
+
+[node name="BR3_Window_Cutout" type="CSGBox3D" parent="Act2_Gallery/BR3_WallE"]
+operation = 2
+size = Vector3(0.6, 1.8, 4.0)
+
+[node name="BR3_Window_Glass" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.0, 1.8, -8)
+use_collision = true
+size = Vector3(0.1, 1.8, 4.0)
+material = SubResource("Mat_Glass")
+
+[node name="BR3_LunarGround" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.0, -0.4, -8.0)
+size = Vector3(14, 0.4, 16)
+material = SubResource("Mat_LunarRegolith")
 
 [node name="BR3_WallN" type="CSGBox3D" parent="Act2_Gallery"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 1.8, -12)

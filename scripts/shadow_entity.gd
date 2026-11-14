@@ -1,38 +1,41 @@
 extends CharacterBody3D
 
-@export var move_speed: float = 1.6
-@export var agitated_speed_mult: float = 1.4
-@export var detection_radius: float = 14.0
-@export var close_detection_radius: float = 4.0
-@export var banish_health: float = 0.4 # Seconds of reflected beam exposure to destroy
+@export var max_health: float = 60.0
+var health: float = 60.0
 
-var current_banish_time: float = 0.0
+@export var move_speed: float = 1.0
+@export var detection_radius: float = 12.0
+@export var close_detection_radius: float = 3.5
+
 var absorb_timer: float = 0.0
 var banish_stun_timer: float = 0.0
 var halt_timer: float = 0.0
 var is_halted: bool = false
 var attack_cooldown: float = 0.0
+var charge_timer: float = 0.0
 var is_banished: bool = false
 var is_active: bool = true
 
 var stalk_audio: AudioStreamPlayer3D
 var sfx_audio: AudioStreamPlayer3D
+var eye_light: OmniLight3D
+var health_label: Label3D
 var mesh_instance: MeshInstance3D
-var entity_mat: ShaderMaterial
 
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity", 9.8)
 
 func _ready():
 	add_to_group("ShadowEntity")
+	add_to_group("Interactable")
+	health = max_health
 	_setup_visuals()
 	_setup_audio()
+	_update_hud()
 
 func _setup_visuals():
-	mesh_instance = $MeshInstance3D
-	var shader = load("res://assets/shaders/shadow_entity.gdshader")
-	entity_mat = ShaderMaterial.new()
-	entity_mat.shader = shader
-	mesh_instance.material_override = entity_mat
+	mesh_instance = get_node_or_null("MeshInstance3D")
+	eye_light = get_node_or_null("EyeLight")
+	health_label = get_node_or_null("HealthLabel")
 
 func _setup_audio():
 	stalk_audio = AudioStreamPlayer3D.new()
@@ -40,9 +43,9 @@ func _setup_audio():
 	if stalk_stream is AudioStreamWAV:
 		stalk_stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
 	stalk_audio.stream = stalk_stream
-	stalk_audio.volume_db = -6.0
-	stalk_audio.unit_size = 6.0
-	stalk_audio.max_distance = 25.0
+	stalk_audio.volume_db = -8.0
+	stalk_audio.unit_size = 5.0
+	stalk_audio.max_distance = 20.0
 	add_child(stalk_audio)
 	stalk_audio.play()
 	
@@ -50,17 +53,32 @@ func _setup_audio():
 	sfx_audio.unit_size = 8.0
 	add_child(sfx_audio)
 
+func _update_hud():
+	if health_label:
+		if is_banished:
+			health_label.text = "[DESTROYED]"
+			health_label.modulate = Color(0.2, 1.0, 0.4)
+		elif is_halted:
+			health_label.text = "[HALTED - HP: %d/%d]" % [int(max(0, health)), int(max_health)]
+			health_label.modulate = Color(0.2, 0.9, 1.0)
+		elif charge_timer > 0.0:
+			var pct = int((charge_timer / 1.8) * 100.0)
+			health_label.text = "[! CHARGING %d%% - HP: %d]" % [pct, int(max(0, health))]
+			health_label.modulate = Color(1.0, 0.25, 0.1)
+		else:
+			health_label.text = "[CORRUPTED DRONE: %d/%d HP]" % [int(max(0, health)), int(max_health)]
+			health_label.modulate = Color(1.0, 0.7, 0.2)
+
 func _physics_process(delta: float):
 	if is_banished or not is_active:
 		return
 	
-	# Gravity
+	# Light hover gravity
 	if not is_on_floor():
-		velocity.y -= gravity * delta
+		velocity.y -= gravity * 0.4 * delta
 	else:
 		velocity.y = 0.0
 	
-	# Decay timers
 	if attack_cooldown > 0.0:
 		attack_cooldown = max(0.0, attack_cooldown - delta)
 	
@@ -70,39 +88,29 @@ func _physics_process(delta: float):
 	if halt_timer > 0.0:
 		halt_timer = max(0.0, halt_timer - delta)
 		is_halted = (halt_timer > 0.0)
-		entity_mat.set_shader_parameter("halt_factor", clamp(halt_timer * 2.5, 0.0, 1.0))
 	else:
 		is_halted = false
-		entity_mat.set_shader_parameter("halt_factor", 0.0)
 	
-	# Decay absorb flash
 	if absorb_timer > 0.0:
-		absorb_timer = max(0.0, absorb_timer - delta * 1.8)
-		entity_mat.set_shader_parameter("absorb_factor", absorb_timer)
+		absorb_timer = max(0.0, absorb_timer - delta * 2.0)
 	
-	# Slowly recover banish health if laser stops hitting
-	if current_banish_time > 0.0 and banish_stun_timer <= 0.0:
-		current_banish_time = max(0.0, current_banish_time - delta * 0.35)
-		entity_mat.set_shader_parameter("banish_progress", current_banish_time / banish_health)
+	_update_hud()
 	
-	# Stalk Player with Line-of-Sight and Proximity Hearing
 	var player = get_tree().get_first_node_in_group("Player")
 	if player:
 		var dist = global_position.distance_to(player.global_position)
 		var has_awareness = false
 		
-		# 1. Close proximity hearing in the dark, or agitated by raw beam
-		if dist < close_detection_radius or absorb_timer > 0.1:
+		if dist < close_detection_radius or absorb_timer > 0.05:
 			has_awareness = true
 		elif dist < detection_radius:
-			# 2. Line of Sight Raycast check (cannot see through closed solid walls)
 			var space_state = get_world_3d().direct_space_state
 			if space_state:
-				var from_pos = global_position + Vector3(0, 1.8, 0)
-				var to_pos = player.global_position + Vector3(0, 1.6, 0)
+				var from_pos = global_position + Vector3(0, 1.2, 0)
+				var to_pos = player.global_position + Vector3(0, 1.5, 0)
 				var query = PhysicsRayQueryParameters3D.create(from_pos, to_pos)
 				query.exclude = [get_rid(), player.get_rid()]
-				query.collision_mask = 1 # Environment geometry
+				query.collision_mask = 1
 				var hit = space_state.intersect_ray(query)
 				if hit.is_empty():
 					has_awareness = true
@@ -111,27 +119,29 @@ func _physics_process(delta: float):
 			var target_pos = Vector3(player.global_position.x, global_position.y, player.global_position.z)
 			var dir = (target_pos - global_position).normalized()
 			
-			var speed = move_speed
+			if not is_halted and banish_stun_timer <= 0.0:
+				if dist > 2.5:
+					# Approach steadily
+					charge_timer = 0.0
+					velocity.x = dir.x * move_speed
+					velocity.z = dir.z * move_speed
+				else:
+					# In range: stop and charge telegraphed discharge
+					velocity.x = 0.0
+					velocity.z = 0.0
+					if attack_cooldown <= 0.0:
+						charge_timer += delta
+						if charge_timer >= 1.8:
+							_discharge_attack(player)
+			else:
+				velocity.x = 0.0
+				velocity.z = 0.0
 			
-			# HALTED IN PHOTON STASIS: Direct beam pressure freezes entity movement completely
-			if is_halted:
-				speed = 0.0
-			elif banish_stun_timer > 0.0:
-				speed = 0.0
-			elif absorb_timer > 0.1:
-				speed *= agitated_speed_mult
-			
-			velocity.x = dir.x * speed
-			velocity.z = dir.z * speed
-			
-			# Face player
-			if dir.length() > 0.1 and not is_halted:
+			# Face player cleanly without zero-length error
+			if global_position.distance_squared_to(target_pos) > 0.1 and not is_halted:
 				look_at(target_pos, Vector3.UP)
-			
-			# Attack range - cannot attack when halted or stunned!
-			if dist < 1.35 and attack_cooldown <= 0.0 and banish_stun_timer <= 0.0 and not is_halted:
-				_attack_player(player)
 		else:
+			charge_timer = 0.0
 			velocity.x = move_toward(velocity.x, 0.0, delta * 3.0)
 			velocity.z = move_toward(velocity.z, 0.0, delta * 3.0)
 	
@@ -141,63 +151,71 @@ func on_laser_hit(is_reflected: bool, delta: float):
 	if is_banished:
 		return
 	
+	# Hit-stun interrupts charging attack
+	charge_timer = 0.0
+	halt_timer = 0.45
+	is_halted = true
+	
+	var time_step = max(0.016, delta)
+	
 	if not is_reflected:
-		# RAW UNREFLECTED BEAM: Photon radiation pressure HALTS the entity!
-		halt_timer = 0.4
-		is_halted = true
-		absorb_timer = 0.8
-		entity_mat.set_shader_parameter("absorb_factor", 0.8)
+		# Direct beam damages drone and holds it in hit-stun
+		var dmg = 50.0 * time_step
+		health -= dmg
+		absorb_timer = 0.6
 		if not sfx_audio.playing:
 			sfx_audio.stream = load("res://assets/audio/entity_absorb.wav")
 			sfx_audio.play()
 	else:
-		# REFLECTED BEAM: Destructive inverted light! Total halt, stun, and rapid dissolution!
+		# Reflected beam: CRITICAL HIT! 4x damage overloads core
+		var dmg = 200.0 * time_step
+		health -= dmg
 		banish_stun_timer = 0.6
-		is_halted = true
-		current_banish_time += delta * 1.2
-		var progress = clamp(current_banish_time / banish_health, 0.0, 1.0)
-		entity_mat.set_shader_parameter("banish_progress", progress)
-		
 		if not sfx_audio.playing or sfx_audio.stream.resource_path.ends_with("absorb.wav"):
 			sfx_audio.stream = load("res://assets/audio/entity_banish.wav")
 			sfx_audio.play()
-		
-		if current_banish_time >= banish_health:
-			banish()
+	
+	_update_hud()
+	
+	if health <= 0.0:
+		banish()
 
 func banish():
 	if is_banished:
 		return
 	is_banished = true
+	health = 0.0
 	velocity = Vector3.ZERO
-	AudioManager.play_sfx("entity_banish", 1.2, 4.0)
+	_update_hud()
+	AudioManager.play_sfx("entity_banish", 1.2, 5.0)
 	
-	# Death dissolve tween
+	# Death explosion pop
 	var tween = create_tween()
-	tween.tween_property(self, "scale", Vector3(0.01, 2.5, 0.01), 0.35)
+	tween.tween_property(self, "scale", Vector3(1.8, 0.1, 1.8), 0.25)
 	tween.tween_callback(queue_free)
 
-func _attack_player(player: Node):
-	attack_cooldown = 1.6 # Window for player to escape or counter-attack
-	AudioManager.play_sfx("entity_absorb", 0.7, 6.0)
+func _discharge_attack(player: Node):
+	charge_timer = 0.0
+	attack_cooldown = 2.5
+	AudioManager.play_sfx("entity_absorb", 1.4, 5.0)
 	
 	var knock_dir = (player.global_position - global_position).normalized()
 	if knock_dir.length_squared() < 0.01:
 		knock_dir = -global_transform.basis.z
 	
 	if player.has_method("take_damage"):
-		player.take_damage(40.0, knock_dir)
+		player.take_damage(25.0, knock_dir)
 	else:
 		GameManager.player_died()
 
 func get_category_badge() -> String:
-	return "⚠ [VOID ENTITY: HALTED IN STASIS]" if is_halted else "⚠ [ANOMALY: VOID SILHOUETTE]"
+	return "🤖 [HOSTILE: CORRUPTED DRONE - %d HP]" % int(max(0, health))
 
 func get_category_color() -> Color:
-	return Color(0.2, 0.9, 1.0) if is_halted else Color(0.95, 0.25, 0.3)
+	return Color(1.0, 0.3, 0.2)
 
 func get_interaction_prompt() -> String:
-	return "HALTED BY DIRECT BEAM (Bounce off mirror to banish!)" if is_halted else "PIN WITH DIRECT BEAM / BOUNCE REFLECTED BEAM TO BANISH"
+	return "SHOOT TO DESTROY (Reflected laser deals 4x Critical Damage!)"
 
 func get_hint() -> String:
-	return "Direct beam holds it in place with photon pressure! While halted, place a mirror or angle a bounce."
+	return "Killable with direct laser. Reflected laser off mirrors vaporizes it instantly!"
