@@ -1,0 +1,178 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/keypad_modal.gd" id="1_kpad"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.06, 0.08, 0.12, 0.96)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.2, 0.8, 1.0, 0.9)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_display"]
+bg_color = Color(0.02, 0.04, 0.06, 1.0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.1, 0.5, 0.7, 0.8)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="KeypadModal" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_kpad")
+
+; Darkened Backdrop
+[node name="Backdrop" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.85)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+custom_minimum_size = Vector2(380, 520)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="VBox" type="VBoxContainer" parent="Center/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="TitleLabel" type="Label" parent="Center/Panel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.9, 1.0, 1)
+theme_override_font_sizes/font_size = 18
+text = "OPTICS SECURITY KEYPAD"
+horizontal_alignment = 1
+
+[node name="DisplayContainer" type="PanelContainer" parent="Center/Panel/VBox"]
+custom_minimum_size = Vector2(0, 54)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_display")
+
+[node name="DisplayLabel" type="Label" parent="Center/Panel/VBox/DisplayContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 1.0, 0.4, 1)
+theme_override_font_sizes/font_size = 28
+text = "----"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatusLabel" type="Label" parent="Center/Panel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.85, 1.0, 1)
+theme_override_font_sizes/font_size = 12
+text = "[ENTER AUTHORIZED ACCESS CODE]"
+horizontal_alignment = 1
+
+; 10-Key Pushbutton Grid
+[node name="Grid" type="GridContainer" parent="Center/Panel/VBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+columns = 3
+
+[node name="Btn_1" type="Button" parent="Center/Panel/VBox/Grid"]
+custom_minimum_size = Vector2(74, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "1"
+
+[node name="Btn_2" type="Button" parent="Center/Panel/VBox/Grid"]
+custom_minimum_size = Vector2(74, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "2"
+
+[node name="Btn_3" type="Button" parent="Center/Panel/VBox/Grid"]
+custom_minimum_size = Vector2(74, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "3"
+
+[node name="Btn_4" type="Button" parent="Center/Panel/VBox/Grid"]
+custom_minimum_size = Vector2(74, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "4"
+
+[node name="Btn_5" type="Button" parent="Center/Panel/VBox/Grid"]
+custom_minimum_size = Vector2(74, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "5"
+
+[node name="Btn_6" type="Button" parent="Center/Panel/VBox/Grid"]
+custom_minimum_size = Vector2(74, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "6"
+
+[node name="Btn_7" type="Button" parent="Center/Panel/VBox/Grid"]
+custom_minimum_size = Vector2(74, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "7"
+
+[node name="Btn_8" type="Button" parent="Center/Panel/VBox/Grid"]
+custom_minimum_size = Vector2(74, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "8"
+
+[node name="Btn_9" type="Button" parent="Center/Panel/VBox/Grid"]
+custom_minimum_size = Vector2(74, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "9"
+
+[node name="Btn_CLR" type="Button" parent="Center/Panel/VBox/Grid"]
+custom_minimum_size = Vector2(74, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(1.0, 0.4, 0.4, 1)
+theme_override_font_sizes/font_size = 16
+text = "CLR"
+
+[node name="Btn_0" type="Button" parent="Center/Panel/VBox/Grid"]
+custom_minimum_size = Vector2(74, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "0"
+
+[node name="Btn_ENT" type="Button" parent="Center/Panel/VBox/Grid"]
+custom_minimum_size = Vector2(74, 52)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 1.0, 0.5, 1)
+theme_override_font_sizes/font_size = 16
+text = "ENT"
+
+[node name="BtnClose" type="Button" parent="Center/Panel/VBox"]
+custom_minimum_size = Vector2(160, 36)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "[ CANCEL / ESC ]"

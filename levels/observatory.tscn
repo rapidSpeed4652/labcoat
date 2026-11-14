@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3]
+[gd_scene load_steps=25 format=3]
 
 [ext_resource type="Script" path="res://scripts/dome_controller.gd" id="1_dctrl"]
 [ext_resource type="Texture2D" path="res://assets/textures/floor.png" id="2_flr"]
@@ -17,6 +17,8 @@
 [ext_resource type="PackedScene" path="res://scenes/portable_mirror.tscn" id="15_pmir"]
 [ext_resource type="Shader" path="res://assets/shaders/laser_beam.gdshader" id="16_bshd"]
 [ext_resource type="Texture2D" path="res://assets/textures/console_desk.png" id="17_csk"]
+[ext_resource type="PackedScene" path="res://scenes/item_lrrr_array.tscn" id="18_lrrr"]
+[ext_resource type="PackedScene" path="res://scenes/cleanroom_laser_barrier.tscn" id="19_cbar"]
 
 [sub_resource type="StandardMaterial3D" id="Mat_Floor"]
 albedo_texture = ExtResource("2_flr")
@@ -129,8 +131,12 @@ material = SubResource("Mat_Wall")
 [node name="AirlockAlpha_Door" parent="Act1_ControlRoom" instance=ExtResource("4_dor")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0, 0, -6)
 door_name = "Airlock Alpha (Lunar Surface Access)"
-lock_text = "[AIRLOCK PRESSURE BALANCED - PRESS E TO OPEN]"
-lock_hint = "Step out through Airlock Alpha onto the cratered lunar surface."
+lock_text = "[SECURITY LOCK: ENTER PERSEUS ACCESS CODE]"
+lock_hint = "Code written on Dr. Thorne's Polaroid photograph margin."
+requires_keypad = true
+keypad_code = "1974"
+keypad_id = "airlock_alpha"
+keypad_title = "AIRLOCK ALPHA - PERSEUS ACCESS CODE"
 
 [node name="Wall_North_E" type="CSGBox3D" parent="Act1_ControlRoom"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 1.8, -6)
@@ -163,31 +169,8 @@ use_collision = true
 size = Vector3(26, 0.4, 12)
 material = SubResource("Mat_LunarRegolith")
 
-[node name="LRRR_Pallet" type="CSGBox3D" parent="Act1_ControlRoom"]
-transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 0.25, -9.5)
-use_collision = true
-size = Vector3(1.6, 0.5, 1.6)
-material = SubResource("Mat_GoldFoil")
-
-[node name="LRRR_QuartzPrisms" type="CSGBox3D" parent="Act1_ControlRoom"]
-transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 0.52, -9.5)
-use_collision = true
-size = Vector3(1.3, 0.06, 1.3)
-material = SubResource("Mat_Glass")
-
-[node name="LRRR_Mast" type="CSGCylinder3D" parent="Act1_ControlRoom"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0.8, -9.5)
-radius = 0.03
-height = 1.6
-material = SubResource("Mat_Wall")
-
-[node name="LRRR_Sign" type="Label3D" parent="Act1_ControlRoom"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, -5.9)
-text = "MARE TRANQUILLITATIS: APOLLO 11 LRRR RETROREFLECTOR SITE"
-font_size = 14
-outline_size = 4
-outline_modulate = Color(0, 0, 0, 1)
-modulate = Color(0.85, 0.9, 1, 0.85)
+[node name="LRRR_Array" parent="Act1_ControlRoom" instance=ExtResource("18_lrrr")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 0, -9.5)
 
 [node name="Wall_South" type="CSGBox3D" parent="Act1_ControlRoom"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 6)
@@ -273,6 +256,7 @@ transform = Transform3D(0.9612617, 0, -0.27563736, 0, 1, 0, 0.27563736, 0, 0.961
 ; Optical Receptor (Inside alcove behind baffle wall, aimed at mirror)
 [node name="OpticalReceptor_Act1" parent="Act1_ControlRoom" node_paths=PackedStringArray("target_door") instance=ExtResource("6_rec")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.8, 1.5, -0.6)
+requires_lrrr_benchmark = true
 target_door = NodePath("../Act1SecurityDoor")
 
 ; Security Door to Gallery
@@ -372,10 +356,22 @@ use_collision = true
 size = Vector3(4, 0.4, 16)
 material = SubResource("Mat_Wall")
 
-[node name="Hall2_WallE1" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1.8, -3.5)
+[node name="Hall2_WallE1_N" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1.8, -0.5)
 use_collision = true
-size = Vector3(0.4, 3.6, 7)
+size = Vector3(0.4, 3.6, 1.0)
+material = SubResource("Mat_Wall")
+
+[node name="Hall2_WallE1_Lintel" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 3.3, -2.0)
+use_collision = true
+size = Vector3(0.4, 1.0, 2.0)
+material = SubResource("Mat_Wall")
+
+[node name="Hall2_WallE1_S" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1.8, -5.0)
+use_collision = true
+size = Vector3(0.4, 3.6, 4.0)
 material = SubResource("Mat_Wall")
 
 [node name="Hall2_WallE2" type="CSGBox3D" parent="Act2_Gallery"]
@@ -390,10 +386,22 @@ use_collision = true
 size = Vector3(0.4, 3.6, 7)
 material = SubResource("Mat_Wall")
 
-[node name="Hall2_WallW2" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 1.8, -12.5)
+[node name="Hall2_WallW2_N" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 1.8, -10.5)
 use_collision = true
-size = Vector3(0.4, 3.6, 7)
+size = Vector3(0.4, 3.6, 3.0)
+material = SubResource("Mat_Wall")
+
+[node name="Hall2_WallW2_Lintel" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 3.3, -13.0)
+use_collision = true
+size = Vector3(0.4, 1.0, 2.0)
+material = SubResource("Mat_Wall")
+
+[node name="Hall2_WallW2_S" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 1.8, -15.0)
+use_collision = true
+size = Vector3(0.4, 3.6, 2.0)
 material = SubResource("Mat_Wall")
 
 ; Corner 2 Mirror (Faces South down Hallway 2 to bounce beams onto Shadow Entity's blind spot)
@@ -464,12 +472,13 @@ material = SubResource("Mat_Desk")
 ; Capacitor Breaker 1
 [node name="CapacitorBreaker1" parent="Act2_Gallery" instance=ExtResource("10_brk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1.6, 9.7)
+capacitor_index = 1
 
 ; Tape Recorder 1
 [node name="TapeRecorder1" parent="Act2_Gallery" instance=ExtResource("9_tap")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.8, 0.95, 7.5)
-tape_title = "Log 77-B: The Void Return"
-tape_transcript = "The lunar retroreflector array didn't return the beam. Something else did. We detected a focal return from the Perseus Void... but there is no reflector out there. It didn't bounce back. It held on. It's climbing down the beam."
+tape_title = "Log 77-B: The Argon Line & Void Return"
+tape_transcript = "Mount Hale Observatory. October 14, 1974. Dr. Thorne recording. We fired the primary laser pulse at the Apollo 11 array, but the return did not bounce back. It anchored! Something in the deep space void used our light beam as a bridge to enter the station. Direct light cannot destroy them, you must bounce the laser off mirrors to invert their quantum phase! If the cleanroom seals, the keypad code is our Argon ion line: 488. Code is 4, 8, 8."
 tape_voice_clip = "tape_log_1"
 
 ; Portable Mirror Stand in Breaker Room 1
@@ -531,13 +540,7 @@ material = SubResource("Mat_Desk")
 ; Capacitor Breaker 2
 [node name="CapacitorBreaker2" parent="Act2_Gallery" instance=ExtResource("10_brk")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.3, 1.6, -8)
-
-; Tape Recorder 2
-[node name="TapeRecorder2" parent="Act2_Gallery" instance=ExtResource("9_tap")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.95, -9.5)
-tape_title = "Log 78-C: The Reflected Secret"
-tape_transcript = "They absorb raw photons—shining your direct laser beam holds them in place with photon pressure, halting their movement! But direct light cannot kill them. When light bounces off a retro-reflector, the 180-degree phase reversal shatters their silhouette! You have to bounce the beam to banish them!"
-tape_voice_clip = "tape_log_2"
+capacitor_index = 2
 
 ; Shadow Entity 2
 [node name="ShadowEntity2" parent="Act2_Gallery" instance=ExtResource("11_shd")]
@@ -601,13 +604,7 @@ material = SubResource("Mat_Desk")
 ; Capacitor Breaker 3
 [node name="CapacitorBreaker3" parent="Act2_Gallery" instance=ExtResource("10_brk")]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 28.7, 1.6, -8)
-
-; Tape Recorder 3
-[node name="TapeRecorder3" parent="Act2_Gallery" instance=ExtResource("9_tap")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.0, 0.95, -9.5)
-tape_title = "Log 79-D: The Deep Space Bridge"
-tape_transcript = "Dr. Vance here. The eclipse alignment was intentional. We were not bouncing lasers off Apollo 11 lunar reflectors anymore. I recalibrated the coude dish toward the dark void in deep space... God forgive me. The pulse locked onto something. It used our photons like a bridge, following the beam backward into Mount Hale!"
-tape_voice_clip = "tape_log_3"
+capacitor_index = 3
 
 ; Room 3 Wall Mirror
 [node name="Mirror_BR3" parent="Act2_Gallery" instance=ExtResource("5_mir")]
@@ -636,6 +633,126 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 2.8, -8)
 light_color = Color(0.2, 0.5, 1, 1)
 light_energy = 1.0
 omni_range = 7.0
+
+; ==============================================
+; Spectrometry Cleanroom (Lab Alpha)
+; ==============================================
+[node name="Cleanroom_Floor" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, -0.2, -2)
+use_collision = true
+size = Vector3(9.2, 0.4, 4.0)
+material = SubResource("Mat_Floor")
+
+[node name="Cleanroom_Ceil" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 3.8, -2)
+use_collision = true
+size = Vector3(9.2, 0.4, 4.0)
+material = SubResource("Mat_Wall")
+
+[node name="Cleanroom_WallE" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.0, 1.8, -2)
+use_collision = true
+size = Vector3(0.4, 3.6, 4.0)
+material = SubResource("Mat_Wall")
+
+[node name="Cleanroom_WallN" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 1.8, 0)
+use_collision = true
+size = Vector3(9.2, 3.6, 0.4)
+material = SubResource("Mat_Wall")
+
+[node name="Cleanroom_WallS" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 1.8, -4)
+use_collision = true
+size = Vector3(9.2, 3.6, 0.4)
+material = SubResource("Mat_Wall")
+
+[node name="CleanroomLaserBarrier" parent="Act2_Gallery" instance=ExtResource("19_cbar")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.0, 0, -2.0)
+
+[node name="CleanroomKeypadTerminal" parent="Act2_Gallery" instance=ExtResource("4_dor")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 20.0, 0, -2.0)
+door_name = "Cleanroom Security Terminal"
+lock_text = "[SECURITY LOCK: ENTER ARGON SPECTRAL LINE]"
+lock_hint = "Argon-ion laser wavelength code recorded in Dr. Thorne's Tape Log 1."
+requires_keypad = true
+keypad_code = "488"
+keypad_id = "cleanroom_barrier"
+keypad_title = "SPECTROMETRY CLEANROOM - 488nm WAVELENGTH"
+
+[node name="Cleanroom_Desk" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 0.45, -2.0)
+use_collision = true
+size = Vector3(2.5, 0.9, 1.4)
+material = SubResource("Mat_Desk")
+
+[node name="TapeRecorder2" parent="Act2_Gallery" instance=ExtResource("9_tap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 0.95, -2.0)
+tape_title = "Log 78-C: The Interlock Triad & Capacitor Sequence"
+tape_transcript = "Dr. Thorne, Cleanroom Lab. If you are hearing this, the gallery capacitors are locked under safety interlock. CRITICAL WARNING: Do not discharge the capacitors in arbitrary order! You will blow the cryogenic seals and trigger an electrical arc blowout! The optical sequence is strict: First Bay A Cryo-Coolant, second Bay C Laser Oscillator, third Bay B Magnetic Flux! The sequence is A, then C, then B. One, Three, Two!"
+tape_voice_clip = "tape_log_2"
+
+[node name="PortableMirrorPickup2" parent="Act2_Gallery" instance=ExtResource("15_pmir")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 27.5, 0, -2.0)
+
+[node name="Cleanroom_Light" type="OmniLight3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 2.8, -2.0)
+light_color = Color(0.2, 0.85, 1.0, 1)
+light_energy = 1.6
+omni_range = 7.0
+
+; ==============================================
+; Astrometric Archive & Photographic Darkroom
+; ==============================================
+[node name="Archive_Floor" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, -0.2, -14.0)
+use_collision = true
+size = Vector3(9.2, 0.4, 4.0)
+material = SubResource("Mat_Floor")
+
+[node name="Archive_Ceil" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 3.8, -14.0)
+use_collision = true
+size = Vector3(9.2, 0.4, 4.0)
+material = SubResource("Mat_Wall")
+
+[node name="Archive_WallW" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.0, 1.8, -14.0)
+use_collision = true
+size = Vector3(0.4, 3.6, 4.0)
+material = SubResource("Mat_Wall")
+
+[node name="Archive_WallS" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 1.8, -16.0)
+use_collision = true
+size = Vector3(9.2, 3.6, 0.4)
+material = SubResource("Mat_Wall")
+
+[node name="Archive_Desk" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0, 0.45, -14.0)
+use_collision = true
+size = Vector3(2.5, 0.9, 1.4)
+material = SubResource("Mat_Desk")
+
+[node name="TapeRecorder3" parent="Act2_Gallery" instance=ExtResource("9_tap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0, 0.95, -14.0)
+tape_title = "Log 79-D: The Equilateral Cage & Master Azimuth"
+tape_transcript = "The entities have encircled the dome console! Direct light cannot banish them, but an equilateral cage of reflected light will vaporize them. Set Station Alpha to 45 degrees, Station Beta to 135 degrees, and Station Gamma to 315 degrees! Once the reflected triangle locks, enter the Master Azimuth override code on the console keypad: 8352. Code is 8, 3, 5, 2! Then pull the shutdown lever and seal the roof shutter!"
+tape_voice_clip = "tape_log_3"
+
+[node name="Archive_Chalkboard" type="Label3D" parent="Act2_Gallery"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.3, 1.8, -14.0)
+text = "ASTROMETRIC CALIBRATION • BOÖTES VOID (RA 14h 50m, DEC +46°)\nMASTER AZIMUTH CLAMP OVERRIDE: [ 8352 ]\nCAPACITOR SAFETY DISCHARGE: BAY A (CRYO) -> BAY C (OSCILLATOR) -> BAY B (FLUX)\nSEQUENCE: [ 1 -> 3 -> 2 ]"
+font_size = 14
+outline_size = 4
+outline_modulate = Color(0, 0, 0, 1)
+modulate = Color(1.0, 0.85, 0.4, 0.95)
+
+[node name="Archive_Light" type="OmniLight3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 2.8, -14.0)
+light_color = Color(1.0, 0.45, 0.1, 1)
+light_energy = 1.3
+omni_range = 6.0
 
 ; Dome Blast Door
 [node name="DomeBlastDoor" parent="Act2_Gallery" instance=ExtResource("4_dor")]

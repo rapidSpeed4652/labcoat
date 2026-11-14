@@ -58,7 +58,9 @@ func _load_sound_assets():
 		"footstep.wav",
 		"dome_alarm.wav",
 		"shutter_close.wav",
-		"interact.wav"
+		"interact.wav",
+		"keypad_beep.wav",
+		"access_denied.wav"
 	]
 	
 	for file in audio_files:

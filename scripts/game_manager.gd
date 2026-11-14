@@ -17,10 +17,14 @@ var portable_mirrors_count: int = 1
 
 # Puzzle states
 var act1_door_unlocked: bool = false
+var lrrr_calibrated: bool = false
 var capacitors_activated: int = 0
 const CAPACITORS_REQUIRED: int = 3
+var capacitor_sequence: Array[int] = [1, 3, 2]
+var current_seq_idx: int = 0
 var dome_door_unlocked: bool = false
 var dome_puzzle_solved: bool = false
+var dome_override_unlocked: bool = false
 var shutdown_lever_pulled: bool = false
 
 # Current active objective
@@ -37,6 +41,11 @@ signal player_respawn_requested()
 signal game_won()
 signal game_lost()
 signal mirror_count_changed(count: int)
+signal keypad_requested(target_id: String, expected_code: String, title: String)
+signal keypad_unlocked(target_id: String)
+
+var airlock_alpha_unlocked: bool = false
+var cleanroom_unlocked: bool = false
 
 var is_inspecting_polaroid: bool = false
 
@@ -116,6 +125,67 @@ func play_tape_log(title: String, transcript: String, voice_clip: String = ""):
 	if voice_clip != "":
 		AudioManager.play_voice(voice_clip)
 
+func request_keypad(target_id: String, expected_code: String, title: String):
+	keypad_requested.emit(target_id, expected_code, title)
+
+func calibrate_lrrr():
+	if lrrr_calibrated:
+		return
+	lrrr_calibrated = true
+	set_objective("Apollo 11 LRRR Calibrated! Re-enter the base and bounce laser onto the Sector 1 sensor.")
+	trigger_radio(
+		"SUPERVISOR VANCE (EARTH STATION)",
+		"Telemetry lock confirmed! The Apollo 11 quartz corner cubes are pinging Earth! Power restored to Sector 1 interior optical receptor! Head back inside and bounce the laser off the wall mirror!",
+		7.5
+	)
+	var receptor = get_tree().root.find_child("OpticalReceptor_Act1", true, false)
+	if receptor and receptor.has_method("_update_visuals"):
+		receptor._update_visuals()
+
+func on_keypad_success(target_id: String):
+	keypad_unlocked.emit(target_id)
+	match target_id:
+		"airlock_alpha":
+			airlock_alpha_unlocked = true
+			set_objective("Airlock Alpha UNSEALED! Suit up and step out onto the lunar surface.")
+			trigger_radio(
+				"SUPERVISOR VANCE (EARTH STATION)",
+				"Airlock Alpha cycled! You're cleared for exterior lunar traverse. Head to the Apollo 11 array on the crater floor and align the primary benchmark!",
+				7.0
+			)
+			var door = get_tree().root.find_child("AirlockAlpha_Door", true, false)
+			if door and door.has_method("open"):
+				door.open()
+		"cleanroom_barrier":
+			cleanroom_unlocked = true
+			set_objective("Laser grid deactivated! Access the Spectrometry Lab and recover Tape Log 2.")
+			var barrier = get_tree().root.find_child("CleanroomLaserBarrier", true, false)
+			if barrier:
+				barrier.queue_free()
+			var terminal = get_tree().root.find_child("CleanroomKeypadTerminal", true, false)
+			if terminal and terminal.has_method("open"):
+				terminal.open()
+		"dome_override":
+			dome_override_unlocked = true
+			set_objective("Master Azimuth clamp released! PULL THE EMERGENCY SHUTDOWN LEVER!")
+			trigger_radio(
+				"SUPERVISOR VANCE (EARTH STATION)",
+				"Master Azimuth frequency 8352 verified! The hydraulic shutter clamps have released! PULL THE LEVER!",
+				6.0
+			)
+
+func schedule_entity_respawn(spawn_pos: Vector3, delay: float):
+	await get_tree().create_timer(delay).timeout
+	if current_act != Act.ENDING and current_act != Act.GAME_OVER:
+		var entity_scene = load("res://scenes/shadow_entity.tscn")
+		if entity_scene:
+			var entity = entity_scene.instantiate()
+			entity.global_position = spawn_pos
+			var obs = get_tree().root.find_child("Observatory", true, false)
+			if obs:
+				obs.add_child(entity)
+				AudioManager.play_sfx("entity_stalk", 1.1)
+
 func pickup_laser():
 	has_laser = true
 	set_objective("BOUNCE LASER: Aim beam at the wall mirror so the reflection hits the Optical Receptor.")
@@ -135,6 +205,76 @@ func unlock_act1_door():
 		"Security aperture unsealed! Enter the central gallery spine. Open your tactical schematic with M or TAB. Watch the observation windows—sensors detect abnormal electromagnetic movement out on the crater rim.",
 		7.0
 	)
+
+func try_activate_capacitor(idx: int, _breaker: Node) -> bool:
+	if current_seq_idx < capacitor_sequence.size() and idx == capacitor_sequence[current_seq_idx]:
+		current_seq_idx += 1
+		capacitors_activated = current_seq_idx
+		
+		var dome_door = get_tree().root.find_child("DomeBlastDoor", true, false)
+		
+		if current_seq_idx == 1:
+			set_objective("Step 1/3: Cryo-Pump offline! Next: Bay C (Laser Oscillator) [Check Thorne's Log 2].")
+			trigger_radio(
+				"SUPERVISOR VANCE (EARTH STATION)",
+				"Cryo-coolant pump isolated safely! Cryogenic line stabilized. Now isolate Bay C's oscillator before touching the magnetic flux!",
+				6.5
+			)
+			if dome_door:
+				dome_door.lock_text = "[BLAST LOCK: 2 CAPACITORS REMAINING]"
+				dome_door.lock_hint = "Shut down Bay C and Bay B in sequence."
+		elif current_seq_idx == 2:
+			set_objective("Step 2/3: Oscillator decoupled! Final: Bay B (Magnetic Flux Chamber).")
+			trigger_radio(
+				"SUPERVISOR VANCE (EARTH STATION)",
+				"Oscillator decoupled! Magnetic flux loop is now safe to break in Bay B. Finish the sequence, Leo!",
+				6.5
+			)
+			if dome_door:
+				dome_door.lock_text = "[BLAST LOCK: 1 CAPACITOR REMAINING]"
+				dome_door.lock_hint = "Shut down Bay B (Magnetic Flux) to release blast lock."
+		elif current_seq_idx == 3:
+			dome_door_unlocked = true
+			set_objective("All 3 capacitors safely offline! Dome blast doors UNLOCKED. Head to the Coudé Dome.")
+			trigger_radio(
+				"SUPERVISOR VANCE (EARTH STATION)",
+				"Resonance sequence verified! Power safely redirected to the central dome! Dome blast doors are OPEN! Get to the Coudé Dome and align the triad!",
+				7.5
+			)
+			if dome_door:
+				dome_door.lock_text = "[BLAST LOCK DISENGAGED - ACCESS GRANTED]"
+				dome_door.lock_hint = "Blast doors unlocked. Head into the Coudé Dome."
+				if dome_door.has_method("open"):
+					dome_door.open()
+		return true
+	else:
+		# Sequence violation!
+		AudioManager.play_sfx("dome_alarm", 1.0, 5.0)
+		trigger_radio(
+			"SUPERVISOR VANCE (EARTH STATION)",
+			"WARNING! Arc fault detected! Breaker interlock tripped and reset the grid! Thorne's log explicitly states: Bay A (1) -> Bay C (3) -> Bay B (2)! Follow the sequence!",
+			7.0
+		)
+		set_objective("[ARC FAULT: GRID RESET] Sequence violated! Required: Bay A -> Bay C -> Bay B (1 -> 3 -> 2)!")
+		reset_all_capacitors()
+		
+		# Punish mistake: spawn an aggressive Void Stalker in the gallery spine!
+		var obs = get_tree().root.find_child("Observatory", true, false)
+		if obs:
+			schedule_entity_respawn(Vector3(18.0, 0.0, -4.0), 0.5)
+		return false
+
+func reset_all_capacitors():
+	current_seq_idx = 0
+	capacitors_activated = 0
+	var breakers = get_tree().get_nodes_in_group("CapacitorBreakers")
+	for b in breakers:
+		if b.has_method("reset_breaker"):
+			b.reset_breaker()
+	var dome_door = get_tree().root.find_child("DomeBlastDoor", true, false)
+	if dome_door:
+		dome_door.lock_text = "[BLAST LOCK: 3 AUXILIARY CAPACITORS REQUIRED]"
+		dome_door.lock_hint = "Shut down all 3 auxiliary capacitors in Bay A, Bay B, and Bay C to unlock the Dome."
 
 func activate_capacitor():
 	capacitors_activated += 1

@@ -22,6 +22,7 @@ extends CanvasLayer
 @onready var tape_modal: Control = $Control/TapeModal
 @onready var tape_title_label: Label = $Control/TapeModal/Center/Panel/VBox/TitleLabel
 @onready var tape_transcript_label: RichTextLabel = $Control/TapeModal/Center/Panel/VBox/TranscriptLabel
+@onready var keypad_modal: Control = $Control/KeypadModal
 
 @onready var death_screen: Control = $Control/DeathScreen
 @onready var win_screen: Control = $Control/WinScreen
@@ -64,8 +65,16 @@ func _ready():
 	
 	update_objective(GameManager.current_objective)
 	_on_mirror_count_changed(GameManager.portable_mirrors_count)
+	
+	if keypad_modal:
+		keypad_modal.visible = false
+		GameManager.keypad_requested.connect(_on_keypad_requested)
+		keypad_modal.code_matched.connect(GameManager.on_keypad_success)
 
 func _input(event: InputEvent):
+	if keypad_modal and keypad_modal.visible:
+		return
+		
 	if event.is_action_pressed("toggle_map"):
 		if not death_screen.visible and not win_screen.visible and not polaroid_modal.visible and not tape_modal.visible and not pause_menu.visible:
 			toggle_full_map()
@@ -204,6 +213,10 @@ func _on_tape_played(title: String, transcript: String):
 		tape_title_label.text = "▶ [CASSETTE AUDIO RECORDING // " + title.to_upper() + "]"
 		tape_transcript_label.text = transcript
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+func _on_keypad_requested(target_id: String, expected_code: String, title: String):
+	if keypad_modal:
+		keypad_modal.open(target_id, expected_code, title)
 
 func _on_mirror_count_changed(count: int):
 	mirror_label.text = "PORTABLE MIRRORS: " + str(count) + " [RMB/Q PLACE]"

@@ -61,17 +61,18 @@ func _draw():
 	var room_fill = Color(0.06, 0.18, 0.25, 0.6)
 	var room_border = Color(0.2, 0.75, 0.9, 0.8)
 	var rooms = [
-		["CMD", -6.0, -6.0, 6.0, 6.0],            # Act 1 Control Room
-		["H1", 6.0, -2.0, 24.0, 2.0],             # Hallway 1
-		["OPTICS", 6.0, 2.0, 11.0, 10.0],         # Spectrometry Cleanroom Lab
-		["CREW", 6.0, -10.0, 13.0, -2.0],         # Crew Quarters
-		["BAY-A", 11.0, 2.0, 19.0, 10.0],         # Breaker Room 1
-		["H2", 22.0, -16.0, 26.0, 0.0],           # Hallway 2
-		["BAY-B", 13.0, -12.0, 22.0, -4.0],       # Breaker Room 2
-		["BAY-C", 26.0, -12.0, 35.0, -4.0],       # Breaker Room 3
-		["VEST", 22.0, -18.0, 26.0, -16.0],       # Vestibule
-		["DOME", 10.0, -46.0, 38.0, -18.0],       # Act 3 Dome
-		["EXIT", 0.0, -34.0, 10.0, -30.0]         # Exit Hallway
+		["CONTROL", -6.0, -6.0, 6.0, 6.0],         # Act 1 Control Room
+		["LRRR SITE", -6.0, -14.0, 6.0, -7.0],     # Apollo 11 LRRR Surface Site
+		["H1", 6.0, -2.0, 24.0, 2.0],              # Hallway 1 Spine
+		["CLEANROOM", 26.0, -4.0, 35.0, 0.0],      # Spectrometry Cleanroom (Lab Alpha)
+		["BAY-A (CRYO)", 11.0, 2.0, 19.0, 10.0],   # Bay A Capacitor 1
+		["H2", 22.0, -16.0, 26.0, 0.0],            # Hallway 2
+		["ARCHIVE", 13.0, -16.0, 22.0, -12.0],     # Astrometric Archive & Darkroom
+		["BAY-B (FLUX)", 13.0, -12.0, 22.0, -4.0], # Bay B Capacitor 2
+		["BAY-C (OSC)", 26.0, -12.0, 35.0, -4.0],  # Bay C Capacitor 3
+		["VESTIBULE", 22.0, -18.0, 26.0, -16.0],   # Vestibule
+		["COUDÉ DOME", 10.0, -46.0, 38.0, -18.0],  # Act 3 Dome
+		["EXIT", 0.0, -34.0, 10.0, -30.0]          # Exit Hallway
 	]
 	
 	# Draw Rooms

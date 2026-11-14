@@ -3,9 +3,12 @@ extends CharacterBody3D
 @export var max_health: float = 60.0
 var health: float = 60.0
 
-@export var move_speed: float = 1.0
-@export var detection_radius: float = 12.0
-@export var close_detection_radius: float = 3.5
+@export var move_speed: float = 2.4
+@export var sprint_speed: float = 3.8
+@export var detection_radius: float = 20.0
+@export var close_detection_radius: float = 4.5
+@export var can_respawn: bool = true
+@export var respawn_time: float = 22.0
 
 var absorb_timer: float = 0.0
 var banish_stun_timer: float = 0.0
@@ -121,10 +124,11 @@ func _physics_process(delta: float):
 			
 			if not is_halted and banish_stun_timer <= 0.0:
 				if dist > 2.5:
-					# Approach steadily
+					# Approach steadily (sprint when player is in overheat darkness)
 					charge_timer = 0.0
-					velocity.x = dir.x * move_speed
-					velocity.z = dir.z * move_speed
+					var cur_speed = sprint_speed if (player.laser_system and player.laser_system.is_overheated) else move_speed
+					velocity.x = dir.x * cur_speed
+					velocity.z = dir.z * cur_speed
 				else:
 					# In range: stop and charge telegraphed discharge
 					velocity.x = 0.0
@@ -153,22 +157,20 @@ func on_laser_hit(is_reflected: bool, delta: float):
 	
 	# Hit-stun interrupts charging attack
 	charge_timer = 0.0
-	halt_timer = 0.45
+	halt_timer = 0.5
 	is_halted = true
 	
 	var time_step = max(0.016, delta)
 	
 	if not is_reflected:
-		# Direct beam damages drone and holds it in hit-stun
-		var dmg = 50.0 * time_step
-		health -= dmg
+		# Direct beam does ZERO damage! Absorbed into stasis field
 		absorb_timer = 0.6
 		if not sfx_audio.playing:
 			sfx_audio.stream = load("res://assets/audio/entity_absorb.wav")
 			sfx_audio.play()
 	else:
-		# Reflected beam: CRITICAL HIT! 4x damage overloads core
-		var dmg = 200.0 * time_step
+		# Reflected beam: CRITICAL PHASE INVERSION! Burns away the silhouette!
+		var dmg = 250.0 * time_step
 		health -= dmg
 		banish_stun_timer = 0.6
 		if not sfx_audio.playing or sfx_audio.stream.resource_path.ends_with("absorb.wav"):
@@ -188,6 +190,9 @@ func banish():
 	velocity = Vector3.ZERO
 	_update_hud()
 	AudioManager.play_sfx("entity_banish", 1.2, 5.0)
+	
+	if can_respawn and GameManager.has_method("schedule_entity_respawn"):
+		GameManager.schedule_entity_respawn(global_position, respawn_time)
 	
 	# Death explosion pop
 	var tween = create_tween()

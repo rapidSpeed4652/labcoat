@@ -6,6 +6,10 @@ extends StaticBody3D
 @export var door_name: String = "Security Door"
 @export var lock_text: String = "[LOCKED - SENSOR OVERRIDE REQUIRED]"
 @export var lock_hint: String = "Aim laser at the wall mirror so the reflection strikes the Optical Receptor."
+@export var requires_keypad: bool = false
+@export var keypad_code: String = ""
+@export var keypad_id: String = ""
+@export var keypad_title: String = "DOORWAY SECURITY ACCESS"
 
 var closed_pos: Vector3
 
@@ -21,6 +25,12 @@ func _ready():
 		_update_visuals(true)
 	else:
 		_update_visuals(false)
+		
+	if requires_keypad and GameManager.has_signal("keypad_unlocked"):
+		GameManager.keypad_unlocked.connect(func(target_id):
+			if target_id == keypad_id:
+				open()
+		)
 
 func get_category_badge() -> String:
 	return "🚪 [ACCESS DOOR: " + ("UNLOCKED" if is_open else "LOCKED") + "]"
@@ -29,13 +39,25 @@ func get_category_color() -> Color:
 	return Color(0.2, 1.0, 0.4) if is_open else Color(1.0, 0.3, 0.2)
 
 func get_interaction_prompt() -> String:
-	return "[ACCESS GRANTED - DOORWAY CLEAR]" if is_open else lock_text
+	if is_open:
+		return "[ACCESS GRANTED - DOORWAY CLEAR]"
+	if requires_keypad:
+		return "[E] Enter Authorization Code (Check Polaroid/Lore Clues)"
+	return lock_text
 
 func get_hint() -> String:
-	return "Door is open." if is_open else lock_hint
+	if is_open:
+		return "Door is open."
+	if requires_keypad:
+		return "Keypad locked. Clue is recorded in Dr. Thorne's Polaroid or Audio Tapes."
+	return lock_hint
 
 func interact():
-	if not is_open:
+	if is_open:
+		return
+	if requires_keypad:
+		GameManager.request_keypad(keypad_id, keypad_code, keypad_title)
+	else:
 		AudioManager.play_sfx("laser_click", 0.5)
 
 func open():

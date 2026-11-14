@@ -1,6 +1,7 @@
 extends StaticBody3D
 
 @export var requires_reflected_beam: bool = true
+@export var requires_lrrr_benchmark: bool = false
 @export var target_door: Node
 @export var activation_time_required: float = 0.3
 @export var is_permanent: bool = true
@@ -23,20 +24,34 @@ func get_category_badge() -> String:
 	return "🎯 [SECURITY: OPTICAL SENSOR LOCK]"
 
 func get_category_color() -> Color:
+	if requires_lrrr_benchmark and not GameManager.lrrr_calibrated:
+		return Color(1.0, 0.4, 0.1)
 	return Color(0.1, 1.0, 0.3) if is_activated else Color(1.0, 0.2, 0.2)
 
 func get_interaction_prompt() -> String:
 	if is_activated:
 		return "[STATUS: DISENGAGED - DOOR OPEN]"
+	if requires_lrrr_benchmark and not GameManager.lrrr_calibrated:
+		return "[CIRCUIT OFFLINE: APOLLO 11 BENCHMARK REQUIRED]"
 	return "[OPTICAL TARGET: REQUIRES REFLECTED BEAM]"
 
 func get_hint() -> String:
 	if is_activated:
 		return "Security sensor powered. The magnetic door to the gallery is open."
+	if requires_lrrr_benchmark and not GameManager.lrrr_calibrated:
+		return "The sensor circuit is de-energized. Cycle Airlock Alpha (Code 1974) and calibrate the Apollo 11 LRRR array on the crater floor."
 	return "Direct light has no effect. Angle your laser off the angled wall mirror to bounce the beam onto this sensor."
 
 func interact():
 	if not is_activated:
+		if requires_lrrr_benchmark and not GameManager.lrrr_calibrated:
+			AudioManager.play_sfx("access_denied")
+			GameManager.trigger_radio(
+				"SUPERVISOR VANCE (EARTH STATION)",
+				"The optical lock circuit is unpowered, Leo! You must cycle Airlock Alpha, go outside onto the lunar crater floor, and calibrate the Apollo 11 retroreflector array to provide benchmark sync!",
+				7.0
+			)
+			return
 		AudioManager.play_sfx("laser_click", 0.6)
 		GameManager.trigger_radio("LEO", "Direct access is blocked by the baffle wall. I need to bounce the laser beam off that wall mirror.", 4.5)
 
@@ -50,6 +65,10 @@ func _process(delta: float):
 
 func on_laser_hit(is_reflected: bool, delta: float):
 	if is_activated and is_permanent:
+		return
+	
+	if requires_lrrr_benchmark and not GameManager.lrrr_calibrated:
+		# Sensor unpowered without exterior lunar benchmark!
 		return
 	
 	if requires_reflected_beam and not is_reflected:
@@ -98,6 +117,14 @@ func _update_visuals():
 		if sensor_label:
 			sensor_label.text = "[SENSOR POWERED - DOOR UNLOCKED]"
 			sensor_label.modulate = Color(0.2, 1.0, 0.4)
+	elif requires_lrrr_benchmark and not GameManager.lrrr_calibrated:
+		indicator_light.light_color = Color(1.0, 0.4, 0.1)
+		indicator_light.light_energy = 0.8
+		mat.albedo_color = Color(0.5, 0.2, 0.1)
+		mat.emission_enabled = false
+		if sensor_label:
+			sensor_label.text = "[OFFLINE - APOLLO 11 LRRR BENCHMARK REQUIRED]"
+			sensor_label.modulate = Color(1.0, 0.5, 0.2)
 	elif current_charge > 0.0:
 		indicator_light.light_color = Color(1.0, 0.8, 0.1)
 		indicator_light.light_energy = 1.5

@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui.gd" id="1_ui"]
 [ext_resource type="Shader" path="res://assets/shaders/crt_postprocess.gdshader" id="2_crt"]
 [ext_resource type="Texture2D" path="res://assets/textures/polaroid.png" id="3_pol"]
 [ext_resource type="Script" path="res://scripts/minimap.gd" id="4_map"]
+[ext_resource type="PackedScene" path="res://scenes/keypad_modal.tscn" id="5_kpad"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_crt"]
 shader = ExtResource("2_crt")
@@ -334,6 +335,10 @@ theme_override_colors/font_color = Color(1, 0.8, 0.3, 1)
 theme_override_font_sizes/font_size = 14
 text = "[E / CLICK / ESC] Stow Audio Cassette"
 horizontal_alignment = 1
+
+; Digital Security Keypad Modal
+[node name="KeypadModal" parent="Control" instance=ExtResource("5_kpad")]
+visible = false
 
 ; Fullscreen Facility Schematic Map
 [node name="FullMapModal" type="ColorRect" parent="Control"]

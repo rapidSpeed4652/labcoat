@@ -1,0 +1,82 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable.gd" id="1_int"]
+[ext_resource type="Shader" path="res://assets/shaders/laser_beam.gdshader" id="2_bshd"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_col"]
+size = Vector3(2.0, 1.8, 2.0)
+
+[sub_resource type="StandardMaterial3D" id="Mat_GoldFoil"]
+albedo_color = Color(0.95, 0.75, 0.15, 1)
+metallic = 0.95
+roughness = 0.25
+
+[sub_resource type="StandardMaterial3D" id="Mat_QuartzPrisms"]
+transparency = 1
+albedo_color = Color(0.7, 0.9, 1.0, 0.85)
+metallic = 0.95
+roughness = 0.05
+
+[sub_resource type="StandardMaterial3D" id="Mat_Mast"]
+albedo_color = Color(0.3, 0.32, 0.35, 1)
+metallic = 0.85
+roughness = 0.4
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_beacon"]
+render_priority = 0
+shader = ExtResource("2_bshd")
+shader_parameter/laser_color = Color(0.1, 0.85, 1, 1)
+shader_parameter/core_color = Color(0.95, 1, 1, 1)
+shader_parameter/intensity = 6.0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_beacon"]
+material = SubResource("ShaderMaterial_beacon")
+top_radius = 0.25
+bottom_radius = 0.25
+height = 60.0
+
+[node name="LRRR_Array" type="StaticBody3D"]
+script = ExtResource("1_int")
+interaction_type = 6
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+shape = SubResource("BoxShape3D_col")
+
+[node name="GoldPallet" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0)
+use_collision = true
+size = Vector3(1.6, 0.5, 1.6)
+material = SubResource("Mat_GoldFoil")
+
+[node name="QuartzPrisms" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.54, 0)
+use_collision = true
+size = Vector3(1.3, 0.08, 1.3)
+material = SubResource("Mat_QuartzPrisms")
+
+[node name="Mast" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0.8, 0)
+radius = 0.03
+height = 1.6
+material = SubResource("Mat_Mast")
+
+[node name="ArrayLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, 0)
+billboard = 1
+text = "MARE TRANQUILLITATIS: APOLLO 11 LRRR RETROREFLECTOR ARRAY [AZIMUTH 214°]"
+font_size = 14
+outline_size = 4
+outline_modulate = Color(0, 0, 0, 1)
+modulate = Color(0.3, 0.9, 1.0, 0.95)
+
+[node name="BeaconLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+light_color = Color(0.2, 0.6, 1.0, 1)
+light_energy = 1.5
+omni_range = 6.0
+
+[node name="LRRR_BeaconBeam" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 30.5, 0)
+visible = false
+mesh = SubResource("CylinderMesh_beacon")
