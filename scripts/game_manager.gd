@@ -100,8 +100,8 @@ func _start_intro_radio():
 	await get_tree().create_timer(1.2).timeout
 	trigger_radio(
 		"SUPERVISOR VANCE (EARTH STATION)",
-		"Leo, this is Vance at Earth Station. Do you copy? The October eclipse triggered a rogue cascade—the Mount Hale primary laser locked onto a deep space return vector and jammed the roof shutter wide open! Shut down the three auxiliary capacitors in the lower galleries and seal that dome before the anomaly bridges into full stability!",
-		8.5
+		"Leo, this is Vance at Earth Station. Listen carefully: DO NOT try to shut down the laser or cut main power! The Boötes rift has formed a self-sustaining quantum bridge—cutting power will invert spacetime and swallow the station! We must execute the RETRO-INVERSION PROTOCOL: overcharge and phase-invert the laser to fire a 100-Petawatt Hyper-Pulse back down the bridge, annihilating the rift at its source! Find the alignment laser and calibrate the Apollo 11 array on the lunar crater floor to lock our Stokes baseline sync!",
+		9.5
 	)
 
 func set_objective(text: String):
@@ -135,7 +135,7 @@ func calibrate_lrrr():
 	set_objective("Apollo 11 LRRR Calibrated! Re-enter the base and bounce laser onto the Sector 1 sensor.")
 	trigger_radio(
 		"SUPERVISOR VANCE (EARTH STATION)",
-		"Telemetry lock confirmed! The Apollo 11 quartz corner cubes are pinging Earth! Power restored to Sector 1 interior optical receptor! Head back inside and bounce the laser off the wall mirror!",
+		"Telemetry lock confirmed! Apollo 11 retroreflectors are pinging our Earth beacon! Stokes baseline sync locked! Return inside and bounce the laser off the wall mirror to open Sector 1!",
 		7.5
 	)
 	var receptor = get_tree().root.find_child("OpticalReceptor_Act1", true, false)
@@ -167,10 +167,10 @@ func on_keypad_success(target_id: String):
 				terminal.open()
 		"dome_override":
 			dome_override_unlocked = true
-			set_objective("Master Azimuth clamp released! PULL THE EMERGENCY SHUTDOWN LEVER!")
+			set_objective("Master Azimuth clamp released! PULL THE MASTER RETRO-INVERSION TRIGGER!")
 			trigger_radio(
 				"SUPERVISOR VANCE (EARTH STATION)",
-				"Master Azimuth frequency 8352 verified! The hydraulic shutter clamps have released! PULL THE LEVER!",
+				"Master Azimuth frequency 8352 verified! The hydraulic firing clamps have released! PULL THE RETRO-INVERSION TRIGGER!",
 				6.0
 			)
 
@@ -199,11 +199,11 @@ func unlock_act1_door():
 	if act1_door_unlocked:
 		return
 	act1_door_unlocked = true
-	set_objective("Enter the Sub-surface Gallery. Shut down all 3 auxiliary capacitors in Bays A, B, and C.")
+	set_objective("Enter the Gallery. Synthesize 488nm phase code and energize Bays A, C, and B.")
 	trigger_radio(
 		"SUPERVISOR VANCE (EARTH STATION)",
-		"Security aperture unsealed! Enter the central gallery spine. Open your tactical schematic with M or TAB. Watch the observation windows—sensors detect abnormal electromagnetic movement out on the crater rim.",
-		7.0
+		"Security aperture unsealed! Enter the central gallery spine. Open your tactical schematic with M or TAB. We must acquire the 488nm carrier wave from the cleanroom, then charge the 3 capacitor bays in harmonic resonance to power the 100-Petawatt retro-strike!",
+		7.5
 	)
 
 func try_activate_capacitor(idx: int, _breaker: Node) -> bool:
@@ -214,31 +214,31 @@ func try_activate_capacitor(idx: int, _breaker: Node) -> bool:
 		var dome_door = get_tree().root.find_child("DomeBlastDoor", true, false)
 		
 		if current_seq_idx == 1:
-			set_objective("Step 1/3: Cryo-Pump offline! Next: Bay C (Laser Oscillator) [Check Thorne's Log 2].")
+			set_objective("Step 1/3: Bay A Cryo-Coolant primed! Next: Bay C (Laser Oscillator) [Check Thorne's Log 2].")
 			trigger_radio(
 				"SUPERVISOR VANCE (EARTH STATION)",
-				"Cryo-coolant pump isolated safely! Cryogenic line stabilized. Now isolate Bay C's oscillator before touching the magnetic flux!",
+				"Cryo-coolant loop primed! Cryogenic temperature stabilized for 100-Petawatt pulse. Now energize Bay C's oscillator before touching the magnetic flux loop!",
 				6.5
 			)
 			if dome_door:
 				dome_door.lock_text = "[BLAST LOCK: 2 CAPACITORS REMAINING]"
-				dome_door.lock_hint = "Shut down Bay C and Bay B in sequence."
+				dome_door.lock_hint = "Energize Bay C and Bay B in harmonic sequence."
 		elif current_seq_idx == 2:
-			set_objective("Step 2/3: Oscillator decoupled! Final: Bay B (Magnetic Flux Chamber).")
+			set_objective("Step 2/3: Oscillator energized! Final: Bay B (Magnetic Flux Chamber).")
 			trigger_radio(
 				"SUPERVISOR VANCE (EARTH STATION)",
-				"Oscillator decoupled! Magnetic flux loop is now safe to break in Bay B. Finish the sequence, Leo!",
+				"Oscillator in phase lock! Magnetic flux loop is now ready to charge in Bay B. Complete the sequence, Leo!",
 				6.5
 			)
 			if dome_door:
 				dome_door.lock_text = "[BLAST LOCK: 1 CAPACITOR REMAINING]"
-				dome_door.lock_hint = "Shut down Bay B (Magnetic Flux) to release blast lock."
+				dome_door.lock_hint = "Energize Bay B (Magnetic Flux) to release blast lock."
 		elif current_seq_idx == 3:
 			dome_door_unlocked = true
-			set_objective("All 3 capacitors safely offline! Dome blast doors UNLOCKED. Head to the Coudé Dome.")
+			set_objective("All 3 bays energized! 100-Petawatt resonance achieved! Head into the Coudé Dome.")
 			trigger_radio(
 				"SUPERVISOR VANCE (EARTH STATION)",
-				"Resonance sequence verified! Power safely redirected to the central dome! Dome blast doors are OPEN! Get to the Coudé Dome and align the triad!",
+				"100-Petawatt resonance cascade locked! The carrier wave is inverted! The Coudé Dome blast doors are OPEN! Get to the dome, align the triad, and prepare the retro-strike!",
 				7.5
 			)
 			if dome_door:
@@ -252,7 +252,7 @@ func try_activate_capacitor(idx: int, _breaker: Node) -> bool:
 		AudioManager.play_sfx("dome_alarm", 1.0, 5.0)
 		trigger_radio(
 			"SUPERVISOR VANCE (EARTH STATION)",
-			"WARNING! Arc fault detected! Breaker interlock tripped and reset the grid! Thorne's log explicitly states: Bay A (1) -> Bay C (3) -> Bay B (2)! Follow the sequence!",
+			"WARNING! Harmonic sequence mismatch! Arc fault tripped the breaker interlock! Thorne's log explicitly states: Bay A (1) -> Bay C (3) -> Bay B (2)! Follow the sequence!",
 			7.0
 		)
 		set_objective("[ARC FAULT: GRID RESET] Sequence violated! Required: Bay A -> Bay C -> Bay B (1 -> 3 -> 2)!")
@@ -274,7 +274,7 @@ func reset_all_capacitors():
 	var dome_door = get_tree().root.find_child("DomeBlastDoor", true, false)
 	if dome_door:
 		dome_door.lock_text = "[BLAST LOCK: 3 AUXILIARY CAPACITORS REQUIRED]"
-		dome_door.lock_hint = "Shut down all 3 auxiliary capacitors in Bay A, Bay B, and Bay C to unlock the Dome."
+		dome_door.lock_hint = "Energize all 3 auxiliary capacitors in Bay A, Bay B, and Bay C in harmonic sequence."
 
 func activate_capacitor():
 	capacitors_activated += 1
@@ -290,28 +290,28 @@ func activate_capacitor():
 				dome_door.open()
 		else:
 			dome_door.lock_text = "[BLAST LOCK: %d/3 CAPACITORS REMAINING]" % remaining
-			dome_door.lock_hint = "Shut down %d more auxiliary capacitor(s) in the bays to unlock." % remaining
+			dome_door.lock_hint = "Energize %d more auxiliary capacitor(s) in sequence." % remaining
 	
 	if remaining <= 0:
 		dome_door_unlocked = true
-		set_objective("All 3 capacitors offline! Dome blast doors UNLOCKED. Head to the Central Dome.")
+		set_objective("All 3 bays energized! 100-Petawatt resonance achieved! Head into the Coudé Dome.")
 		trigger_radio(
 			"SUPERVISOR VANCE (EARTH STATION)",
-			"All three capacitors offline! Power redirected to the central dome! The heavy blast doors are open! Leo, get to the dome and align the tertiary mirror array!",
+			"All three capacitors energized! Power redirected to the central dome! The heavy blast doors are open! Leo, get to the dome and align the triad!",
 			7.0
 		)
 	elif capacitors_activated == 1:
-		set_objective("Capacitor 1/3 offline. Shut down 2 more in the bays (Check Map [M]).")
+		set_objective("Capacitor 1/3 energized. Continue sequence in bays (Check Map [M]).")
 		trigger_radio(
 			"SUPERVISOR VANCE (EARTH STATION)",
-			"Capacitor One offline! Cryogenic surge detected in Bay B. Two remaining! Keep your distance from those Void Stalkers!",
+			"Capacitor One energized! Cryogenic surge detected in Bay B. Two remaining! Keep your distance from those Void Phantoms!",
 			6.5
 		)
 	else:
-		set_objective("Capacitor 2/3 offline. Shut down Bay C (Check Map [M]).")
+		set_objective("Capacitor 2/3 energized. Finish sequence at Bay B (Check Map [M]).")
 		trigger_radio(
 			"SUPERVISOR VANCE (EARTH STATION)",
-			"Capacitor Two disengaged! One auxiliary capacitor remains in Bay C. The entity signatures are converging on your coordinates!",
+			"Capacitor Two online! One auxiliary capacitor remains in Bay B. The entity signatures are converging on your coordinates!",
 			6.5
 		)
 
@@ -319,10 +319,10 @@ func solve_dome_puzzle():
 	if dome_puzzle_solved:
 		return
 	dome_puzzle_solved = true
-	set_objective("Triangle alignment complete! The entities are banished. Pull the manual shutdown lever!")
+	set_objective("Equilateral triad locked! The entities are banished. Enter Code 8352 at the Firing Terminal!")
 	trigger_radio(
 		"LEO",
-		"It worked! The reflected beam cage vaporized them! The central console is clear!",
+		"It worked! The reflected equilateral beam cage collapsed the entity nexus! The Firing Terminal is clear!",
 		5.5
 	)
 
@@ -331,11 +331,11 @@ func pull_shutdown_lever():
 		return
 	shutdown_lever_pulled = true
 	current_act = Act.ENDING
-	set_objective("Shutter sealed! Proceed to the main exit door.")
+	set_objective("Rift collapsed! Evacuate via the West Rover Air-Lock.")
 	trigger_radio(
 		"SUPERVISOR VANCE (EARTH STATION)",
-		"Shutter sealed! Beam collapse confirmed on Earth telemetry! The return vector is severed! Head through the pressurized mountain hatch, Leo. You did it!",
-		7.0
+		"RETRO-INVERSION STRIKE SUCCESSFUL! The 100-Petawatt pulse bounced back down the bridge! Destructive interference confirmed across all deep-space sensors—the Boötes rift has collapsed! Head to the West Rover Air-Lock, Leo. You saved us all!",
+		8.0
 	)
 
 func player_died():

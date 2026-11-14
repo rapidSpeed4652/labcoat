@@ -1,104 +1,99 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/shadow_entity.gd" id="1_shd"]
+[ext_resource type="Shader" path="res://assets/shaders/void_entity.gdshader" id="2_vshd"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_col"]
 radius = 0.45
-height = 2.1
+height = 2.2
 
-[sub_resource type="StandardMaterial3D" id="Mat_VoidFlesh"]
-albedo_color = Color(0.01, 0.015, 0.02, 1)
-metallic = 0.0
-roughness = 1.0
-emission_enabled = false
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_void"]
+render_priority = 0
+shader = ExtResource("2_vshd")
+shader_parameter/void_color = Color(0.01, 0.012, 0.02, 1)
+shader_parameter/rim_color = Color(0.15, 0.75, 1.0, 1)
+shader_parameter/surge_color = Color(1.0, 0.15, 0.1, 0.0)
+shader_parameter/rim_power = 2.8
+shader_parameter/jitter_intensity = 0.035
+shader_parameter/absorb_intensity = 0.0
+shader_parameter/banish_intensity = 0.0
 
 [sub_resource type="StandardMaterial3D" id="Mat_SingularityCore"]
-albedo_color = Color(0.0, 0.95, 1.0, 1)
+albedo_color = Color(0.05, 0.95, 1.0, 1)
 emission_enabled = true
-emission = Color(0.05, 0.85, 1.0, 1)
-emission_energy_multiplier = 4.5
-
-[sub_resource type="StandardMaterial3D" id="Mat_EventHorizonAura"]
-transparency = 1
-albedo_color = Color(0.08, 0.45, 0.85, 0.25)
-roughness = 0.1
-emission_enabled = true
-emission = Color(0.05, 0.35, 0.7, 1)
-emission_energy_multiplier = 0.8
+emission = Color(0.1, 0.9, 1.0, 1)
+emission_energy_multiplier = 5.0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_torso"]
-material = SubResource("Mat_VoidFlesh")
-radius = 0.25
-height = 1.4
+material = SubResource("ShaderMaterial_void")
+radius = 0.28
+height = 1.45
 
 [sub_resource type="SphereMesh" id="SphereMesh_head"]
-material = SubResource("Mat_VoidFlesh")
-radius = 0.2
-height = 0.4
+material = SubResource("ShaderMaterial_void")
+radius = 0.22
+height = 0.44
 
 [sub_resource type="SphereMesh" id="SphereMesh_core"]
 material = SubResource("Mat_SingularityCore")
-radius = 0.08
-height = 0.16
+radius = 0.07
+height = 0.14
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_aura"]
-material = SubResource("Mat_EventHorizonAura")
-radius = 0.42
-height = 2.0
+[sub_resource type="CylinderMesh" id="CylinderMesh_arm"]
+material = SubResource("ShaderMaterial_void")
+top_radius = 0.05
+bottom_radius = 0.04
+height = 1.1
 
 [node name="ShadowEntity" type="CharacterBody3D"]
 collision_layer = 4
 script = ExtResource("1_shd")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0)
 shape = SubResource("CapsuleShape3D_col")
 
-; Slender Pitch-Black Shadow Silhouette
+; Shifting Quantum Shadow Silhouette
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
 mesh = SubResource("CapsuleMesh_torso")
 
 [node name="HeadMesh" type="MeshInstance3D" parent="MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
 mesh = SubResource("SphereMesh_head")
 
-; Piercing Singularity Phase Core
-[node name="EyeMesh" type="MeshInstance3D" parent="MeshInstance3D/HeadMesh"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0.16)
+; Piercing Singularity Phase Core (Left & Right Eyes)
+[node name="EyeLeft" type="MeshInstance3D" parent="MeshInstance3D/HeadMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.08, 0.06, 0.18)
 mesh = SubResource("SphereMesh_core")
 
-; Left Slender Shadow Arm
-[node name="ArmL" type="CSGCylinder3D" parent="MeshInstance3D"]
-transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, 0.38, 0.15, 0)
-radius = 0.06
-height = 1.1
-material = SubResource("Mat_VoidFlesh")
+[node name="EyeRight" type="MeshInstance3D" parent="MeshInstance3D/HeadMesh"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.08, 0.06, 0.18)
+mesh = SubResource("SphereMesh_core")
 
-; Right Slender Shadow Arm
-[node name="ArmR" type="CSGCylinder3D" parent="MeshInstance3D"]
-transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, -0.38, 0.15, 0)
-radius = 0.06
-height = 1.1
-material = SubResource("Mat_VoidFlesh")
+; Slender Distorted Void Arms
+[node name="ArmL" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 0, 0, 1, 0.4, 0.1, 0)
+mesh = SubResource("CylinderMesh_arm")
 
-; Shimmering Quantum Event Horizon Halo
-[node name="EventHorizonAura" type="MeshInstance3D" parent="MeshInstance3D"]
-mesh = SubResource("CapsuleMesh_aura")
+[node name="ArmR" type="MeshInstance3D" parent="MeshInstance3D"]
+transform = Transform3D(0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 0, 0, 1, -0.4, 0.1, 0)
+mesh = SubResource("CylinderMesh_arm")
 
+; Quantum Emission Lights
 [node name="EyeLight" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75, 0.3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.85, 0.35)
 light_color = Color(0.1, 0.85, 1.0, 1)
-light_energy = 2.5
-omni_range = 6.0
+light_energy = 2.8
+omni_range = 6.5
 
-; 3D Health & Telemetry Display
+; 3D Telemetry HUD
 [node name="HealthLabel" type="Label3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.35, 0)
 billboard = 1
 no_depth_test = true
 modulate = Color(0.2, 0.85, 1.0, 1)
-text = "[VOID ENTITY: 60/60 HP]"
-font_size = 26
-outline_size = 6
-outline_modulate = Color(0, 0, 0, 0.9)
+text = "[VOID PHANTOM: 60/60 HP]"
+font_size = 14
+outline_size = 4
+outline_modulate = Color(0, 0, 0, 1)

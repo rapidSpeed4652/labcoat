@@ -38,12 +38,12 @@ func get_category_badge() -> String:
 			return "⚡ [CAPACITOR %s: %s]" % [bay_name, "DISCHARGED" if has_been_used else "ACTIVE"]
 		InteractType.SHUTDOWN_LEVER:
 			if not GameManager.dome_puzzle_solved:
-				return "🚨 [CONSOLE: BLOCKED BY SHADOW NEXUS]"
+				return "🚨 [FIRING TERMINAL: BLOCKED BY SHADOW NEXUS]"
 			if not GameManager.dome_override_unlocked:
-				return "🔒 [CONSOLE: MASTER AZIMUTH CLAMPED]"
-			return "🚨 [OVERRIDE: EMERGENCY SHUTDOWN LEVER]"
+				return "🔒 [FIRING TERMINAL: MASTER AZIMUTH CLAMPED]"
+			return "⚡ [MASTER RETRO-INVERSION FIRING TRIGGER]"
 		InteractType.EXIT_DOOR:
-			return "🚪 [EXIT: MOUNTAIN ESCAPE APERTURE]"
+			return "🚪 [EXIT: PRESSURIZED LUNAR ROVER AIRLOCK]"
 		InteractType.LRRR_ARRAY:
 			return "🔭 [LUNAR APPARATUS: APOLLO 11 LRRR ARRAY]"
 		InteractType.PORTABLE_MIRROR_PICKUP:
@@ -84,12 +84,12 @@ func get_hint() -> String:
 			return "Follow Dr. Thorne's Astrometric Log to discharge in sequence (Bay A -> Bay C -> Bay B) or risk arc blowout!"
 		InteractType.SHUTDOWN_LEVER:
 			if not GameManager.dome_puzzle_solved:
-				return "Banish the shadow entities using the 3 telescope reflectors before accessing console."
+				return "Banish the shadow entities using the 3 telescope reflectors to secure the firing console."
 			if not GameManager.dome_override_unlocked:
 				return "Hydraulic clamps locked. Enter the 4-digit Master Azimuth override code from Tape Log 3."
-			return "Pull lever to seal dome roof shutter and sever the Boötes return vector!"
+			return "Pull trigger to fire 100-Petawatt Hyper-Pulse back down the bridge and collapse the Boötes rift!"
 		InteractType.EXIT_DOOR:
-			return "Shutter sealed. Escape through the pressurized mountain hatch." if GameManager.shutdown_lever_pulled else "Locked until primary roof shutter is sealed."
+			return "Rift collapsed. Evacuate via the pressurized Lunar Rover airlock." if GameManager.shutdown_lever_pulled else "Locked until Retro-Inversion strike is completed."
 		InteractType.LRRR_ARRAY:
 			if GameManager.lrrr_calibrated:
 				return "Apollo 11 corner cubes aligned to Azimuth 214°. Pinging Earth Station."
@@ -110,14 +110,14 @@ func get_interaction_prompt() -> String:
 			return "Engage Capacitor Isolation Breaker" if not has_been_used else "[DISCHARGED & ISOLATED]"
 		InteractType.SHUTDOWN_LEVER:
 			if not GameManager.dome_puzzle_solved:
-				return "[LOCKED - Shadow nexus surrounds console]"
+				return "[LOCKED - Shadow nexus surrounds firing terminal]"
 			if not GameManager.dome_override_unlocked:
 				return "[E] Enter Master Azimuth Code (Check Tape Log 3)"
-			return "PULL EMERGENCY SHUTDOWN LEVER"
+			return "FIRE MASTER RETRO-INVERSION HYPER-PULSE"
 		InteractType.EXIT_DOOR:
 			if not GameManager.shutdown_lever_pulled:
-				return "[SEALED - Roof shutter must be closed first]"
-			return "Escape Mount Hale Observatory"
+				return "[SEALED - Retro-Inversion strike required first]"
+			return "Evacuate to Lunar Surface Rover"
 		InteractType.LRRR_ARRAY:
 			if GameManager.lrrr_calibrated:
 				return "[ALIGNED - AZIMUTH 214° BENCHMARK ACTIVE]"

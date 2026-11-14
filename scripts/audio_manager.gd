@@ -60,7 +60,8 @@ func _load_sound_assets():
 		"shutter_close.wav",
 		"interact.wav",
 		"keypad_beep.wav",
-		"access_denied.wav"
+		"access_denied.wav",
+		"entity_glitch.wav"
 	]
 	
 	for file in audio_files:

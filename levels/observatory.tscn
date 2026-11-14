@@ -89,7 +89,7 @@ emergency_lights_root = NodePath("../Act3_Dome/EmergencyLights")
 
 ; Exterior Lunar Void Entity prowling the crater rim
 [node name="ExteriorVoidEntity" parent="." instance=ExtResource("11_shd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0, 0.2, 5.0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.0, 0.2, -11.0)
 
 ; ==============================================
 ; ACT 1: CONTROL ROOM
@@ -803,17 +803,17 @@ material = SubResource("Mat_Floor")
 [node name="Wall_N" type="CSGBox3D" parent="Act3_Dome"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0, -14)
 use_collision = true
-size = Vector3(12, 8.0, 0.5)
+size = Vector3(14, 8.0, 1.2)
 material = SubResource("Mat_Wall")
 
 [node name="Dome_Window_Cutout" type="CSGBox3D" parent="Act3_Dome/Wall_N"]
 operation = 2
-size = Vector3(8.0, 4.0, 0.8)
+size = Vector3(8.0, 4.0, 1.4)
 
 [node name="Dome_Window_Glass" type="CSGBox3D" parent="Act3_Dome"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0, -14)
 use_collision = true
-size = Vector3(8.0, 4.0, 0.1)
+size = Vector3(8.0, 4.0, 0.4)
 material = SubResource("Mat_Glass")
 
 [node name="Dome_ExteriorLunarGround" type="CSGBox3D" parent="Act3_Dome"]
@@ -823,69 +823,69 @@ size = Vector3(32, 0.4, 16)
 material = SubResource("Mat_LunarRegolith")
 
 [node name="Wall_S_West" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 4.0, 14)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 4.0, 14)
 use_collision = true
-size = Vector3(4, 8.0, 0.5)
+size = Vector3(7, 8.0, 1.2)
 material = SubResource("Mat_Wall")
 
 [node name="Wall_S_East" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4.0, 14)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 4.0, 14)
 use_collision = true
-size = Vector3(4, 8.0, 0.5)
+size = Vector3(7, 8.0, 1.2)
 material = SubResource("Mat_Wall")
 
 [node name="Wall_S_Arch" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.8, 14)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.0, 14)
 use_collision = true
-size = Vector3(4, 4.4, 0.5)
+size = Vector3(4, 4.0, 1.2)
 material = SubResource("Mat_Wall")
 
 [node name="Wall_E" type="CSGBox3D" parent="Act3_Dome"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 4.0, 0)
 use_collision = true
-size = Vector3(0.5, 8.0, 12)
+size = Vector3(1.2, 8.0, 14)
 material = SubResource("Mat_Wall")
 
 [node name="Wall_W_North" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 4.0, -4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 4.0, -5.5)
 use_collision = true
-size = Vector3(0.5, 8.0, 4)
+size = Vector3(1.2, 8.0, 7)
 material = SubResource("Mat_Wall")
 
 [node name="Wall_W_South" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 4.0, 4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 4.0, 5.5)
 use_collision = true
-size = Vector3(0.5, 8.0, 4)
+size = Vector3(1.2, 8.0, 7)
 material = SubResource("Mat_Wall")
 
 [node name="Wall_W_Arch" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 5.8, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 6.0, 0)
 use_collision = true
-size = Vector3(0.5, 4.4, 4)
+size = Vector3(1.2, 4.0, 4)
 material = SubResource("Mat_Wall")
 
 [node name="Wall_NE" type="CSGBox3D" parent="Act3_Dome"]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 10, 4.0, -10)
 use_collision = true
-size = Vector3(10, 8.0, 0.5)
+size = Vector3(13, 8.0, 1.2)
 material = SubResource("Mat_Wall")
 
 [node name="Wall_NW" type="CSGBox3D" parent="Act3_Dome"]
 transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -10, 4.0, -10)
 use_collision = true
-size = Vector3(10, 8.0, 0.5)
+size = Vector3(13, 8.0, 1.2)
 material = SubResource("Mat_Wall")
 
 [node name="Wall_SE" type="CSGBox3D" parent="Act3_Dome"]
 transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 10, 4.0, 10)
 use_collision = true
-size = Vector3(10, 8.0, 0.5)
+size = Vector3(13, 8.0, 1.2)
 material = SubResource("Mat_Wall")
 
 [node name="Wall_SW" type="CSGBox3D" parent="Act3_Dome"]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -10, 4.0, 10)
 use_collision = true
-size = Vector3(10, 8.0, 0.5)
+size = Vector3(13, 8.0, 1.2)
 material = SubResource("Mat_Wall")
 
 ; Dome Roof with Aperture
@@ -934,7 +934,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.6)
 [node name="TelescopeLog" parent="Act3_Dome" instance=ExtResource("9_tap")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 0.9, 3.6)
 tape_title = "Log 80-E: Dr. Vance's Last Stand"
-tape_transcript = "The shadows surround the manual shutdown lever! They cannot withstand an equilateral cage of reflected light. Rotate Station Alpha to 45 degrees, Station Beta to 135 degrees, and Station Gamma to 315 degrees. When the primary laser bounces between all three stations in a triangle, the entire dome floor will be flooded in reflected light, banishing them instantly! Pull the lever and seal the roof shutter!"
+tape_transcript = "The shadows surround the Master Firing Terminal! They cannot withstand an equilateral cage of reflected light. Rotate Station Alpha to 45 degrees, Station Beta to 135 degrees, and Station Gamma to 315 degrees! When the primary beam bounces between all three stations in a triangle, the entire dome floor will be flooded in inverted phase light, collapsing them. Enter Master Azimuth Inversion Code 8352, then pull the Retro-Inversion Trigger to fire the 100-Petawatt Hyper-Pulse back down the void bridge and annihilate the rift forever!"
 
 ; 3 Rotating Telescope Reflector Stations
 [node name="StationAlpha" parent="Act3_Dome" instance=ExtResource("12_dref")]
@@ -1027,6 +1027,24 @@ material = SubResource("Mat_Wall")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 1.8, 2)
 use_collision = true
 size = Vector3(10, 3.6, 0.4)
+material = SubResource("Mat_Wall")
+
+[node name="ExitHall_WallEnd_N" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 1.8, -1.5)
+use_collision = true
+size = Vector3(0.6, 3.6, 1.0)
+material = SubResource("Mat_Wall")
+
+[node name="ExitHall_WallEnd_S" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 1.8, 1.5)
+use_collision = true
+size = Vector3(0.6, 3.6, 1.0)
+material = SubResource("Mat_Wall")
+
+[node name="ExitHall_WallEnd_Top" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 3.3, 0)
+use_collision = true
+size = Vector3(0.6, 0.6, 2.0)
 material = SubResource("Mat_Wall")
 
 ; Dark Glass Display Case (The Final Lingering Reflection)

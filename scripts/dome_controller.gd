@@ -9,6 +9,7 @@ extends Node3D
 @export var emergency_lights_root: Node3D
 
 var puzzle_complete: bool = false
+var shutdown_triggered: bool = false
 
 func _ready():
 	if station_alpha and station_alpha.has_signal("alignment_changed"):
@@ -24,7 +25,8 @@ func _ready():
 		emergency_lights_root.visible = false
 
 func _process(_delta: float):
-	if GameManager.shutdown_lever_pulled and central_beam and central_beam.visible:
+	if GameManager.shutdown_lever_pulled and not shutdown_triggered:
+		shutdown_triggered = true
 		_perform_shutdown()
 
 func _on_station_alignment(_station: Node, _is_correct: bool):
@@ -54,10 +56,30 @@ func _trigger_dome_solve():
 	GameManager.solve_dome_puzzle()
 
 func _perform_shutdown():
+	AudioManager.play_sfx("mirror_reflect", 0.6, 6.0)
+	var beam_light = get_node_or_null("BeamLight")
+	
+	# 100-Petawatt Inverted Hyper-Pulse Surge
 	if central_beam:
-		central_beam.visible = false
-	if triangle_beam_mesh:
-		triangle_beam_mesh.visible = false
+		var tween = create_tween()
+		tween.tween_property(central_beam, "scale", Vector3(3.2, 1.0, 3.2), 0.35).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+		if beam_light:
+			beam_light.light_color = Color(0.85, 0.95, 1.0)
+			tween.parallel().tween_property(beam_light, "light_energy", 24.0, 0.35)
+		tween.tween_interval(0.25)
+		tween.tween_callback(func():
+			if central_beam:
+				central_beam.visible = false
+			if triangle_beam_mesh:
+				triangle_beam_mesh.visible = false
+			if beam_light:
+				beam_light.visible = false
+		)
+	else:
+		if triangle_beam_mesh:
+			triangle_beam_mesh.visible = false
+		if beam_light:
+			beam_light.visible = false
 	
 	# Shutter close animation
 	if roof_shutter:

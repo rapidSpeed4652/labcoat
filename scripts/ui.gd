@@ -114,14 +114,17 @@ func _update_map_checklist():
 		return
 	var text = "MISSION CHECKLIST & TELEMETRY:\n\n"
 	text += "[x] Equipment: Model 74 Alignment Laser\n" if GameManager.has_laser else "[ ] Equipment: Model 74 Alignment Laser\n"
+	text += "[x] Apollo 11 LRRR: BENCHMARK SYNC\n" if GameManager.lrrr_calibrated else "[ ] Apollo 11 LRRR: PENDING CALIBRATION\n"
 	text += "[x] Sector 1 Sensor: UNLOCKED\n" if GameManager.act1_door_unlocked else "[ ] Sector 1 Sensor: LOCKED (BOUNCE BEAM)\n"
-	text += "[x] Bay A Capacitor (South): OFFLINE\n" if GameManager.capacitors_activated >= 1 else "[ ] Bay A Capacitor (South): ONLINE\n"
-	text += "[x] Bay B Capacitor (West): OFFLINE\n" if GameManager.capacitors_activated >= 2 else "[ ] Bay B Capacitor (West): ONLINE\n"
-	text += "[x] Bay C Capacitor (East): OFFLINE\n" if GameManager.capacitors_activated >= 3 else "[ ] Bay C Capacitor (East): ONLINE\n"
+	text += "[x] Cleanroom Laser Grid: OFFLINE\n" if GameManager.cleanroom_unlocked else "[ ] Cleanroom Laser Grid: ACTIVE (CODE 488)\n"
+	text += "[x] Bay A Cryo-Coolant (1): ENERGIZED\n" if GameManager.capacitors_activated >= 1 else "[ ] Bay A Cryo-Coolant (1): PENDING\n"
+	text += "[x] Bay C Oscillator (3): ENERGIZED\n" if GameManager.capacitors_activated >= 2 else "[ ] Bay C Oscillator (3): PENDING\n"
+	text += "[x] Bay B Magnetic Flux (2): ENERGIZED\n" if GameManager.capacitors_activated >= 3 else "[ ] Bay B Magnetic Flux (2): PENDING\n"
 	text += "[x] Dome Blast Doors: OPEN\n" if GameManager.dome_door_unlocked else "[ ] Dome Blast Doors: SEALED (3/3 REQ)\n"
-	text += "[x] Coudé Optical Triangle: ALIGNED\n" if GameManager.dome_puzzle_solved else "[ ] Coudé Optical Triangle: PENDING\n"
-	text += "[x] Primary Shutter: SEALED\n" if GameManager.shutdown_lever_pulled else "[ ] Primary Shutter: JAMMED OPEN\n"
-	text += "[x] Surface Escape Airlock: OPEN\n" if GameManager.current_act == GameManager.Act.ENDING else "[ ] Surface Escape Airlock: SEALED\n"
+	text += "[x] Coudé Equilateral Triad: ALIGNED\n" if GameManager.dome_puzzle_solved else "[ ] Coudé Equilateral Triad: PENDING\n"
+	text += "[x] Master Azimuth Code: UNLOCKED\n" if GameManager.dome_override_unlocked else "[ ] Master Azimuth Code: CLAMPED (8352)\n"
+	text += "[x] Retro-Inversion Strike: FIRED\n" if GameManager.shutdown_lever_pulled else "[ ] Retro-Inversion Strike: ARMED\n"
+	text += "[x] Lunar Rover Evacuation: CLEARED\n" if GameManager.current_act == GameManager.Act.ENDING else "[ ] Lunar Rover Evacuation: SEALED\n"
 	checklist_label.text = text
 
 func toggle_pause():

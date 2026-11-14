@@ -233,12 +233,12 @@ text = "MISSION 2: TRANQUILLITY LINE (Exterior Lunar EVA • Apollo 11 LRRR • 
 [node name="M3_Btn" type="Button" parent="UI/MissionsModal/Center/Panel/VBox"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-text = "MISSION 3: PHASE SHIFT (Cleanroom Lab • 3 Superconducting Capacitors)"
+text = "MISSION 3: RETRO-INVERSION (Cleanroom Lab • Resonance Sequence 1->3->2)"
 
 [node name="M4_Btn" type="Button" parent="UI/MissionsModal/Center/Panel/VBox"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-text = "MISSION 4: EVENT HORIZON (The Coudé Dome • Triangle Alignment • Shutter Seal)"
+text = "MISSION 4: THE HYPER-PULSE (The Coudé Dome • Triad Alignment • Retro-Strike)"
 
 [node name="BtnCloseMissions" type="Button" parent="UI/MissionsModal/Center/Panel/VBox"]
 custom_minimum_size = Vector2(200, 36)
@@ -287,19 +287,23 @@ layout_mode = 2
 theme_override_font_sizes/normal_font_size = 14
 bbcode_enabled = true
 text = "PREMISE & SETTING:
-You play as Leo, an optics recovery specialist deployed to the Mount Hale Lunar Observatory—a 1970s lunar research facility designed to bounce high-powered ruby lasers off Apollo retroreflectors to measure celestial distances.
+You play as Leo, an optics recovery specialist deployed to the Mount Hale Lunar Observatory—a 1970s lunar research facility designed to bounce high-powered lasers off Apollo retroreflectors on the Moon.
 
-During an eclipse calibration test, Chief Astronomer Dr. Aris Thorne redirected the primary array toward a void anomaly in deep space. Instead of reflecting, the laser established a quantum waveguide bridge: entities from the dark slipped down the beam directly into the lunar complex!
+During an eclipse test, Chief Astronomer Dr. Vance redirected the primary array toward the Boötes void in deep space. The laser established a self-sustaining quantum bridge: entities slipped down the returning beam into the lunar complex! Simply cutting main power would trigger a localized spacetime collapse that would swallow the station.
 
-CORE MECHANICS (BOUNCE BACK):
-• DIRECT BEAM INEFFECTIVE: Direct laser fire does not harm shadow entities—it only halts them in stasis via photon pressure. They absorb raw coherent light.
-• REFLECTED BEAM CRITICAL DAMAGE: Bouncing your beam off mirrors, metal bulkheads, or deployable portable mirrors inverts the quantum polarization of the photons, completely vaporizing the entities in fractions of a second!
-• OVERHEAT COOLDOWN: Continuous laser emission overheats the capacitor cells, forcing a 3-second lockout in the dark.
+THE RETRO-INVERSION PROTOCOL (BOUNCE BACK):
+We must execute an active optical counter-strike: overcharging and phase-inverting the laser to fire a 100-Petawatt Hyper-Pulse backward down the void bridge to annihilate the rift at its cosmic source!
+
+CORE MECHANICS:
+• DIRECT BEAM STASIS: Direct laser fire cannot destroy shadow phantoms—it only halts them in stasis via photon pressure. Beware: phantoms phase-glitch closer when you look away, and sprint when you overheat!
+• REFLECTED BEAM ANNIHILATION: Bouncing light off mirrors, bulkheads, or deployable tripod mirrors inverts quantum phase, dissolving phantoms in an electric Cherenkov flash!
+• OVERHEAT LOCKOUT: Continuous firing triggers a 3-second lockout in total darkness.
 
 MISSION OBJECTIVES:
-1. Search the Command Deck and recover the alignment laser and Dr. Thorne's Polaroid.
-2. Infiltrate the Gallery Spine and shut down all 3 auxiliary capacitors in Bays A, B, and C.
-3. Access the Coudé Dome, align the 3 giant perimeter reflectors into a crossfire triangle, and pull the emergency override lever to seal the roof shutter!"
+1. Calibrate Apollo 11 LRRR array on the lunar crater floor (Code 1974) to lock baseline Stokes sync.
+2. Infiltrate Spectrometry Cleanroom (Code 488) to synthesize the phase carrier wave.
+3. Energize Bays A, C, and B (1 -> 3 -> 2) in harmonic resonance to achieve 100 Petawatts.
+4. Align the Coudé Dome triad (45°, 135°, 315°), enter Master Azimuth 8352, and pull the Retro-Inversion Trigger!"
 
 [node name="BtnCloseDossier" type="Button" parent="UI/DossierModal/Center/Panel/VBox"]
 custom_minimum_size = Vector2(200, 36)
