@@ -217,13 +217,15 @@ func on_laser_hit(is_reflected: bool, delta: float):
 	var time_step = max(0.016, delta)
 	
 	if not is_reflected:
-		# Direct beam does ZERO damage! Only holds in photon stasis / feeds raw photons
+		# Direct beam damages the entity and holds it in photon stasis!
+		var direct_dmg = 45.0 * time_step
+		health -= direct_dmg
 		absorb_timer = 0.6
 		if not sfx_audio.playing:
 			sfx_audio.stream = load("res://assets/audio/entity_absorb.wav")
 			sfx_audio.play()
 	else:
-		# Reflected beam: CRITICAL PHASE INVERSION! Burns away the silhouette!
+		# Reflected beam: CRITICAL PHASE INVERSION! Burns away the silhouette at 5x damage!
 		var dmg = 250.0 * time_step
 		health -= dmg
 		banish_stun_timer = 0.6
@@ -274,7 +276,7 @@ func get_category_color() -> Color:
 	return Color(0.2, 0.85, 1.0)
 
 func get_interaction_prompt() -> String:
-	return "DIRECT BEAM STUNS • BOUNCE OFF MIRRORS TO VAPORIZE!"
+	return "DIRECT BEAM DAMAGES & STUNS • BOUNCE OFF MIRRORS FOR 5X CRITICAL DAMAGE!"
 
 func get_hint() -> String:
-	return "Raw coherent light is absorbed, pinning the phantom with photon pressure. Bouncing light off mirrors inverts its quantum phase and dissolves it!"
+	return "Direct laser light steadily damages and holds the phantom in photon stasis. Bouncing light off mirrors inverts its quantum phase for catastrophic 5x vaporization!"

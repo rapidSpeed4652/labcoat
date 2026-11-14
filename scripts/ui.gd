@@ -187,19 +187,28 @@ func update_objective(text: String):
 func show_radio_message(speaker: String, text: String, duration: float):
 	AudioManager.play_radio_static()
 	radio_box.visible = true
+	radio_box.modulate.a = 1.0
 	radio_speaker.text = speaker
 	radio_text.text = ""
 	
 	if typewriter_tween:
 		typewriter_tween.kill()
 	
+	# Generous reading duration: minimum 16.0s or scaled by text length
+	var calc_duration = max(duration, max(16.0, text.length() * 0.08))
+	
 	typewriter_tween = create_tween()
-	typewriter_tween.tween_property(radio_text, "visible_characters", text.length(), 1.0).from(0)
+	typewriter_tween.tween_property(radio_text, "visible_characters", text.length(), 0.8).from(0)
 	radio_text.text = text
 	
-	await get_tree().create_timer(duration).timeout
+	await get_tree().create_timer(calc_duration).timeout
 	if radio_speaker.text == speaker:
-		radio_box.visible = false
+		var fade_tween = create_tween()
+		fade_tween.tween_property(radio_box, "modulate:a", 0.0, 0.6)
+		await fade_tween.finished
+		if radio_speaker.text == speaker:
+			radio_box.visible = false
+			radio_box.modulate.a = 1.0
 
 func _on_polaroid_opened():
 	polaroid_modal.visible = true

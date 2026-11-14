@@ -159,7 +159,7 @@ material = SubResource("Mat_Wall")
 [node name="ObservationWindow_Glass" type="CSGBox3D" parent="Act1_ControlRoom"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, -6)
 use_collision = true
-size = Vector3(6, 1.8, 0.1)
+size = Vector3(6, 1.8, 0.4)
 material = SubResource("Mat_Glass")
 
 ; Exterior Lunar Surface & Apollo 11 Retroreflector Array (Visible through window)
@@ -191,7 +191,7 @@ size = Vector3(0.6, 2.0, 6.0)
 [node name="Wall_West_Glass" type="CSGBox3D" parent="Act1_ControlRoom"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.8, 0)
 use_collision = true
-size = Vector3(0.1, 2.0, 6.0)
+size = Vector3(0.4, 2.0, 6.0)
 material = SubResource("Mat_Glass")
 
 [node name="WestLunarGround" type="CSGBox3D" parent="Act1_ControlRoom"]
@@ -319,7 +319,7 @@ size = Vector3(5, 1.8, 0.6)
 [node name="Hall1_Window_Glass" type="CSGBox3D" parent="Act2_Gallery"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.8, -2)
 use_collision = true
-size = Vector3(5, 1.8, 0.1)
+size = Vector3(5, 1.8, 0.4)
 material = SubResource("Mat_Glass")
 
 [node name="Hall1_LunarSurface" type="CSGBox3D" parent="Act2_Gallery"]
@@ -337,6 +337,30 @@ material = SubResource("Mat_Wall")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 1.8, 2)
 use_collision = true
 size = Vector3(7, 3.6, 0.4)
+material = SubResource("Mat_Wall")
+
+[node name="Hall1_Corner_Floor" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.0, -0.2, 1.0)
+use_collision = true
+size = Vector3(2.4, 0.4, 2.0)
+material = SubResource("Mat_Floor")
+
+[node name="Hall1_Corner_Ceil" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.0, 3.8, 1.0)
+use_collision = true
+size = Vector3(2.4, 0.4, 2.0)
+material = SubResource("Mat_Wall")
+
+[node name="Hall1_Corner_WallS" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.0, 1.8, 2.0)
+use_collision = true
+size = Vector3(2.4, 3.6, 0.4)
+material = SubResource("Mat_Wall")
+
+[node name="Hall1_Corner_WallE" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.0, 1.8, 1.0)
+use_collision = true
+size = Vector3(0.4, 3.6, 2.0)
 material = SubResource("Mat_Wall")
 
 ; Corner 1 Mirror (Calibrated at -135 degrees to reflect beams from Hallway 1 North into Hallway 2)
@@ -459,7 +483,7 @@ size = Vector3(0.6, 1.8, 4.0)
 [node name="BR1_Window_Glass" type="CSGBox3D" parent="Act2_Gallery"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.8, 6)
 use_collision = true
-size = Vector3(0.1, 1.8, 4.0)
+size = Vector3(0.4, 1.8, 4.0)
 material = SubResource("Mat_Glass")
 
 ; Breaker 1 Desk
@@ -515,7 +539,7 @@ size = Vector3(0.6, 1.8, 4.0)
 [node name="BR2_Window_Glass" type="CSGBox3D" parent="Act2_Gallery"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.8, -8)
 use_collision = true
-size = Vector3(0.1, 1.8, 4.0)
+size = Vector3(0.4, 1.8, 4.0)
 material = SubResource("Mat_Glass")
 
 [node name="BR2_WallN" type="CSGBox3D" parent="Act2_Gallery"]
@@ -574,7 +598,7 @@ size = Vector3(0.6, 1.8, 4.0)
 [node name="BR3_Window_Glass" type="CSGBox3D" parent="Act2_Gallery"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.0, 1.8, -8)
 use_collision = true
-size = Vector3(0.1, 1.8, 4.0)
+size = Vector3(0.4, 1.8, 4.0)
 material = SubResource("Mat_Glass")
 
 [node name="BR3_LunarGround" type="CSGBox3D" parent="Act2_Gallery"]

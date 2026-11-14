@@ -12,6 +12,7 @@ var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity", 9
 @onready var camera: Camera3D = $Camera3D
 @onready var laser_mount: Node3D = $Camera3D/LaserMount
 @onready var laser_system: Node3D = $Camera3D/LaserMount/LaserSystem
+@onready var flashlight: SpotLight3D = $Camera3D/Flashlight
 @onready var portable_mirror_scene = preload("res://scenes/portable_mirror.tscn")
 
 var default_gun_pos: Vector3 = Vector3(0.28, -0.22, -0.45)
@@ -85,11 +86,19 @@ func _input(event: InputEvent):
 	if event.is_action_pressed("place_mirror") or (event is InputEventKey and event.pressed and (event.keycode == KEY_Q or event.physical_keycode == KEY_Q)):
 		_try_place_portable_mirror()
 	
-	if event.is_action_pressed("interact") or (event is InputEventKey and event.pressed and (event.keycode == KEY_E or event.keycode == KEY_F or event.physical_keycode == KEY_E or event.physical_keycode == KEY_F)):
+	if event.is_action_pressed("interact") or (event is InputEventKey and event.pressed and (event.keycode == KEY_E or event.physical_keycode == KEY_E)):
 		_try_interact()
+	
+	if event.is_action_pressed("toggle_flashlight") or (event is InputEventKey and event.pressed and (event.keycode == KEY_F or event.physical_keycode == KEY_F)):
+		toggle_flashlight()
 	
 	if event.is_action_pressed("restart") or (event is InputEventKey and event.pressed and (event.keycode == KEY_R or event.physical_keycode == KEY_R)):
 		GameManager.restart_checkpoint()
+
+func toggle_flashlight():
+	if flashlight:
+		flashlight.visible = not flashlight.visible
+		AudioManager.play_sfx("switch_flip", 1.8 if flashlight.visible else 1.4, 0.9)
 
 func _physics_process(delta: float):
 	if GameManager.is_inspecting_polaroid:

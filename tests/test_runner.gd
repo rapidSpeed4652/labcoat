@@ -34,7 +34,7 @@ func _ready():
 	Input.parse_input_event(ev_w)
 	Input.flush_buffered_events()
 	
-	# Test 1: Laser pickup
+	# Test 1: Laser pickup & Flashlight
 	assert(GameManager.has_laser == false, "Player should start without laser")
 	var laser_pickup = get_node("Main/Observatory/Act1_ControlRoom/LaserPickup")
 	assert(laser_pickup != null, "Laser pickup prop must exist")
@@ -42,23 +42,31 @@ func _ready():
 	assert(GameManager.has_laser == true, "Player should have laser after pickup")
 	print("✓ Test 1: Laser pickup works")
 	
+	assert(player.flashlight != null, "Flashlight SpotLight3D must exist on player")
+	var initial_flash = player.flashlight.visible
+	player.toggle_flashlight()
+	assert(player.flashlight.visible != initial_flash, "Flashlight toggle must flip visibility")
+	player.toggle_flashlight()
+	assert(player.flashlight.visible == initial_flash, "Flashlight toggle must restore visibility")
+	print("✓ Test 1B: Player Flashlight (Key F) toggles cleanly")
+	
 	# Test 2: Direct Laser vs Reflected Laser on Shadow Entity
 	var entity = get_node("Main/Observatory/Act2_Gallery/ShadowEntity1")
 	assert(entity != null, "Shadow Entity 1 must exist")
 	
-	# Direct hit (unreflected) - deals ZERO damage, holds in stasis
+	# Direct hit (unreflected) - damages entity and holds in stasis
 	var initial_hp = entity.health
 	entity.on_laser_hit(false, 0.5)
-	assert(entity.health == initial_hp, "Direct beam must deal ZERO damage to shadow entity")
+	assert(entity.health < initial_hp, "Direct beam must damage shadow entity")
 	assert(entity.absorb_timer > 0.0, "Entity should absorb raw beam into stasis")
 	assert(entity.is_halted == true, "Entity must be halted in stasis by direct beam")
-	assert(entity.is_banished == false, "Entity must NOT be banished by raw beam")
-	print("✓ Test 2A: Direct raw beam halts Shadow Entity in stasis without dealing damage")
+	assert(entity.is_banished == false, "Entity must not be immediately banished after only 0.5s of direct beam")
+	print("✓ Test 2A: Direct beam damages and halts Shadow Entity in stasis")
 	
 	# Reflected hit - Critical phase inversion banishes entity
 	entity.on_laser_hit(true, 1.0)
 	assert(entity.is_banished == true, "Entity must be banished by reflected beam")
-	print("✓ Test 2B: Reflected beam successfully banishes Shadow Entity")
+	print("✓ Test 2B: Reflected beam successfully banishes Shadow Entity with critical damage")
 	
 	# Test 3: Airlock Alpha (Keypad 1974) & Apollo 11 LRRR Pallet Calibration
 	var airlock_alpha = get_node("Main/Observatory/Act1_ControlRoom/AirlockAlpha_Door")
