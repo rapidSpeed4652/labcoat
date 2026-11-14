@@ -34,9 +34,9 @@ func _setup_materials():
 	var shader = load("res://assets/shaders/laser_beam.gdshader")
 	laser_mat_raw = ShaderMaterial.new()
 	laser_mat_raw.shader = shader
-	laser_mat_raw.set_shader_parameter("laser_color", Color(0.0, 0.8, 1.0, 1.0))
-	laser_mat_raw.set_shader_parameter("core_color", Color(0.8, 0.95, 1.0, 1.0))
-	laser_mat_raw.set_shader_parameter("intensity", 3.0)
+	laser_mat_raw.set_shader_parameter("laser_color", Color(0.0, 0.85, 1.0, 1.0))
+	laser_mat_raw.set_shader_parameter("core_color", Color(0.85, 0.95, 1.0, 1.0))
+	laser_mat_raw.set_shader_parameter("intensity", 3.5)
 	
 	laser_mat_reflected = ShaderMaterial.new()
 	laser_mat_reflected.shader = shader
@@ -48,8 +48,8 @@ func _setup_pool():
 	for i in range(POOL_SIZE):
 		var mesh_inst = MeshInstance3D.new()
 		var cyl = CylinderMesh.new()
-		cyl.top_radius = 0.018
-		cyl.bottom_radius = 0.018
+		cyl.top_radius = 0.02
+		cyl.bottom_radius = 0.02
 		cyl.height = 1.0
 		mesh_inst.mesh = cyl
 		mesh_inst.visible = false
@@ -106,7 +106,6 @@ func _process(delta: float):
 		_cast_beam(delta)
 		if not hum_player.playing:
 			hum_player.play()
-		# Slight pitch increase as heat rises
 		hum_player.pitch_scale = 1.0 + (heat * 0.4)
 	else:
 		heat = max(0.0, heat - heat_cooldown_rate * delta)
@@ -143,17 +142,35 @@ func _cast_beam(delta: float):
 	if not space_state:
 		return
 	
-	var current_origin = global_position
-	var current_dir = -global_transform.basis.z.normalized()
-	var bounce = 0
-	var is_reflected = false
-	var segment_idx = 0
-	
 	# Exclude player from raycast
 	var player = get_tree().get_first_node_in_group("Player")
 	var exclude_rids = []
 	if player:
 		exclude_rids.append(player.get_rid())
+	
+	# Determine where camera crosshair is aiming
+	var cam = get_viewport().get_camera_3d()
+	var aim_target: Vector3
+	if cam:
+		var cam_pos = cam.global_position
+		var cam_dir = -cam.global_transform.basis.z.normalized()
+		var cam_query = PhysicsRayQueryParameters3D.create(cam_pos, cam_pos + cam_dir * max_range)
+		cam_query.exclude = exclude_rids
+		cam_query.collide_with_areas = true
+		cam_query.collide_with_bodies = true
+		var cam_hit = space_state.intersect_ray(cam_query)
+		if not cam_hit.is_empty():
+			aim_target = cam_hit.position
+		else:
+			aim_target = cam_pos + cam_dir * max_range
+	else:
+		aim_target = global_position - global_transform.basis.z * max_range
+	
+	var current_origin = global_position
+	var current_dir = (aim_target - current_origin).normalized()
+	var bounce = 0
+	var is_reflected = false
+	var segment_idx = 0
 	
 	while bounce < max_bounces and segment_idx < POOL_SIZE:
 		var ray_target = current_origin + current_dir * max_range
@@ -187,7 +204,7 @@ func _cast_beam(delta: float):
 			bounce += 1
 			
 			var now = Time.get_ticks_msec() / 1000.0
-			if now - last_mirror_ping_time > 0.4:
+			if now - last_mirror_ping_time > 0.35:
 				last_mirror_ping_time = now
 				AudioManager.play_sfx("mirror_reflect", 1.0 + bounce * 0.15)
 		
@@ -236,7 +253,6 @@ func _render_segment(idx: int, p_from: Vector3, p_to: Vector3, reflected: bool):
 	if abs(dir.dot(up)) > 0.99:
 		up = Vector3.RIGHT
 	seg.look_at(seg.global_position + dir, up)
-	# Godot CylinderMesh aligns along Y axis, rotate 90 deg on X to align along Z
 	seg.rotate_object_local(Vector3.RIGHT, deg_to_rad(90))
 	
 	seg.material_override = laser_mat_reflected if reflected else laser_mat_raw
@@ -248,4 +264,4 @@ func _render_bounce_light(idx: int, pos: Vector3, reflected: bool):
 	light.visible = true
 	light.global_position = pos
 	light.light_color = Color(0.2, 1.0, 0.7) if reflected else Color(0.1, 0.85, 1.0)
-	light.light_energy = 3.0 if reflected else 1.8
+	light.light_energy = 3.2 if reflected else 1.8
