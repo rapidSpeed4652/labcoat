@@ -39,6 +39,12 @@ uv1_triplanar = true
 metallic = 0.6
 roughness = 0.35
 
+[sub_resource type="StandardMaterial3D" id="Mat_Glass"]
+transparency = 1
+albedo_color = Color(0.2, 0.45, 0.7, 0.25)
+metallic = 0.95
+roughness = 0.05
+
 [sub_resource type="ShaderMaterial" id="Mat_MegaBeam"]
 render_priority = 0
 shader = ExtResource("16_bshd")
@@ -84,11 +90,35 @@ size = Vector3(12, 0.4, 12)
 material = SubResource("Mat_Wall")
 
 ; Walls
-[node name="Wall_North" type="CSGBox3D" parent="Act1_ControlRoom"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, -6)
+[node name="Wall_North_W" type="CSGBox3D" parent="Act1_ControlRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 1.8, -6)
 use_collision = true
-size = Vector3(12, 3.6, 0.4)
+size = Vector3(3, 3.6, 0.4)
 material = SubResource("Mat_Wall")
+
+[node name="Wall_North_E" type="CSGBox3D" parent="Act1_ControlRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 1.8, -6)
+use_collision = true
+size = Vector3(3, 3.6, 0.4)
+material = SubResource("Mat_Wall")
+
+[node name="Wall_North_Sill" type="CSGBox3D" parent="Act1_ControlRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -6)
+use_collision = true
+size = Vector3(6, 1.0, 0.4)
+material = SubResource("Mat_Wall")
+
+[node name="Wall_North_Lintel" type="CSGBox3D" parent="Act1_ControlRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.3, -6)
+use_collision = true
+size = Vector3(6, 1.0, 0.4)
+material = SubResource("Mat_Wall")
+
+[node name="ObservationWindow_Glass" type="CSGBox3D" parent="Act1_ControlRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, -6)
+use_collision = true
+size = Vector3(6, 1.8, 0.1)
+material = SubResource("Mat_Glass")
 
 [node name="Wall_South" type="CSGBox3D" parent="Act1_ControlRoom"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 6)
@@ -231,10 +261,16 @@ use_collision = true
 size = Vector3(4, 0.4, 16)
 material = SubResource("Mat_Wall")
 
-[node name="Hall2_WallE" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1.8, -8)
+[node name="Hall2_WallE1" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1.8, -3.5)
 use_collision = true
-size = Vector3(0.4, 3.6, 16)
+size = Vector3(0.4, 3.6, 7)
+material = SubResource("Mat_Wall")
+
+[node name="Hall2_WallE2" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1.8, -12.5)
+use_collision = true
+size = Vector3(0.4, 3.6, 7)
 material = SubResource("Mat_Wall")
 
 [node name="Hall2_WallW1" type="CSGBox3D" parent="Act2_Gallery"]
@@ -311,15 +347,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 1)
 
 ; Breaker Room 2
 [node name="BR2_Floor" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, -0.2, -8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, -0.2, -8)
 use_collision = true
-size = Vector3(8, 0.4, 8)
+size = Vector3(9.2, 0.4, 8)
 material = SubResource("Mat_Floor")
 
 [node name="BR2_Ceil" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 3.8, -8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 3.8, -8)
 use_collision = true
-size = Vector3(8, 0.4, 8)
+size = Vector3(9.2, 0.4, 8)
 material = SubResource("Mat_Wall")
 
 [node name="BR2_WallW" type="CSGBox3D" parent="Act2_Gallery"]
@@ -329,15 +365,15 @@ size = Vector3(0.4, 3.6, 8)
 material = SubResource("Mat_Wall")
 
 [node name="BR2_WallN" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 1.8, -12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 1.8, -12)
 use_collision = true
-size = Vector3(8, 3.6, 0.4)
+size = Vector3(9.2, 3.6, 0.4)
 material = SubResource("Mat_Wall")
 
 [node name="BR2_WallS" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 1.8, -4)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 1.8, -4)
 use_collision = true
-size = Vector3(8, 3.6, 0.4)
+size = Vector3(9.2, 3.6, 0.4)
 material = SubResource("Mat_Wall")
 
 ; Breaker 2 Desk
@@ -361,6 +397,71 @@ tape_transcript = "They absorb raw photons—shining an unreflected flashlight o
 [node name="ShadowEntity2" parent="Act2_Gallery" instance=ExtResource("11_shd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, -10)
 
+; ==============================================
+; Breaker Room 3: Optical Calibration & Capacitor 3
+; ==============================================
+[node name="BR3_Floor" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, -0.2, -8)
+use_collision = true
+size = Vector3(9.2, 0.4, 8)
+material = SubResource("Mat_Floor")
+
+[node name="BR3_Ceil" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 3.8, -8)
+use_collision = true
+size = Vector3(9.2, 0.4, 8)
+material = SubResource("Mat_Wall")
+
+[node name="BR3_WallE" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.0, 1.8, -8)
+use_collision = true
+size = Vector3(0.4, 3.6, 8)
+material = SubResource("Mat_Wall")
+
+[node name="BR3_WallN" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 1.8, -12)
+use_collision = true
+size = Vector3(9.2, 3.6, 0.4)
+material = SubResource("Mat_Wall")
+
+[node name="BR3_WallS" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 1.8, -4)
+use_collision = true
+size = Vector3(9.2, 3.6, 0.4)
+material = SubResource("Mat_Wall")
+
+; Breaker 3 Desk
+[node name="BR3_Desk" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.0, 0.45, -9.5)
+use_collision = true
+size = Vector3(2.5, 0.9, 1.4)
+material = SubResource("Mat_Desk")
+
+; Capacitor Breaker 3
+[node name="CapacitorBreaker3" parent="Act2_Gallery" instance=ExtResource("10_brk")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 28.7, 1.6, -8)
+
+; Tape Recorder 3
+[node name="TapeRecorder3" parent="Act2_Gallery" instance=ExtResource("9_tap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.0, 0.95, -9.5)
+tape_title = "Log 79-D: The Deep Space Bridge"
+tape_transcript = "Dr. Vance here. The eclipse alignment was intentional. We were not bouncing lasers off Apollo 11 lunar reflectors anymore. I recalibrated the coude dish toward the dark void in deep space... God forgive me. The pulse locked onto something. It used our photons like a bridge, following the beam backward into Mount Hale!"
+
+; Room 3 Wall Mirror
+[node name="Mirror_BR3" parent="Act2_Gallery" instance=ExtResource("5_mir")]
+transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 28.5, 1.5, -5.0)
+
+; Shadow Entity 3 (Stalking inside calibration wing)
+[node name="ShadowEntity3" parent="Act2_Gallery" instance=ExtResource("11_shd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.0, 0, -7.0)
+
+; Room 3 Atmospheric Light
+[node name="BR3_Light" type="OmniLight3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 2.8, -8)
+light_color = Color(0.25, 0.75, 1, 1)
+light_energy = 1.2
+omni_range = 7.0
+
 ; Hallway Atmospheric Lights
 [node name="GalleryLight1" type="OmniLight3D" parent="Act2_Gallery"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 2.8, 0)
@@ -377,6 +478,31 @@ omni_range = 7.0
 ; Dome Blast Door
 [node name="DomeBlastDoor" parent="Act2_Gallery" instance=ExtResource("4_dor")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, -16)
+
+; Vestibule Transition to Dome
+[node name="Vestibule_Floor" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, -0.2, -17)
+use_collision = true
+size = Vector3(4, 0.4, 2)
+material = SubResource("Mat_Floor")
+
+[node name="Vestibule_Ceil" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 3.8, -17)
+use_collision = true
+size = Vector3(4, 0.4, 2)
+material = SubResource("Mat_Wall")
+
+[node name="Vestibule_WallE" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1.8, -17)
+use_collision = true
+size = Vector3(0.4, 3.6, 2)
+material = SubResource("Mat_Wall")
+
+[node name="Vestibule_WallW" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 1.8, -17)
+use_collision = true
+size = Vector3(0.4, 3.6, 2)
+material = SubResource("Mat_Wall")
 
 ; ==============================================
 ; ACT 3: THE DOME & THE ALIGNMENT
@@ -398,10 +524,22 @@ use_collision = true
 size = Vector3(12, 8.0, 0.5)
 material = SubResource("Mat_Wall")
 
-[node name="Wall_S" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0, 14)
+[node name="Wall_S_West" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 4.0, 14)
 use_collision = true
-size = Vector3(12, 8.0, 0.5)
+size = Vector3(4, 8.0, 0.5)
+material = SubResource("Mat_Wall")
+
+[node name="Wall_S_East" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 4.0, 14)
+use_collision = true
+size = Vector3(4, 8.0, 0.5)
+material = SubResource("Mat_Wall")
+
+[node name="Wall_S_Arch" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.8, 14)
+use_collision = true
+size = Vector3(4, 4.4, 0.5)
 material = SubResource("Mat_Wall")
 
 [node name="Wall_E" type="CSGBox3D" parent="Act3_Dome"]
@@ -410,10 +548,22 @@ use_collision = true
 size = Vector3(0.5, 8.0, 12)
 material = SubResource("Mat_Wall")
 
-[node name="Wall_W" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 4.0, 0)
+[node name="Wall_W_North" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 4.0, -4)
 use_collision = true
-size = Vector3(0.5, 8.0, 12)
+size = Vector3(0.5, 8.0, 4)
+material = SubResource("Mat_Wall")
+
+[node name="Wall_W_South" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 4.0, 4)
+use_collision = true
+size = Vector3(0.5, 8.0, 4)
+material = SubResource("Mat_Wall")
+
+[node name="Wall_W_Arch" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 5.8, 0)
+use_collision = true
+size = Vector3(0.5, 4.4, 4)
 material = SubResource("Mat_Wall")
 
 [node name="Wall_NE" type="CSGBox3D" parent="Act3_Dome"]

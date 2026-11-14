@@ -60,7 +60,7 @@ func get_hint() -> String:
 		InteractType.TAPE_RECORDER:
 			return "Audio log from night astronomer. Press [E] to listen to recorded audio."
 		InteractType.CAPACITOR_SWITCH:
-			return "Engage both capacitors in the gallery to restore power to the Dome blast doors." if not has_been_used else "Capacitor engaged. Power routed to Dome blast door."
+			return "Shut down all 3 basement capacitors in the gallery to route power to the Dome blast doors." if not has_been_used else "Capacitor shut down. Power routed to Dome blast door."
 		InteractType.SHUTDOWN_LEVER:
 			return "Banish the shadow entities using the 3 telescope reflectors before accessing console." if not GameManager.dome_puzzle_solved else "Pull lever to seal dome shutter and sever deep space return beam!"
 		InteractType.EXIT_DOOR:

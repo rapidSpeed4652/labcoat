@@ -22,6 +22,13 @@ var step_interval: float = 2.2
 var is_sprinting: bool = false
 var checkpoint_pos: Vector3 = Vector3.ZERO
 
+# Health & Survival
+var health: float = 100.0
+var max_health: float = 100.0
+var time_since_damage: float = 0.0
+
+signal health_changed(current_health: float, maximum_health: float)
+
 # Targeted interactable
 var current_interactable: Node = null
 
@@ -102,6 +109,12 @@ func _physics_process(delta: float):
 		if jump_triggered:
 			velocity.y = jump_velocity
 	
+	# Health regeneration after delay
+	time_since_damage += delta
+	if time_since_damage > 4.5 and health < max_health and health > 0.0:
+		health = min(max_health, health + delta * 25.0)
+		health_changed.emit(health, max_health)
+
 	# Sprint check with direct hardware fallback
 	is_sprinting = Input.is_action_pressed("sprint") or Input.is_key_pressed(KEY_SHIFT) or Input.is_physical_key_pressed(KEY_SHIFT)
 	var target_speed = sprint_speed if is_sprinting else walk_speed
@@ -213,7 +226,30 @@ func _try_place_portable_mirror():
 	GameManager.mirror_count_changed.emit(GameManager.portable_mirrors_count)
 	AudioManager.play_sfx("interact", 1.2)
 
+func take_damage(amount: float, knockback_dir: Vector3 = Vector3.ZERO):
+	if health <= 0.0:
+		return
+	health = max(0.0, health - amount)
+	time_since_damage = 0.0
+	
+	if knockback_dir != Vector3.ZERO:
+		velocity += knockback_dir * 7.5
+		velocity.y = 2.0
+	
+	AudioManager.play_sfx("entity_absorb", 0.75, 4.0)
+	health_changed.emit(health, max_health)
+	
+	var ui = get_tree().get_first_node_in_group("UI")
+	if ui and ui.has_method("flash_damage"):
+		ui.flash_damage()
+	
+	if health <= 0.0:
+		GameManager.player_died()
+
 func respawn_at_checkpoint():
+	health = max_health
+	time_since_damage = 0.0
+	health_changed.emit(health, max_health)
 	global_position = checkpoint_pos
 	velocity = Vector3.ZERO
 	if laser_system:

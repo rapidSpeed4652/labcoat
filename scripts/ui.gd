@@ -166,5 +166,11 @@ func _on_crt_toggle_toggled(button_pressed: bool):
 	if crt_overlay:
 		crt_overlay.visible = button_pressed
 
+func flash_damage():
+	if crt_overlay:
+		var tween = create_tween()
+		tween.tween_property(crt_overlay, "modulate", Color(2.5, 0.3, 0.3, 1.0), 0.06)
+		tween.tween_property(crt_overlay, "modulate", Color(1.0, 1.0, 1.0, 1.0), 0.4)
+
 func _on_quit_button_pressed():
 	get_tree().quit()

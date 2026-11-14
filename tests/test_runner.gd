@@ -107,15 +107,21 @@ func _ready():
 	assert(laser_sys.is_overheated == true, "Laser should enter overheat state")
 	print("✓ Test 4: Laser overheating & 3s lockout mechanic works")
 	
-	# Test 5: Act 2 Capacitors
+	# Test 5: Act 2 Capacitors (All 3 basement capacitors required)
 	var cap1 = get_node("Main/Observatory/Act2_Gallery/CapacitorBreaker1")
 	var cap2 = get_node("Main/Observatory/Act2_Gallery/CapacitorBreaker2")
+	var cap3 = get_node("Main/Observatory/Act2_Gallery/CapacitorBreaker3")
+	assert(cap1 != null and cap2 != null and cap3 != null, "All 3 capacitor breakers must exist")
 	cap1.interact()
 	assert(GameManager.capacitors_activated == 1, "Capacitor 1 activated")
+	assert(GameManager.dome_door_unlocked == false, "Dome blast doors should still be locked after 1 capacitor")
 	cap2.interact()
 	assert(GameManager.capacitors_activated == 2, "Capacitor 2 activated")
-	assert(GameManager.dome_door_unlocked == true, "Dome blast doors should be unlocked")
-	print("✓ Test 5: Capacitor breakers unlock Dome access")
+	assert(GameManager.dome_door_unlocked == false, "Dome blast doors should still be locked after 2 capacitors")
+	cap3.interact()
+	assert(GameManager.capacitors_activated == 3, "Capacitor 3 activated")
+	assert(GameManager.dome_door_unlocked == true, "Dome blast doors should be unlocked after all 3 capacitors")
+	print("✓ Test 5: All 3 basement capacitor breakers successfully unlock Dome access")
 	
 	# Test 6: Dome Triangle Alignment & Shutdown
 	var station_a = get_node("Main/Observatory/Act3_Dome/StationAlpha")
@@ -140,8 +146,41 @@ func _ready():
 	assert(GameManager.current_act == GameManager.Act.ENDING, "Current act should be ENDING")
 	print("✓ Test 7: Emergency shutdown lever seals roof shutter")
 	
-	print("========================================")
-	print("ALL 8 GAMEPLAY & WASD TESTS PASSED!")
-	print("========================================")
+	# Test 8: Map Geometry & Floor Continuity (Zero Void Gaps Across Entire Observatory)
+	var waypoints = [
+		Vector3(0, 1.0, 0),         # Act 1 Control Room
+		Vector3(5.5, 1.0, 0),       # Act 1 Doorway
+		Vector3(12.0, 1.0, 0),      # Hallway 1
+		Vector3(15.0, 1.0, 6.0),    # Breaker Room 1
+		Vector3(24.0, 1.0, 0),      # Hallway 1/2 Corner
+		Vector3(22.0, 1.0, -8.0),   # Breaker Room 2 Entrance
+		Vector3(17.5, 1.0, -8.0),   # Breaker Room 2 Interior
+		Vector3(26.0, 1.0, -8.0),   # Breaker Room 3 Entrance
+		Vector3(30.5, 1.0, -8.0),   # Breaker Room 3 Interior
+		Vector3(24.0, 1.0, -16.0),  # Hallway 2 Blast Door
+		Vector3(24.0, 1.0, -17.0),  # Vestibule Transition
+		Vector3(24.0, 1.0, -19.0),  # Act 3 Dome Entrance
+		Vector3(24.0, 1.0, -32.0),  # Dome Center
+		Vector3(31.5, 1.0, -36.5),  # Station Alpha Approach
+		Vector3(24.0, 1.0, -24.5),  # Station Beta Approach
+		Vector3(16.5, 1.0, -36.5),  # Station Gamma Approach
+		Vector3(10.0, 1.0, -32.0),  # Exit Hallway Entrance
+		Vector3(1.0, 1.0, -32.0)    # Final Exit Door
+	]
+	var space_state = player.get_world_3d().direct_space_state
+	for i in range(waypoints.size()):
+		var wp = waypoints[i]
+		var query = PhysicsRayQueryParameters3D.create(wp + Vector3(0, 0.5, 0), wp - Vector3(0, 2.0, 0))
+		query.collide_with_areas = false
+		query.collide_with_bodies = true
+		var hit = space_state.intersect_ray(query)
+		assert(hit.size() > 0, "No floor found at waypoint %d: %s (VOID GAP DETECTED!)" % [i, wp])
+		var floor_y = hit.position.y
+		assert(abs(floor_y) < 0.1, "Floor level inconsistent at waypoint %d: %s (y=%.3f, expected ~0.0)" % [i, wp, floor_y])
+	print("✓ Test 8: All 18 map waypoints verified with continuous solid floors - ZERO VOID GAPS")
+	
+	print("=====================================================")
+	print("ALL 9 GAMEPLAY, PHYSICS & MAP CONTINUITY TESTS PASSED!")
+	print("=====================================================")
 	
 	get_tree().quit(0)

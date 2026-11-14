@@ -18,7 +18,7 @@ var portable_mirrors_count: int = 1
 # Puzzle states
 var act1_door_unlocked: bool = false
 var capacitors_activated: int = 0
-const CAPACITORS_REQUIRED: int = 2
+const CAPACITORS_REQUIRED: int = 3
 var dome_door_unlocked: bool = false
 var dome_puzzle_solved: bool = false
 var shutdown_lever_pulled: bool = false
@@ -90,8 +90,8 @@ func _start_intro_radio():
 	await get_tree().create_timer(1.2).timeout
 	trigger_radio(
 		"SUPERVISOR CHEN (RADIO)",
-		"Leo, do you copy? The main roof shutter jammed open during the eclipse, and the primary laser is still firing into the dark. Shut down the capacitors and get out of there!",
-		8.0
+		"Leo, do you copy? The main roof shutter jammed open during the eclipse, and the primary laser is still firing into the dark. Shut down the three basement capacitors and get out.",
+		8.5
 	)
 
 func set_objective(text: String):
@@ -125,7 +125,7 @@ func unlock_act1_door():
 	if act1_door_unlocked:
 		return
 	act1_door_unlocked = true
-	set_objective("Enter the Mirror Gallery. Find and activate 2 capacitor breaker switches.")
+	set_objective("Enter the Mirror Gallery. Find and shut down the 3 basement capacitor breakers.")
 	trigger_radio(
 		"SUPERVISOR CHEN (RADIO)",
 		"The gallery door just unlocked on my telemetry board. Watch yourself, Leo... something is causing severe infrared interference in those halls.",
@@ -136,14 +136,14 @@ func activate_capacitor():
 	capacitors_activated += 1
 	if capacitors_activated >= CAPACITORS_REQUIRED:
 		dome_door_unlocked = true
-		set_objective("Capacitors engaged! Head to the Central Telescope Dome.")
+		set_objective("All 3 capacitors shut down! Head to the Central Telescope Dome.")
 		trigger_radio(
 			"SUPERVISOR CHEN (RADIO)",
 			"Main dome power restored! The blast doors are open. Get to the central console and seal that roof shutter!",
 			6.5
 		)
 	else:
-		set_objective("Capacitor 1/2 engaged. Find the remaining breaker in the gallery.")
+		set_objective("Capacitor %d/%d shut down. Find the remaining breaker(s) in the gallery." % [capacitors_activated, CAPACITORS_REQUIRED])
 
 func solve_dome_puzzle():
 	if dome_puzzle_solved:
