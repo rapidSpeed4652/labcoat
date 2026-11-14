@@ -92,18 +92,16 @@ func _start_intro_radio():
 	trigger_radio(
 		"SUPERVISOR VANCE (EARTH STATION)",
 		"Leo, this is Vance at Earth Station. Do you copy? The October eclipse triggered a rogue cascade—the Mount Hale primary laser locked onto a deep space return vector and jammed the roof shutter wide open! Shut down the three auxiliary capacitors in the lower galleries and seal that dome before the anomaly bridges into full stability!",
-		17.0,
-		"radio_intro"
+		8.5
 	)
 
 func set_objective(text: String):
 	current_objective = text
 	objective_updated.emit(text)
 
-func trigger_radio(speaker: String, text: String, duration: float = 6.0, voice_clip: String = ""):
+func trigger_radio(speaker: String, text: String, duration: float = 6.0):
 	radio_message_started.emit(speaker, text, duration)
-	if voice_clip != "":
-		AudioManager.play_voice(voice_clip)
+	AudioManager.play_radio_static()
 
 func inspect_polaroid():
 	is_inspecting_polaroid = true
@@ -123,9 +121,8 @@ func pickup_laser():
 	set_objective("BOUNCE LASER: Aim beam at the wall mirror so the reflection hits the Optical Receptor.")
 	trigger_radio(
 		"SUPERVISOR VANCE (EARTH STATION)",
-		"Good, you found the alignment laser. Remember Dr. Thorne's notes: direct coherent light is useless against the shadow apparitions—it only feeds them! You must bounce the beam off mirrors. Reflected light inverts their quantum phase and burns their silhouette away!",
-		12.5,
-		"radio_laser_acquired"
+		"Good, you found the alignment laser. Direct coherent light is useless against the shadow apparitions—it only feeds them! You must bounce the beam off mirrors. Reflected light inverts their quantum phase and burns their silhouette away!",
+		7.0
 	)
 
 func unlock_act1_door():
@@ -136,8 +133,7 @@ func unlock_act1_door():
 	trigger_radio(
 		"SUPERVISOR VANCE (EARTH STATION)",
 		"Security aperture unsealed! Enter the central gallery spine. Open your tactical schematic with M or TAB. Watch the observation windows—sensors detect abnormal electromagnetic movement out on the crater rim.",
-		13.5,
-		"radio_act1_unlocked"
+		7.0
 	)
 
 func activate_capacitor():
@@ -162,24 +158,21 @@ func activate_capacitor():
 		trigger_radio(
 			"SUPERVISOR VANCE (EARTH STATION)",
 			"All three capacitors offline! Power redirected to the central dome! The heavy blast doors are open! Leo, get to the dome and align the tertiary mirror array!",
-			10.5,
-			"radio_cap3"
+			7.0
 		)
 	elif capacitors_activated == 1:
 		set_objective("Capacitor 1/3 offline. Shut down 2 more in the bays (Check Map [M]).")
 		trigger_radio(
 			"SUPERVISOR VANCE (EARTH STATION)",
-			"Capacitor One offline! Cryogenic surge detected in Bay B. Two remaining! Keep your distance from those corrupted drones!",
-			8.5,
-			"radio_cap1"
+			"Capacitor One offline! Cryogenic surge detected in Bay B. Two remaining! Keep your distance from those Void Stalkers!",
+			6.5
 		)
 	else:
 		set_objective("Capacitor 2/3 offline. Shut down Bay C (Check Map [M]).")
 		trigger_radio(
 			"SUPERVISOR VANCE (EARTH STATION)",
 			"Capacitor Two disengaged! One auxiliary capacitor remains in Bay C. The entity signatures are converging on your coordinates!",
-			8.5,
-			"radio_cap2"
+			6.5
 		)
 
 func solve_dome_puzzle():
@@ -202,8 +195,7 @@ func pull_shutdown_lever():
 	trigger_radio(
 		"SUPERVISOR VANCE (EARTH STATION)",
 		"Shutter sealed! Beam collapse confirmed on Earth telemetry! The return vector is severed! Head through the pressurized mountain hatch, Leo. You did it!",
-		10.0,
-		"radio_ending"
+		7.0
 	)
 
 func player_died():

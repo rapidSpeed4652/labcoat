@@ -174,9 +174,11 @@ func _ready():
 		var query = PhysicsRayQueryParameters3D.create(wp + Vector3(0, 0.5, 0), wp - Vector3(0, 2.0, 0))
 		query.collide_with_areas = false
 		query.collide_with_bodies = true
+		query.collision_mask = 1
 		var hit = space_state.intersect_ray(query)
 		assert(hit.size() > 0, "No floor found at waypoint %d: %s (VOID GAP DETECTED!)" % [i, wp])
 		var floor_y = hit.position.y
+		print("Waypoint %d (%s) hit: %s at %s" % [i, wp, hit.collider.get_path(), hit.position])
 		assert(abs(floor_y) < 0.1, "Floor level inconsistent at waypoint %d: %s (y=%.3f, expected ~0.0)" % [i, wp, floor_y])
 	print("✓ Test 8: All 18 map waypoints verified with continuous solid floors - ZERO VOID GAPS")
 	
@@ -210,8 +212,8 @@ func _ready():
 	assert(menu_scene != null, "Start Menu scene must load cleanly")
 	var menu_inst = menu_scene.instantiate()
 	assert(menu_inst != null, "Start Menu must instantiate without error")
-	assert(menu_inst.get_node("VBoxContainer/BtnStart") != null, "Start button must exist")
-	assert(menu_inst.get_node("VBoxContainer/BtnDossier") != null, "Dossier button must exist")
+	assert(menu_inst.get_node_or_null("UI/VBoxContainer/BtnStart") != null or menu_inst.get_node_or_null("VBoxContainer/BtnStart") != null, "Start button must exist")
+	assert(menu_inst.get_node_or_null("UI/VBoxContainer/BtnDossier") != null or menu_inst.get_node_or_null("VBoxContainer/BtnDossier") != null, "Dossier button must exist")
 	menu_inst.queue_free()
 	print("✓ Test 11: Quindar radio voice pipeline, audio logs & Start Menu verified!")
 

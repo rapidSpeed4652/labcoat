@@ -85,6 +85,10 @@ central_beam = NodePath("../Act3_Dome/CentralLaserBeam")
 triangle_beam_mesh = NodePath("../Act3_Dome/TriangleBeams")
 emergency_lights_root = NodePath("../Act3_Dome/EmergencyLights")
 
+; Exterior Lunar Void Entity prowling the crater rim
+[node name="ExteriorVoidEntity" parent="." instance=ExtResource("11_shd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0, 0.2, 5.0)
+
 ; ==============================================
 ; ACT 1: CONTROL ROOM
 ; ==============================================
@@ -116,10 +120,17 @@ material = SubResource("Mat_Glass")
 
 ; Walls
 [node name="Wall_North_W" type="CSGBox3D" parent="Act1_ControlRoom"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 1.8, -6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 1.8, -6)
 use_collision = true
-size = Vector3(3, 3.6, 0.4)
+size = Vector3(1.0, 3.6, 0.4)
 material = SubResource("Mat_Wall")
+
+; Airlock Alpha Doorway to Lunar Surface
+[node name="AirlockAlpha_Door" parent="Act1_ControlRoom" instance=ExtResource("4_dor")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0, 0, -6)
+door_name = "Airlock Alpha (Lunar Surface Access)"
+lock_text = "[AIRLOCK PRESSURE BALANCED - PRESS E TO OPEN]"
+lock_hint = "Step out through Airlock Alpha onto the cratered lunar surface."
 
 [node name="Wall_North_E" type="CSGBox3D" parent="Act1_ControlRoom"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 1.8, -6)
@@ -402,11 +413,24 @@ use_collision = true
 size = Vector3(8, 0.4, 8)
 material = SubResource("Mat_Wall")
 
-[node name="BR1_WallS" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1.8, 10)
+[node name="BR1_WallS1" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 1.8, 10)
 use_collision = true
-size = Vector3(8, 3.6, 0.4)
+size = Vector3(3, 3.6, 0.4)
 material = SubResource("Mat_Wall")
+
+[node name="BR1_WallS2" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 1.8, 10)
+use_collision = true
+size = Vector3(3, 3.6, 0.4)
+material = SubResource("Mat_Wall")
+
+; Airlock Beta Doorway to Lunar Surface
+[node name="AirlockBeta_Door" parent="Act2_Gallery" instance=ExtResource("4_dor")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.0, 0, 10)
+door_name = "Airlock Beta (Research Wing Lunar Hatch)"
+lock_text = "[AIRLOCK PRESSURE BALANCED - PRESS E TO ENTER/EXIT]"
+lock_hint = "Step between the exterior lunar regolith and Capacitor Bay A."
 
 [node name="BR1_WallE" type="CSGBox3D" parent="Act2_Gallery"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 1.8, 6)

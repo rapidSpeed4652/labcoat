@@ -56,18 +56,18 @@ func _setup_audio():
 func _update_hud():
 	if health_label:
 		if is_banished:
-			health_label.text = "[DESTROYED]"
+			health_label.text = "[ANOMALY BANISHED]"
 			health_label.modulate = Color(0.2, 1.0, 0.4)
 		elif is_halted:
-			health_label.text = "[HALTED - HP: %d/%d]" % [int(max(0, health)), int(max_health)]
+			health_label.text = "[PHOTON STASIS PINNED - HP: %d/%d]" % [int(max(0, health)), int(max_health)]
 			health_label.modulate = Color(0.2, 0.9, 1.0)
 		elif charge_timer > 0.0:
 			var pct = int((charge_timer / 1.8) * 100.0)
-			health_label.text = "[! CHARGING %d%% - HP: %d]" % [pct, int(max(0, health))]
+			health_label.text = "[! QUANTUM SURGE %d%% - HP: %d]" % [pct, int(max(0, health))]
 			health_label.modulate = Color(1.0, 0.25, 0.1)
 		else:
-			health_label.text = "[CORRUPTED DRONE: %d/%d HP]" % [int(max(0, health)), int(max_health)]
-			health_label.modulate = Color(1.0, 0.7, 0.2)
+			health_label.text = "[VOID ENTITY: %d/%d HP]" % [int(max(0, health)), int(max_health)]
+			health_label.modulate = Color(0.3, 0.85, 1.0)
 
 func _physics_process(delta: float):
 	if is_banished or not is_active:
@@ -209,13 +209,13 @@ func _discharge_attack(player: Node):
 		GameManager.player_died()
 
 func get_category_badge() -> String:
-	return "🤖 [HOSTILE: CORRUPTED DRONE - %d HP]" % int(max(0, health))
+	return "👁 [VOID ENTITY: BOÖTES SILHOUETTE - %d HP]" % int(max(0, health))
 
 func get_category_color() -> Color:
-	return Color(1.0, 0.3, 0.2)
+	return Color(0.2, 0.85, 1.0)
 
 func get_interaction_prompt() -> String:
-	return "SHOOT TO DESTROY (Reflected laser deals 4x Critical Damage!)"
+	return "DIRECT BEAM STUNS • BOUNCE OFF MIRRORS TO VAPORIZE!"
 
 func get_hint() -> String:
-	return "Killable with direct laser. Reflected laser off mirrors vaporizes it instantly!"
+	return "Raw coherent light is absorbed, pinning the entity with photon pressure. Bouncing light off mirrors inverts its quantum phase and dissolves it!"
