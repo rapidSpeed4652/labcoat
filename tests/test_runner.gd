@@ -52,8 +52,9 @@ func _ready():
 	# Direct hit (unreflected)
 	entity.on_laser_hit(false, 0.5)
 	assert(entity.absorb_timer > 0.0, "Entity should absorb raw beam")
+	assert(entity.is_halted == true, "Entity must be halted in stasis by direct beam")
 	assert(entity.is_banished == false, "Entity must NOT be banished by raw beam")
-	print("✓ Test 2A: Direct raw beam absorbed by Shadow Entity without dying")
+	print("✓ Test 2A: Direct raw beam halts Shadow Entity in stasis without banishing")
 	
 	# Reflected hit
 	entity.on_laser_hit(true, 1.0)
@@ -179,8 +180,19 @@ func _ready():
 		assert(abs(floor_y) < 0.1, "Floor level inconsistent at waypoint %d: %s (y=%.3f, expected ~0.0)" % [i, wp, floor_y])
 	print("✓ Test 8: All 18 map waypoints verified with continuous solid floors - ZERO VOID GAPS")
 	
-	print("=====================================================")
-	print("ALL 9 GAMEPLAY, PHYSICS & MAP CONTINUITY TESTS PASSED!")
-	print("=====================================================")
+	# Test 9: Minimap & Fullscreen GUI Schematic Map
+	var ui = get_node("Main/UI")
+	assert(ui != null and ui.minimap_panel != null, "Minimap panel must exist")
+	assert(ui.full_map_modal != null, "Full map modal must exist")
+	ui.toggle_full_map()
+	assert(ui.full_map_modal.visible == true, "Full map modal should be open after toggle")
+	assert("MISSION CHECKLIST" in ui.checklist_label.text, "Map checklist should be rendered")
+	ui.toggle_full_map()
+	assert(ui.full_map_modal.visible == false, "Full map modal should be closed after second toggle")
+	print("✓ Test 9: Minimap and Fullscreen GUI Facility Map toggle cleanly with live telemetry")
+	
+	print("======================================================")
+	print("ALL 10 GAMEPLAY, PHYSICS & MAP CONTINUITY TESTS PASSED!")
+	print("======================================================")
 	
 	get_tree().quit(0)

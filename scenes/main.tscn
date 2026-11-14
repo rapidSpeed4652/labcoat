@@ -3,17 +3,17 @@
 [ext_resource type="PackedScene" path="res://levels/observatory.tscn" id="1_obs"]
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="2_plr"]
 [ext_resource type="PackedScene" path="res://scenes/ui.tscn" id="3_ui"]
-[ext_resource type="Shader" path="res://assets/shaders/cosmic_sky.gdshader" id="4_sky"]
+[ext_resource type="Texture2D" path="res://assets/textures/lunar_skybox.png" id="4_skytex"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_sky"]
-shader = ExtResource("4_sky")
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lunar"]
+panorama = ExtResource("4_skytex")
 
-[sub_resource type="Sky" id="Sky_cosmic"]
-sky_material = SubResource("ShaderMaterial_sky")
+[sub_resource type="Sky" id="Sky_lunar"]
+sky_material = SubResource("PanoramaSkyMaterial_lunar")
 
 [sub_resource type="Environment" id="Environment_1"]
 background_mode = 2
-sky = SubResource("Sky_cosmic")
+sky = SubResource("Sky_lunar")
 ambient_light_source = 3
 ambient_light_color = Color(0.1, 0.14, 0.22, 1)
 ambient_light_sky_contribution = 0.5

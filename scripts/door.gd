@@ -3,19 +3,40 @@ extends StaticBody3D
 @export var is_open: bool = false
 @export var open_offset: Vector3 = Vector3(0.0, 3.2, 0.0)
 @export var slide_duration: float = 1.0
+@export var door_name: String = "Security Door"
+@export var lock_text: String = "[LOCKED - SENSOR OVERRIDE REQUIRED]"
+@export var lock_hint: String = "Aim laser at the wall mirror so the reflection strikes the Optical Receptor."
 
 var closed_pos: Vector3
 
 @onready var lock_sign: OmniLight3D = $LockSignLight
 @onready var status_mesh: MeshInstance3D = $StatusMesh
+@onready var status_label: Label3D = get_node_or_null("StatusLabel")
 
 func _ready():
+	add_to_group("Interactable")
 	closed_pos = position
 	if is_open:
 		position = closed_pos + open_offset
 		_update_visuals(true)
 	else:
 		_update_visuals(false)
+
+func get_category_badge() -> String:
+	return "🚪 [ACCESS DOOR: " + ("UNLOCKED" if is_open else "LOCKED") + "]"
+
+func get_category_color() -> Color:
+	return Color(0.2, 1.0, 0.4) if is_open else Color(1.0, 0.3, 0.2)
+
+func get_interaction_prompt() -> String:
+	return "[ACCESS GRANTED - DOORWAY CLEAR]" if is_open else lock_text
+
+func get_hint() -> String:
+	return "Door is open." if is_open else lock_hint
+
+func interact():
+	if not is_open:
+		AudioManager.play_sfx("laser_click", 0.5)
 
 func open():
 	if is_open:
@@ -46,3 +67,10 @@ func _update_visuals(open_state: bool):
 		mat.emission = Color(0.1, 1.0, 0.3) if open_state else Color(1.0, 0.15, 0.1)
 		mat.emission_energy_multiplier = 3.0
 		status_mesh.material_override = mat
+	if status_label:
+		if open_state:
+			status_label.text = "[ACCESS GRANTED - LOCK DISENGAGED]"
+			status_label.modulate = Color(0.2, 1.0, 0.4)
+		else:
+			status_label.text = lock_text
+			status_label.modulate = Color(1.0, 0.25, 0.2)

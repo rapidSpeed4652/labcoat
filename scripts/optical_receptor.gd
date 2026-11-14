@@ -10,6 +10,7 @@ var is_activated: bool = false
 
 @onready var indicator_light: OmniLight3D = $IndicatorLight
 @onready var indicator_mesh: MeshInstance3D = $IndicatorMesh
+@onready var sensor_label: Label3D = get_node_or_null("SensorLabel")
 
 signal activated()
 
@@ -94,12 +95,18 @@ func _update_visuals():
 		mat.emission_enabled = true
 		mat.emission = Color(0.1, 1.0, 0.3)
 		mat.emission_energy_multiplier = 3.5
+		if sensor_label:
+			sensor_label.text = "[SENSOR POWERED - DOOR UNLOCKED]"
+			sensor_label.modulate = Color(0.2, 1.0, 0.4)
 	elif current_charge > 0.0:
 		indicator_light.light_color = Color(1.0, 0.8, 0.1)
 		indicator_light.light_energy = 1.5
 		mat.albedo_color = Color(1.0, 0.8, 0.1)
 		mat.emission_enabled = true
 		mat.emission = Color(1.0, 0.8, 0.1)
+		if sensor_label:
+			sensor_label.text = "[RECEIVING REFLECTED CHARGE...]"
+			sensor_label.modulate = Color(1.0, 0.85, 0.2)
 	else:
 		indicator_light.light_color = Color(1.0, 0.1, 0.1)
 		indicator_light.light_energy = 1.8
@@ -107,3 +114,6 @@ func _update_visuals():
 		mat.emission_enabled = true
 		mat.emission = Color(1.0, 0.1, 0.1)
 		mat.emission_energy_multiplier = 2.0
+		if sensor_label:
+			sensor_label.text = "[OPTICAL SENSOR: AIM REFLECTED BEAM]"
+			sensor_label.modulate = Color(0.2, 0.9, 1.0)

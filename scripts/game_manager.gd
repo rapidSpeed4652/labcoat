@@ -57,6 +57,7 @@ func _setup_inputs():
 		"jump": [KEY_SPACE],
 		"interact": [KEY_E, KEY_F],
 		"place_mirror": [KEY_Q],
+		"toggle_map": [KEY_M, KEY_TAB],
 		"restart": [KEY_R],
 		"pause": [KEY_ESCAPE]
 	}
@@ -114,36 +115,55 @@ func play_tape_log(title: String, transcript: String):
 
 func pickup_laser():
 	has_laser = true
-	set_objective("Test bouncing the laser off the wall mirror to power the magnetic door lock.")
+	set_objective("BOUNCE LASER: Aim beam at the wall mirror so the reflection hits the Optical Receptor.")
 	trigger_radio(
 		"LEO",
-		"Got the alignment laser. Direct light won't work on the security sensor—I need to bounce the beam off that angled wall mirror.",
-		6.0
+		"Got the alignment laser. Direct light won't trigger the optical sensor—I need to bounce the beam off that wall mirror so the reflection hits the sensor above the door!",
+		7.0
 	)
 
 func unlock_act1_door():
 	if act1_door_unlocked:
 		return
 	act1_door_unlocked = true
-	set_objective("Enter the Mirror Gallery. Find and shut down the 3 basement capacitor breakers.")
+	set_objective("Enter the Sub-surface Gallery. Shut down all 3 auxiliary capacitors in Bays A, B, and C.")
 	trigger_radio(
 		"SUPERVISOR CHEN (RADIO)",
-		"The gallery door just unlocked on my telemetry board. Watch yourself, Leo... something is causing severe infrared interference in those halls.",
+		"Security door unlocked! Leo, watch your telemetry. There are 3 capacitor bays down those corridors. Press [M] or [TAB] to check your base schematic.",
 		7.0
 	)
 
 func activate_capacitor():
 	capacitors_activated += 1
-	if capacitors_activated >= CAPACITORS_REQUIRED:
+	var remaining = CAPACITORS_REQUIRED - capacitors_activated
+	
+	# Update Dome Blast Door live telemetry if present
+	var dome_door = get_tree().root.find_child("DomeBlastDoor", true, false)
+	if dome_door:
+		if remaining <= 0:
+			dome_door.lock_text = "[BLAST LOCK DISENGAGED - ACCESS GRANTED]"
+			dome_door.lock_hint = "Blast doors unlocked. Head into the Coudé Dome."
+			if dome_door.has_method("open"):
+				dome_door.open()
+		else:
+			dome_door.lock_text = "[BLAST LOCK: %d/3 CAPACITORS REMAINING]" % remaining
+			dome_door.lock_hint = "Shut down %d more auxiliary capacitor(s) in the bays to unlock." % remaining
+	
+	if remaining <= 0:
 		dome_door_unlocked = true
-		set_objective("All 3 capacitors shut down! Head to the Central Telescope Dome.")
+		set_objective("All 3 capacitors offline! Dome blast doors UNLOCKED. Head to the Central Dome.")
 		trigger_radio(
 			"SUPERVISOR CHEN (RADIO)",
-			"Main dome power restored! The blast doors are open. Get to the central console and seal that roof shutter!",
-			6.5
+			"All 3 capacitors disengaged! Main dome power rerouted and blast doors are OPEN! Get to the console and seal that roof shutter!",
+			7.0
 		)
 	else:
-		set_objective("Capacitor %d/%d shut down. Find the remaining breaker(s) in the gallery." % [capacitors_activated, CAPACITORS_REQUIRED])
+		set_objective("Capacitor %d/3 offline. Shut down %d more in the bays (Check Map [M])." % [capacitors_activated, remaining])
+		trigger_radio(
+			"SUPERVISOR CHEN (RADIO)",
+			"Capacitor %d offline! %d more to shut down. Open your base map [M] to locate the remaining bays!" % [capacitors_activated, remaining],
+			6.5
+		)
 
 func solve_dome_puzzle():
 	if dome_puzzle_solved:

@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui.gd" id="1_ui"]
 [ext_resource type="Shader" path="res://assets/shaders/crt_postprocess.gdshader" id="2_crt"]
 [ext_resource type="Texture2D" path="res://assets/textures/polaroid.png" id="3_pol"]
+[ext_resource type="Script" path="res://scripts/minimap.gd" id="4_map"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_crt"]
 shader = ExtResource("2_crt")
@@ -178,6 +179,41 @@ theme_override_font_sizes/font_size = 13
 text = "PORTABLE MIRRORS: 1 [RMB PLACE]"
 vertical_alignment = 1
 
+; Persistent Corner Minimap
+[node name="MinimapPanel" type="PanelContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -215.0
+offset_top = 18.0
+offset_right = -18.0
+offset_bottom = 225.0
+grow_horizontal = 0
+
+[node name="VBox" type="VBoxContainer" parent="Control/MinimapPanel"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="HeaderLabel" type="Label" parent="Control/MinimapPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 11
+text = "SECTOR RADAR [M / TAB]"
+horizontal_alignment = 1
+
+[node name="MinimapDisplay" type="Control" parent="Control/MinimapPanel/VBox"]
+custom_minimum_size = Vector2(190, 165)
+layout_mode = 2
+script = ExtResource("4_map")
+
+[node name="LegendLabel" type="Label" parent="Control/MinimapPanel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.8, 0.9, 0.8)
+theme_override_font_sizes/font_size = 9
+text = "● YOU  ◆ CAP(3)  ✦ SENSOR"
+horizontal_alignment = 1
+
 ; Radio Dialogue Box
 [node name="RadioBox" type="PanelContainer" parent="Control"]
 layout_mode = 1
@@ -244,6 +280,85 @@ theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
 theme_override_font_sizes/font_size = 16
 text = "[E / CLICK / ESC] Put Down Polaroid"
 horizontal_alignment = 1
+
+; Fullscreen Facility Schematic Map
+[node name="FullMapModal" type="ColorRect" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.01, 0.02, 0.04, 0.92)
+
+[node name="Center" type="CenterContainer" parent="Control/FullMapModal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Control/FullMapModal/Center"]
+custom_minimum_size = Vector2(920, 600)
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="Control/FullMapModal/Center/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TitleLabel" type="Label" parent="Control/FullMapModal/Center/Panel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "TRANQUILLITATIS LUNAR RESEARCH BASE // FACILITY SCHEMATIC"
+horizontal_alignment = 1
+
+[node name="SubLabel" type="Label" parent="Control/FullMapModal/Center/Panel/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.85, 0.9, 0.7)
+theme_override_font_sizes/font_size = 12
+text = "APOLLO 11 / LRRR COUDÉ EXPANSION // SECTOR BLUEPRINT & TELEMETRY"
+horizontal_alignment = 1
+
+[node name="ContentHBox" type="HBoxContainer" parent="Control/FullMapModal/Center/Panel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="MapContainer" type="VBoxContainer" parent="Control/FullMapModal/Center/Panel/VBox/ContentHBox"]
+custom_minimum_size = Vector2(500, 480)
+layout_mode = 2
+
+[node name="FullMapDisplay" type="Control" parent="Control/FullMapModal/Center/Panel/VBox/ContentHBox/MapContainer"]
+custom_minimum_size = Vector2(500, 470)
+layout_mode = 2
+script = ExtResource("4_map")
+is_fullscreen_map = true
+
+[node name="Sidebar" type="VBoxContainer" parent="Control/FullMapModal/Center/Panel/VBox/ContentHBox"]
+custom_minimum_size = Vector2(380, 480)
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ChecklistLabel" type="Label" parent="Control/FullMapModal/Center/Panel/VBox/ContentHBox/Sidebar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 1, 0.6, 1)
+theme_override_font_sizes/font_size = 13
+text = "MISSION CHECKLIST & TELEMETRY:\n\n[ ] Equipment: Model 74 Alignment Laser\n[ ] Sector 1 Sensor: LOCKED\n[ ] Bay A Capacitor: ONLINE\n[ ] Bay B Capacitor: ONLINE\n[ ] Bay C Capacitor: ONLINE\n[ ] Dome Blast Doors: SEALED\n[ ] Coudé Optical Triangle: PENDING\n[ ] Primary Shutter: JAMMED OPEN"
+autowrap_mode = 3
+
+[node name="SectorLegend" type="Label" parent="Control/FullMapModal/Center/Panel/VBox/ContentHBox/Sidebar"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 12
+text = "SECTOR DIRECTORY:\n• CMD: Operations & Observation Deck\n• H1/H2: Sub-surface Optical Corridors\n• BAY A: South High-Voltage Capacitor\n• BAY B: West Laser Transformer\n• BAY C: East Regolith Physics Lab\n• DOME: Primary Coudé Telescope\n• EXIT: Lunar Surface Airlock"
+autowrap_mode = 3
+
+[node name="CloseButton" type="Button" parent="Control/FullMapModal/Center/Panel/VBox/ContentHBox/Sidebar"]
+custom_minimum_size = Vector2(0, 36)
+layout_mode = 2
+text = "[M / TAB / ESC] RETURN TO HUD"
 
 ; Pause Menu
 [node name="PauseMenu" type="ColorRect" parent="Control"]

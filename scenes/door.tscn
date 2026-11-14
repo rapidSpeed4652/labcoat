@@ -32,6 +32,14 @@ mesh = SubResource("BoxMesh_door")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.0, 0.18)
 mesh = SubResource("BoxMesh_sign")
 
+[node name="StatusLabel" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.3, 0.18)
+text = "[LOCKED - OVERRIDE REQUIRED]"
+font_size = 22
+outline_size = 6
+outline_modulate = Color(0, 0, 0, 1)
+modulate = Color(1, 0.25, 0.2, 1)
+
 [node name="LockSignLight" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.0, 0.4)
 light_color = Color(1, 0.15, 0.1, 1)

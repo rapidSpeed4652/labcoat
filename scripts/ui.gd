@@ -23,6 +23,10 @@ extends CanvasLayer
 @onready var win_screen: Control = $Control/WinScreen
 @onready var pause_menu: Control = $Control/PauseMenu
 @onready var crt_overlay: ColorRect = $Control/CRTOverlay
+@onready var minimap_panel: Control = $Control/MinimapPanel
+@onready var full_map_modal: Control = $Control/FullMapModal
+@onready var checklist_label: Label = $Control/FullMapModal/Center/Panel/VBox/ContentHBox/Sidebar/ChecklistLabel
+@onready var map_close_btn: Button = $Control/FullMapModal/Center/Panel/VBox/ContentHBox/Sidebar/CloseButton
 
 var typewriter_tween: Tween
 var current_target_obj: Node = null
@@ -36,6 +40,10 @@ func _ready():
 	win_screen.visible = false
 	radio_box.visible = false
 	pause_menu.visible = false
+	if full_map_modal:
+		full_map_modal.visible = false
+	if map_close_btn:
+		map_close_btn.pressed.connect(toggle_full_map)
 	
 	_set_reticle_state(false)
 	
@@ -52,12 +60,46 @@ func _ready():
 	_on_mirror_count_changed(GameManager.portable_mirrors_count)
 
 func _input(event: InputEvent):
+	if event.is_action_pressed("toggle_map"):
+		if not death_screen.visible and not win_screen.visible and not polaroid_modal.visible and not pause_menu.visible:
+			toggle_full_map()
+			get_viewport().set_input_as_handled()
+			return
+	
 	if event.is_action_pressed("pause"):
+		if full_map_modal and full_map_modal.visible:
+			toggle_full_map()
+			get_viewport().set_input_as_handled()
+			return
 		if polaroid_modal.visible:
 			GameManager.close_polaroid()
 			return
 		if not death_screen.visible and not win_screen.visible:
 			toggle_pause()
+
+func toggle_full_map():
+	if not full_map_modal:
+		return
+	var opening = not full_map_modal.visible
+	full_map_modal.visible = opening
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if opening else Input.MOUSE_MODE_CAPTURED
+	if opening:
+		_update_map_checklist()
+
+func _update_map_checklist():
+	if not checklist_label:
+		return
+	var text = "MISSION CHECKLIST & TELEMETRY:\n\n"
+	text += "[x] Equipment: Model 74 Alignment Laser\n" if GameManager.has_laser else "[ ] Equipment: Model 74 Alignment Laser\n"
+	text += "[x] Sector 1 Sensor: UNLOCKED\n" if GameManager.act1_door_unlocked else "[ ] Sector 1 Sensor: LOCKED (BOUNCE BEAM)\n"
+	text += "[x] Bay A Capacitor (South): OFFLINE\n" if GameManager.capacitors_activated >= 1 else "[ ] Bay A Capacitor (South): ONLINE\n"
+	text += "[x] Bay B Capacitor (West): OFFLINE\n" if GameManager.capacitors_activated >= 2 else "[ ] Bay B Capacitor (West): ONLINE\n"
+	text += "[x] Bay C Capacitor (East): OFFLINE\n" if GameManager.capacitors_activated >= 3 else "[ ] Bay C Capacitor (East): ONLINE\n"
+	text += "[x] Dome Blast Doors: OPEN\n" if GameManager.dome_door_unlocked else "[ ] Dome Blast Doors: SEALED (3/3 REQ)\n"
+	text += "[x] Coudé Optical Triangle: ALIGNED\n" if GameManager.dome_puzzle_solved else "[ ] Coudé Optical Triangle: PENDING\n"
+	text += "[x] Primary Shutter: SEALED\n" if GameManager.shutdown_lever_pulled else "[ ] Primary Shutter: JAMMED OPEN\n"
+	text += "[x] Surface Escape Airlock: OPEN\n" if GameManager.current_act == GameManager.Act.ENDING else "[ ] Surface Escape Airlock: SEALED\n"
+	checklist_label.text = text
 
 func toggle_pause():
 	var new_paused = not get_tree().paused

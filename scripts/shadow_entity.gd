@@ -9,6 +9,8 @@ extends CharacterBody3D
 var current_banish_time: float = 0.0
 var absorb_timer: float = 0.0
 var banish_stun_timer: float = 0.0
+var halt_timer: float = 0.0
+var is_halted: bool = false
 var attack_cooldown: float = 0.0
 var is_banished: bool = false
 var is_active: bool = true
@@ -65,6 +67,14 @@ func _physics_process(delta: float):
 	if banish_stun_timer > 0.0:
 		banish_stun_timer = max(0.0, banish_stun_timer - delta)
 	
+	if halt_timer > 0.0:
+		halt_timer = max(0.0, halt_timer - delta)
+		is_halted = (halt_timer > 0.0)
+		entity_mat.set_shader_parameter("halt_factor", clamp(halt_timer * 2.5, 0.0, 1.0))
+	else:
+		is_halted = false
+		entity_mat.set_shader_parameter("halt_factor", 0.0)
+	
 	# Decay absorb flash
 	if absorb_timer > 0.0:
 		absorb_timer = max(0.0, absorb_timer - delta * 1.8)
@@ -102,22 +112,24 @@ func _physics_process(delta: float):
 			var dir = (target_pos - global_position).normalized()
 			
 			var speed = move_speed
-			if absorb_timer > 0.1:
-				speed *= agitated_speed_mult
 			
-			# Heavy stun slowdown when actively struck by reflected beam
-			if banish_stun_timer > 0.0:
-				speed *= 0.15
+			# HALTED IN PHOTON STASIS: Direct beam pressure freezes entity movement completely
+			if is_halted:
+				speed = 0.0
+			elif banish_stun_timer > 0.0:
+				speed = 0.0
+			elif absorb_timer > 0.1:
+				speed *= agitated_speed_mult
 			
 			velocity.x = dir.x * speed
 			velocity.z = dir.z * speed
 			
 			# Face player
-			if dir.length() > 0.1:
+			if dir.length() > 0.1 and not is_halted:
 				look_at(target_pos, Vector3.UP)
 			
-			# Attack range
-			if dist < 1.35 and attack_cooldown <= 0.0 and banish_stun_timer <= 0.0:
+			# Attack range - cannot attack when halted or stunned!
+			if dist < 1.35 and attack_cooldown <= 0.0 and banish_stun_timer <= 0.0 and not is_halted:
 				_attack_player(player)
 		else:
 			velocity.x = move_toward(velocity.x, 0.0, delta * 3.0)
@@ -130,16 +142,19 @@ func on_laser_hit(is_reflected: bool, delta: float):
 		return
 	
 	if not is_reflected:
-		# RAW UNREFLECTED BEAM: Absorbed! Entity agitates and tracks player!
-		absorb_timer = 1.0
-		entity_mat.set_shader_parameter("absorb_factor", 1.0)
+		# RAW UNREFLECTED BEAM: Photon radiation pressure HALTS the entity!
+		halt_timer = 0.4
+		is_halted = true
+		absorb_timer = 0.8
+		entity_mat.set_shader_parameter("absorb_factor", 0.8)
 		if not sfx_audio.playing:
 			sfx_audio.stream = load("res://assets/audio/entity_absorb.wav")
 			sfx_audio.play()
 	else:
-		# REFLECTED BEAM: Destructive light! Heavy stun and rapid dissolution!
-		banish_stun_timer = 0.35
-		current_banish_time += delta
+		# REFLECTED BEAM: Destructive inverted light! Total halt, stun, and rapid dissolution!
+		banish_stun_timer = 0.6
+		is_halted = true
+		current_banish_time += delta * 1.2
 		var progress = clamp(current_banish_time / banish_health, 0.0, 1.0)
 		entity_mat.set_shader_parameter("banish_progress", progress)
 		
@@ -174,3 +189,15 @@ func _attack_player(player: Node):
 		player.take_damage(40.0, knock_dir)
 	else:
 		GameManager.player_died()
+
+func get_category_badge() -> String:
+	return "⚠ [VOID ENTITY: HALTED IN STASIS]" if is_halted else "⚠ [ANOMALY: VOID SILHOUETTE]"
+
+func get_category_color() -> Color:
+	return Color(0.2, 0.9, 1.0) if is_halted else Color(0.95, 0.25, 0.3)
+
+func get_interaction_prompt() -> String:
+	return "HALTED BY DIRECT BEAM (Bounce off mirror to banish!)" if is_halted else "PIN WITH DIRECT BEAM / BOUNCE REFLECTED BEAM TO BANISH"
+
+func get_hint() -> String:
+	return "Direct beam holds it in place with photon pressure! While halted, place a mirror or angle a bounce."
