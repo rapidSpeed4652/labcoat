@@ -179,11 +179,11 @@ func schedule_entity_respawn(spawn_pos: Vector3, delay: float):
 	if current_act != Act.ENDING and current_act != Act.GAME_OVER:
 		var entity_scene = load("res://scenes/shadow_entity.tscn")
 		if entity_scene:
-			var entity = entity_scene.instantiate()
-			entity.global_position = spawn_pos
 			var obs = get_tree().root.find_child("Observatory", true, false)
 			if obs:
+				var entity = entity_scene.instantiate()
 				obs.add_child(entity)
+				entity.global_position = spawn_pos
 				AudioManager.play_sfx("entity_stalk", 1.1)
 
 func pickup_laser():
