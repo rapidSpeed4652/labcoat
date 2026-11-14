@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/shadow_entity.gd" id="1_shd"]
+[ext_resource type="Shader" path="res://assets/shaders/shadow_entity.gdshader" id="2_shdr"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_col"]
+radius = 0.45
+height = 2.3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_mat"]
+render_priority = 0
+shader = ExtResource("2_shdr")
+shader_parameter/base_color = Color(0.015, 0.015, 0.02, 1)
+shader_parameter/absorb_color = Color(0.95, 0.08, 0.2, 1)
+shader_parameter/banish_color = Color(0.2, 0.95, 1, 1)
+shader_parameter/absorb_factor = 0.0
+shader_parameter/banish_progress = 0.0
+shader_parameter/distort_speed = 8.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_body"]
+material = SubResource("ShaderMaterial_mat")
+radius = 0.35
+height = 2.3
+
+[node name="ShadowEntity" type="CharacterBody3D"]
+collision_layer = 4
+script = ExtResource("1_shd")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0)
+shape = SubResource("CapsuleShape3D_col")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0)
+mesh = SubResource("CapsuleMesh_body")

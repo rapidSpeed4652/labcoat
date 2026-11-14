@@ -1,0 +1,355 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui.gd" id="1_ui"]
+[ext_resource type="Shader" path="res://assets/shaders/crt_postprocess.gdshader" id="2_crt"]
+[ext_resource type="Texture2D" path="res://assets/textures/polaroid.png" id="3_pol"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_crt"]
+shader = ExtResource("2_crt")
+shader_parameter/scanline_count = 360.0
+shader_parameter/scanline_intensity = 0.12
+shader_parameter/vignette_intensity = 0.65
+shader_parameter/aberration_amount = 0.002
+shader_parameter/static_noise = 0.025
+
+[node name="UI" type="CanvasLayer"]
+process_mode = 3
+script = ExtResource("1_ui")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CRTOverlay" type="ColorRect" parent="Control"]
+material = SubResource("ShaderMaterial_crt")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Crosshair" type="CenterContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Dot" type="ColorRect" parent="Control/Crosshair"]
+custom_minimum_size = Vector2(4, 4)
+layout_mode = 2
+color = Color(0.2, 0.9, 1, 0.8)
+
+[node name="PromptLabel" type="Label" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = 30.0
+offset_right = 250.0
+offset_bottom = 70.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_font_sizes/font_size = 18
+text = "[E] Interact"
+horizontal_alignment = 1
+
+[node name="ObjectivePanel" type="PanelContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -320.0
+offset_top = 20.0
+offset_right = 320.0
+offset_bottom = 65.0
+grow_horizontal = 2
+
+[node name="ObjectiveLabel" type="Label" parent="Control/ObjectivePanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 1, 0.6, 1)
+theme_override_font_sizes/font_size = 15
+text = "OBJECTIVE: Inspect the observatory."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LaserPanel" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -260.0
+offset_top = -90.0
+offset_right = -30.0
+offset_bottom = -30.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="HeatLabel" type="Label" parent="Control/LaserPanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 13
+text = "EMITTER HEAT: 0%"
+horizontal_alignment = 2
+
+[node name="HeatBar" type="ProgressBar" parent="Control/LaserPanel"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+value = 20.0
+show_percentage = false
+
+[node name="MirrorPanel" type="PanelContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 30.0
+offset_top = -70.0
+offset_right = 330.0
+offset_bottom = -30.0
+grow_vertical = 0
+
+[node name="MirrorLabel" type="Label" parent="Control/MirrorPanel"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.9, 0.5, 1)
+theme_override_font_sizes/font_size = 13
+text = "PORTABLE MIRRORS: 1 [RMB PLACE]"
+vertical_alignment = 1
+
+[node name="RadioBox" type="PanelContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -350.0
+offset_top = -140.0
+offset_right = 350.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="VBox" type="VBoxContainer" parent="Control/RadioBox"]
+layout_mode = 2
+
+[node name="SpeakerLabel" type="Label" parent="Control/RadioBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.8, 0.2, 1)
+theme_override_font_sizes/font_size = 14
+text = "[ TRANSMISSION: SUPERVISOR CHEN ]"
+
+[node name="MessageLabel" type="Label" parent="Control/RadioBox/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 14
+text = "Leo, shut down the capacitors and get out!"
+autowrap_mode = 3
+
+[node name="PolaroidModal" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.88)
+
+[node name="Center" type="CenterContainer" parent="Control/PolaroidModal"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Control/PolaroidModal/Center"]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Control/PolaroidModal/Center/VBox"]
+custom_minimum_size = Vector2(380, 456)
+layout_mode = 2
+texture = ExtResource("3_pol")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CloseLabel" type="Label" parent="Control/PolaroidModal/Center/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_font_sizes/font_size = 16
+text = "[E / CLICK / ESC] Put Down Polaroid"
+horizontal_alignment = 1
+
+[node name="PauseMenu" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.02, 0.03, 0.05, 0.85)
+
+[node name="Center" type="CenterContainer" parent="Control/PauseMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Control/PauseMenu/Center"]
+custom_minimum_size = Vector2(280, 0)
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Title" type="Label" parent="Control/PauseMenu/Center/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 28
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="Sub" type="Label" parent="Control/PauseMenu/Center/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 1)
+theme_override_font_sizes/font_size = 14
+text = "Mount Hale Lunar Observatory"
+horizontal_alignment = 1
+
+[node name="ResumeBtn" type="Button" parent="Control/PauseMenu/Center/VBox"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "RESUME"
+
+[node name="RestartBtn" type="Button" parent="Control/PauseMenu/Center/VBox"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "RESTART CHECKPOINT"
+
+[node name="CrtToggle" type="CheckButton" parent="Control/PauseMenu/Center/VBox"]
+layout_mode = 2
+button_pressed = true
+text = "CRT Display Shader"
+
+[node name="QuitBtn" type="Button" parent="Control/PauseMenu/Center/VBox"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+text = "QUIT"
+
+[node name="DeathScreen" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.08, 0, 0.02, 0.95)
+
+[node name="Center" type="CenterContainer" parent="Control/DeathScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Control/DeathScreen/Center"]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="Control/DeathScreen/Center/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.1, 0.1, 1)
+theme_override_font_sizes/font_size = 38
+text = "CONSUMED BY THE VOID"
+horizontal_alignment = 1
+
+[node name="Sub" type="Label" parent="Control/DeathScreen/Center/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.7, 0.7, 1)
+theme_override_font_sizes/font_size = 16
+text = "Direct light only fed the shadow. You must bounce back."
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="Control/DeathScreen/Center/VBox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="RestartBtn" type="Button" parent="Control/DeathScreen/Center/VBox"]
+custom_minimum_size = Vector2(220, 45)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "[R] RETRY CHECKPOINT"
+
+[node name="WinScreen" type="ColorRect" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.01, 0.03, 0.06, 0.95)
+
+[node name="Center" type="CenterContainer" parent="Control/WinScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Control/WinScreen/Center"]
+layout_mode = 2
+alignment = 1
+
+[node name="Title" type="Label" parent="Control/WinScreen/Center/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.2, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 40
+text = "RETRO-REFLECTOR"
+horizontal_alignment = 1
+
+[node name="Sub" type="Label" parent="Control/WinScreen/Center/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.9, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "The primary roof shutter is sealed. The Perseus Void beam is severed."
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="Control/WinScreen/Center/VBox"]
+custom_minimum_size = Vector2(0, 15)
+layout_mode = 2
+
+[node name="Lore" type="Label" parent="Control/WinScreen/Center/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.6, 0.7, 0.8, 1)
+theme_override_font_sizes/font_size = 14
+text = "As Leo reaches the mountain air, he catches a brief, lingering reflection\\nin the dark display glass behind him... watching."
+horizontal_alignment = 1
+
+[connection signal="pressed" from="Control/PauseMenu/Center/VBox/ResumeBtn" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="Control/PauseMenu/Center/VBox/RestartBtn" to="." method="_on_restart_button_pressed"]
+[connection signal="toggled" from="Control/PauseMenu/Center/VBox/CrtToggle" to="." method="_on_crt_toggle_toggled"]
+[connection signal="pressed" from="Control/PauseMenu/Center/VBox/QuitBtn" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="Control/DeathScreen/Center/VBox/RestartBtn" to="." method="_on_restart_button_pressed"]

@@ -1,0 +1,45 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/portable_mirror.gd" id="1_pmir"]
+[ext_resource type="Texture2D" path="res://assets/textures/mirror_glass.png" id="2_gls"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_col"]
+size = Vector3(0.8, 1.4, 0.4)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tripod"]
+albedo_color = Color(0.15, 0.16, 0.18, 1)
+metallic = 0.7
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_glass"]
+albedo_texture = ExtResource("2_gls")
+metallic = 0.95
+roughness = 0.05
+emission_enabled = true
+emission = Color(0.1, 0.3, 0.4, 1)
+emission_energy_multiplier = 0.6
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_stand"]
+material = SubResource("StandardMaterial3D_tripod")
+top_radius = 0.02
+bottom_radius = 0.25
+height = 0.8
+
+[sub_resource type="BoxMesh" id="BoxMesh_mirror"]
+material = SubResource("StandardMaterial3D_glass")
+size = Vector3(0.7, 0.9, 0.04)
+
+[node name="PortableMirror" type="StaticBody3D"]
+script = ExtResource("1_pmir")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0)
+shape = SubResource("BoxShape3D_col")
+
+[node name="TripodMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+mesh = SubResource("CylinderMesh_stand")
+
+[node name="MirrorPanel" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0)
+mesh = SubResource("BoxMesh_mirror")

@@ -1,0 +1,137 @@
+extends CanvasLayer
+
+@onready var prompt_label: Label = $Control/PromptLabel
+@onready var objective_label: Label = $Control/ObjectivePanel/ObjectiveLabel
+@onready var heat_bar: ProgressBar = $Control/LaserPanel/HeatBar
+@onready var heat_label: Label = $Control/LaserPanel/HeatLabel
+@onready var mirror_label: Label = $Control/MirrorPanel/MirrorLabel
+@onready var laser_panel: Control = $Control/LaserPanel
+
+@onready var radio_box: Control = $Control/RadioBox
+@onready var radio_speaker: Label = $Control/RadioBox/VBox/SpeakerLabel
+@onready var radio_text: Label = $Control/RadioBox/VBox/MessageLabel
+
+@onready var polaroid_modal: Control = $Control/PolaroidModal
+@onready var death_screen: Control = $Control/DeathScreen
+@onready var win_screen: Control = $Control/WinScreen
+@onready var pause_menu: Control = $Control/PauseMenu
+@onready var crt_overlay: ColorRect = $Control/CRTOverlay
+
+var typewriter_tween: Tween
+
+func _ready():
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	add_to_group("UI")
+	prompt_label.text = ""
+	polaroid_modal.visible = false
+	death_screen.visible = false
+	win_screen.visible = false
+	radio_box.visible = false
+	pause_menu.visible = false
+	
+	GameManager.objective_updated.connect(update_objective)
+	GameManager.radio_message_started.connect(show_radio_message)
+	GameManager.polaroid_opened.connect(_on_polaroid_opened)
+	GameManager.polaroid_closed.connect(_on_polaroid_closed)
+	GameManager.mirror_count_changed.connect(_on_mirror_count_changed)
+	GameManager.game_lost.connect(_on_game_lost)
+	GameManager.game_won.connect(_on_game_won)
+	GameManager.player_respawn_requested.connect(_on_player_respawn)
+	
+	update_objective(GameManager.current_objective)
+	_on_mirror_count_changed(GameManager.portable_mirrors_count)
+
+func _input(event: InputEvent):
+	if event.is_action_pressed("pause"):
+		if polaroid_modal.visible:
+			GameManager.close_polaroid()
+			return
+		if not death_screen.visible and not win_screen.visible:
+			toggle_pause()
+
+func toggle_pause():
+	var new_paused = not get_tree().paused
+	get_tree().paused = new_paused
+	pause_menu.visible = new_paused
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE if new_paused else Input.MOUSE_MODE_CAPTURED
+
+func _process(_delta: float):
+	laser_panel.visible = GameManager.has_laser
+	
+	var player = get_tree().get_first_node_in_group("Player")
+	if player and player.laser_system:
+		var sys = player.laser_system
+		heat_bar.value = sys.heat * 100.0
+		if sys.is_overheated:
+			heat_label.text = "OVERHEAT! 3s COOLDOWN"
+			heat_label.modulate = Color(1.0, 0.2, 0.2)
+			heat_bar.modulate = Color(1.0, 0.2, 0.2)
+		else:
+			heat_label.text = "EMITTER HEAT: " + str(int(sys.heat * 100.0)) + "%"
+			heat_label.modulate = Color(0.2, 0.9, 1.0)
+			heat_bar.modulate = Color(0.2, 0.9, 1.0)
+
+func show_interaction_prompt(text: String):
+	if text.is_empty():
+		prompt_label.text = ""
+	else:
+		prompt_label.text = "[E] " + text
+
+func hide_interaction_prompt():
+	prompt_label.text = ""
+
+func update_objective(text: String):
+	objective_label.text = text
+
+func show_radio_message(speaker: String, text: String, duration: float):
+	AudioManager.play_radio_static()
+	radio_box.visible = true
+	radio_speaker.text = speaker
+	radio_text.text = ""
+	
+	if typewriter_tween:
+		typewriter_tween.kill()
+	
+	typewriter_tween = create_tween()
+	typewriter_tween.tween_property(radio_text, "visible_characters", text.length(), 1.0).from(0)
+	radio_text.text = text
+	
+	await get_tree().create_timer(duration).timeout
+	if radio_speaker.text == speaker:
+		radio_box.visible = false
+
+func _on_polaroid_opened():
+	polaroid_modal.visible = true
+
+func _on_polaroid_closed():
+	polaroid_modal.visible = false
+
+func _on_mirror_count_changed(count: int):
+	mirror_label.text = "PORTABLE MIRRORS: " + str(count) + " [RMB/Q PLACE]"
+
+func _on_game_lost():
+	death_screen.visible = true
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+func _on_player_respawn():
+	death_screen.visible = false
+	pause_menu.visible = false
+	get_tree().paused = false
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+func _on_game_won():
+	win_screen.visible = true
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+func _on_restart_button_pressed():
+	GameManager.restart_checkpoint()
+
+func _on_resume_button_pressed():
+	toggle_pause()
+
+func _on_crt_toggle_toggled(button_pressed: bool):
+	if crt_overlay:
+		crt_overlay.visible = button_pressed
+
+func _on_quit_button_pressed():
+	get_tree().quit()

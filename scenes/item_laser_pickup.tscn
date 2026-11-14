@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable.gd" id="1_int"]
+[ext_resource type="Texture2D" path="res://assets/textures/laser_casing.png" id="2_cas"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_col"]
+size = Vector3(0.4, 0.3, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mat"]
+albedo_texture = ExtResource("2_cas")
+metallic = 0.6
+roughness = 0.4
+
+[sub_resource type="BoxMesh" id="BoxMesh_body"]
+material = SubResource("StandardMaterial3D_mat")
+size = Vector3(0.2, 0.15, 0.4)
+
+[node name="LaserPickup" type="StaticBody3D"]
+script = ExtResource("1_int")
+interaction_type = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_col")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_body")
+
+[node name="GlowLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
+light_color = Color(0.2, 0.9, 1, 1)
+light_energy = 1.0
+omni_range = 1.2

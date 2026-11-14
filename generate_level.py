@@ -1,0 +1,568 @@
+import os
+
+# We will generate levels/observatory.tscn
+# Using standard Godot 4.x text format
+
+content = """[gd_scene load_steps=22 format=3]
+
+[ext_resource type="Script" path="res://scripts/dome_controller.gd" id="1_dctrl"]
+[ext_resource type="Texture2D" path="res://assets/textures/floor.png" id="2_flr"]
+[ext_resource type="Texture2D" path="res://assets/textures/wall.png" id="3_wal"]
+[ext_resource type="PackedScene" path="res://scenes/door.tscn" id="4_dor"]
+[ext_resource type="PackedScene" path="res://scenes/mirror.tscn" id="5_mir"]
+[ext_resource type="PackedScene" path="res://scenes/optical_receptor.tscn" id="6_rec"]
+[ext_resource type="PackedScene" path="res://scenes/item_laser_pickup.tscn" id="7_las"]
+[ext_resource type="PackedScene" path="res://scenes/item_polaroid.tscn" id="8_pol"]
+[ext_resource type="PackedScene" path="res://scenes/item_tape_recorder.tscn" id="9_tap"]
+[ext_resource type="PackedScene" path="res://scenes/item_capacitor_breaker.tscn" id="10_brk"]
+[ext_resource type="PackedScene" path="res://scenes/shadow_entity.tscn" id="11_shd"]
+[ext_resource type="PackedScene" path="res://scenes/dome_reflector.tscn" id="12_dref"]
+[ext_resource type="PackedScene" path="res://scenes/item_shutdown_lever.tscn" id="13_lvr"]
+[ext_resource type="PackedScene" path="res://scenes/item_exit_door.tscn" id="14_ext"]
+[ext_resource type="PackedScene" path="res://scenes/portable_mirror.tscn" id="15_pmir"]
+[ext_resource type="Shader" path="res://assets/shaders/laser_beam.gdshader" id="16_bshd"]
+
+[sub_resource type="StandardMaterial3D" id="Mat_Floor"]
+albedo_texture = ExtResource("2_flr")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+roughness = 0.7
+
+[sub_resource type="StandardMaterial3D" id="Mat_Wall"]
+albedo_texture = ExtResource("3_wal")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+metallic = 0.5
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="Mat_Desk"]
+albedo_color = Color(0.25, 0.28, 0.3, 1)
+metallic = 0.7
+roughness = 0.4
+
+[sub_resource type="ShaderMaterial" id="Mat_MegaBeam"]
+render_priority = 0
+shader = ExtResource("16_bshd")
+shader_parameter/laser_color = Color(0.1, 0.6, 1, 1)
+shader_parameter/core_color = Color(0.9, 0.95, 1, 1)
+shader_parameter/intensity = 5.0
+
+[sub_resource type="CylinderMesh" id="Mesh_MegaBeam"]
+material = SubResource("Mat_MegaBeam")
+top_radius = 0.45
+bottom_radius = 0.45
+height = 30.0
+
+[node name="Observatory" type="Node3D"]
+
+[node name="DomeController" type="Node3D" parent="." node_paths=PackedStringArray("station_alpha", "station_beta", "station_gamma", "roof_shutter", "central_beam", "triangle_beam_mesh", "emergency_lights_root")]
+script = ExtResource("1_dctrl")
+station_alpha = NodePath("../Act3_Dome/StationAlpha")
+station_beta = NodePath("../Act3_Dome/StationBeta")
+station_gamma = NodePath("../Act3_Dome/StationGamma")
+roof_shutter = NodePath("../Act3_Dome/RoofShutter")
+central_beam = NodePath("../Act3_Dome/CentralLaserBeam")
+triangle_beam_mesh = NodePath("../Act3_Dome/TriangleBeams")
+emergency_lights_root = NodePath("../Act3_Dome/EmergencyLights")
+
+<!-- ============================================== -->
+<!-- ACT 1: CONTROL ROOM -->
+<!-- ============================================== -->
+[node name="Act1_ControlRoom" type="Node3D" parent="."]
+
+<!-- Floor -->
+[node name="Floor" type="CSGBox3D" parent="Act1_ControlRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+use_collision = true
+size = Vector3(12, 0.4, 12)
+material = SubResource("Mat_Floor")
+
+<!-- Ceiling -->
+[node name="Ceiling" type="CSGBox3D" parent="Act1_ControlRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8, 0)
+use_collision = true
+size = Vector3(12, 0.4, 12)
+material = SubResource("Mat_Wall")
+
+<!-- Walls -->
+[node name="Wall_North" type="CSGBox3D" parent="Act1_ControlRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, -6)
+use_collision = true
+size = Vector3(12, 3.6, 0.4)
+material = SubResource("Mat_Wall")
+
+[node name="Wall_South" type="CSGBox3D" parent="Act1_ControlRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 6)
+use_collision = true
+size = Vector3(12, 3.6, 0.4)
+material = SubResource("Mat_Wall")
+
+[node name="Wall_West" type="CSGBox3D" parent="Act1_ControlRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.8, 0)
+use_collision = true
+size = Vector3(0.4, 3.6, 12)
+material = SubResource("Mat_Wall")
+
+<!-- East Wall with doorway to Gallery -->
+[node name="Wall_East_1" type="CSGBox3D" parent="Act1_ControlRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.8, -3.5)
+use_collision = true
+size = Vector3(0.4, 3.6, 5)
+material = SubResource("Mat_Wall")
+
+[node name="Wall_East_2" type="CSGBox3D" parent="Act1_ControlRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.8, 3.5)
+use_collision = true
+size = Vector3(0.4, 3.6, 5)
+material = SubResource("Mat_Wall")
+
+<!-- Alcove baffle wall blocking direct shot at sensor -->
+[node name="BaffleWall" type="CSGBox3D" parent="Act1_ControlRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 1.8, -0.6)
+use_collision = true
+size = Vector3(0.3, 3.6, 2.2)
+material = SubResource("Mat_Wall")
+
+<!-- Control Desks -->
+[node name="Desk" type="CSGBox3D" parent="Act1_ControlRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0.45, -3.5)
+use_collision = true
+size = Vector3(4.0, 0.9, 1.6)
+material = SubResource("Mat_Desk")
+
+<!-- Polaroid on Desk -->
+[node name="PolaroidItem" parent="Act1_ControlRoom" instance=ExtResource("8_pol")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 0.92, -3.4)
+
+<!-- Handheld Laser on Desk -->
+[node name="LaserPickup" parent="Act1_ControlRoom" instance=ExtResource("7_las")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 0.95, -3.4)
+
+<!-- Wall Mirror (Angled at 45 degrees so beam bounces into alcove sensor) -->
+[node name="WallMirror_Act1" parent="Act1_ControlRoom" instance=ExtResource("5_mir")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 4.2, 1.5, -4.8)
+
+<!-- Optical Receptor (Inside alcove behind baffle wall, aimed at mirror) -->
+[node name="OpticalReceptor_Act1" parent="Act1_ControlRoom" node_paths=PackedStringArray("target_door") instance=ExtResource("6_rec")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.8, 1.5, -0.6)
+target_door = NodePath("../Act1SecurityDoor")
+
+<!-- Security Door to Gallery -->
+[node name="Act1SecurityDoor" parent="Act1_ControlRoom" instance=ExtResource("4_dor")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6.0, 0, 0)
+
+<!-- Red Emergency Lights -->
+[node name="ControlLight1" type="OmniLight3D" parent="Act1_ControlRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2.8, -2)
+light_color = Color(1, 0.25, 0.2, 1)
+light_energy = 1.2
+omni_range = 6.0
+
+[node name="ControlLight2" type="OmniLight3D" parent="Act1_ControlRoom"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2.8, 2)
+light_color = Color(1, 0.35, 0.15, 1)
+light_energy = 0.9
+omni_range = 6.0
+
+<!-- ============================================== -->
+<!-- ACT 2: THE MIRROR GALLERY & BREAKER ROOMS -->
+<!-- ============================================== -->
+[node name="Act2_Gallery" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
+
+<!-- Gallery Hallway 1 (X: 0 to 18, Z: -2 to 2) -->
+[node name="Hall1_Floor" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, -0.2, 0)
+use_collision = true
+size = Vector3(18, 0.4, 4)
+material = SubResource("Mat_Floor")
+
+[node name="Hall1_Ceil" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 3.8, 0)
+use_collision = true
+size = Vector3(18, 0.4, 4)
+material = SubResource("Mat_Wall")
+
+[node name="Hall1_WallN" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1.8, -2)
+use_collision = true
+size = Vector3(18, 3.6, 0.4)
+material = SubResource("Mat_Wall")
+
+<!-- South wall has opening into Breaker Room 1 at X = 8 -->
+[node name="Hall1_WallS1" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 1.8, 2)
+use_collision = true
+size = Vector3(7, 3.6, 0.4)
+material = SubResource("Mat_Wall")
+
+[node name="Hall1_WallS2" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 1.8, 2)
+use_collision = true
+size = Vector3(7, 3.6, 0.4)
+material = SubResource("Mat_Wall")
+
+<!-- Corner 1 Mirror (At X = 17.5, facing west-north) -->
+[node name="Mirror_Corner1" parent="Act2_Gallery" instance=ExtResource("5_mir")]
+transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 17.5, 1.5, 0)
+
+<!-- Hallway 2 (Turning North from X=18, Z: 0 to -16) -->
+[node name="Hall2_Floor" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, -0.2, -8)
+use_collision = true
+size = Vector3(4, 0.4, 16)
+material = SubResource("Mat_Floor")
+
+[node name="Hall2_Ceil" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 3.8, -8)
+use_collision = true
+size = Vector3(4, 0.4, 16)
+material = SubResource("Mat_Wall")
+
+[node name="Hall2_WallE" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1.8, -8)
+use_collision = true
+size = Vector3(0.4, 3.6, 16)
+material = SubResource("Mat_Wall")
+
+<!-- West wall of Hall 2 has opening to Breaker Room 2 at Z = -8 -->
+[node name="Hall2_WallW1" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 1.8, -3.5)
+use_collision = true
+size = Vector3(0.4, 3.6, 7)
+material = SubResource("Mat_Wall")
+
+[node name="Hall2_WallW2" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 1.8, -12.5)
+use_collision = true
+size = Vector3(0.4, 3.6, 7)
+material = SubResource("Mat_Wall")
+
+<!-- Corner 2 Mirror (At X = 18, Z = -15.5) -->
+[node name="Mirror_Corner2" parent="Act2_Gallery" instance=ExtResource("5_mir")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 18, 1.5, -15.5)
+
+<!-- Breaker Room 1 (At X = 9, Z = 6) -->
+[node name="BR1_Floor" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, -0.2, 6)
+use_collision = true
+size = Vector3(8, 0.4, 8)
+material = SubResource("Mat_Floor")
+
+[node name="BR1_Ceil" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 3.8, 6)
+use_collision = true
+size = Vector3(8, 0.4, 8)
+material = SubResource("Mat_Wall")
+
+[node name="BR1_WallS" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1.8, 10)
+use_collision = true
+size = Vector3(8, 3.6, 0.4)
+material = SubResource("Mat_Wall")
+
+[node name="BR1_WallE" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 1.8, 6)
+use_collision = true
+size = Vector3(0.4, 3.6, 8)
+material = SubResource("Mat_Wall")
+
+[node name="BR1_WallW" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.8, 6)
+use_collision = true
+size = Vector3(0.4, 3.6, 8)
+material = SubResource("Mat_Wall")
+
+<!-- Capacitor Breaker 1 -->
+[node name="CapacitorBreaker1" parent="Act2_Gallery" instance=ExtResource("10_brk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1.6, 9.7)
+
+<!-- Tape Recorder 1 -->
+[node name="TapeRecorder1" parent="Act2_Gallery" instance=ExtResource("9_tap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 0.8, 7.5)
+tape_title = "Log 77-B: The Void Return"
+tape_transcript = "The lunar retroreflector array didn't return the beam. Something else did. We detected a focal return from the Perseus Void... but there is no reflector out there. It didn't bounce back. It held on. It's climbing down the beam."
+
+<!-- Portable Mirror Stand in Breaker Room 1 -->
+[node name="PortableMirrorPickup1" parent="Act2_Gallery" instance=ExtResource("15_pmir")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 11, 0, 7)
+
+<!-- Shadow Entity 1 (Patrolling near Breaker Room 1) -->
+[node name="ShadowEntity1" parent="Act2_Gallery" instance=ExtResource("11_shd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 1)
+
+<!-- Breaker Room 2 (At X = 11, Z = -8) -->
+[node name="BR2_Floor" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, -0.2, -8)
+use_collision = true
+size = Vector3(8, 0.4, 8)
+material = SubResource("Mat_Floor")
+
+[node name="BR2_Ceil" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 3.8, -8)
+use_collision = true
+size = Vector3(8, 0.4, 8)
+material = SubResource("Mat_Wall")
+
+[node name="BR2_WallW" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.8, -8)
+use_collision = true
+size = Vector3(0.4, 3.6, 8)
+material = SubResource("Mat_Wall")
+
+[node name="BR2_WallN" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 1.8, -12)
+use_collision = true
+size = Vector3(8, 3.6, 0.4)
+material = SubResource("Mat_Wall")
+
+[node name="BR2_WallS" type="CSGBox3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 1.8, -4)
+use_collision = true
+size = Vector3(8, 3.6, 0.4)
+material = SubResource("Mat_Wall")
+
+<!-- Capacitor Breaker 2 -->
+[node name="CapacitorBreaker2" parent="Act2_Gallery" instance=ExtResource("10_brk")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.3, 1.6, -8)
+
+<!-- Tape Recorder 2 -->
+[node name="TapeRecorder2" parent="Act2_Gallery" instance=ExtResource("9_tap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 0.8, -9.5)
+tape_title = "Log 78-C: The Reflected Secret"
+tape_transcript = "They absorb raw photons—shining an unreflected flashlight or direct laser only gives them mass and agitates them! But when light bounces off a retro-reflector, the inversion burns them! You have to bounce the beam!"
+
+<!-- Shadow Entity 2 (In Hall 2) -->
+[node name="ShadowEntity2" parent="Act2_Gallery" instance=ExtResource("11_shd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, -10)
+
+<!-- Hallway Lights -->
+[node name="GalleryLight1" type="OmniLight3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 2.8, 0)
+light_color = Color(1, 0.3, 0.2, 1)
+light_energy = 0.8
+omni_range = 6.0
+
+[node name="GalleryLight2" type="OmniLight3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 2.8, -8)
+light_color = Color(0.2, 0.4, 1, 1)
+light_energy = 0.7
+omni_range = 6.0
+
+<!-- Dome Blast Door (At end of Hall 2, leading to Act 3 Dome) -->
+[node name="DomeBlastDoor" parent="Act2_Gallery" instance=ExtResource("4_dor")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, -16)
+
+<!-- ============================================== -->
+<!-- ACT 3: THE DOME & THE ALIGNMENT -->
+<!-- ============================================== -->
+[node name="Act3_Dome" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, -32)
+
+<!-- Dome Floor (Hexagonal / Circular 28x28m) -->
+[node name="DomeFloor" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+use_collision = true
+size = Vector3(28, 0.4, 28)
+material = SubResource("Mat_Floor")
+
+<!-- Dome Walls (Circular approximation with 8 walls) -->
+[node name="Wall_N" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0, -14)
+use_collision = true
+size = Vector3(12, 8.0, 0.5)
+material = SubResource("Mat_Wall")
+
+[node name="Wall_S" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0, 14)
+use_collision = true
+size = Vector3(12, 8.0, 0.5)
+material = SubResource("Mat_Wall")
+
+[node name="Wall_E" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 4.0, 0)
+use_collision = true
+size = Vector3(0.5, 8.0, 12)
+material = SubResource("Mat_Wall")
+
+[node name="Wall_W" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 4.0, 0)
+use_collision = true
+size = Vector3(0.5, 8.0, 12)
+material = SubResource("Mat_Wall")
+
+[node name="Wall_NE" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 10, 4.0, -10)
+use_collision = true
+size = Vector3(10, 8.0, 0.5)
+material = SubResource("Mat_Wall")
+
+[node name="Wall_NW" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -10, 4.0, -10)
+use_collision = true
+size = Vector3(10, 8.0, 0.5)
+material = SubResource("Mat_Wall")
+
+[node name="Wall_SE" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 10, 4.0, 10)
+use_collision = true
+size = Vector3(10, 8.0, 0.5)
+material = SubResource("Mat_Wall")
+
+[node name="Wall_SW" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -10, 4.0, 10)
+use_collision = true
+size = Vector3(10, 8.0, 0.5)
+material = SubResource("Mat_Wall")
+
+<!-- Dome Roof with Open Shutter Aperture in center -->
+[node name="DomeRoof" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.2, 0)
+use_collision = true
+size = Vector3(28, 0.4, 28)
+material = SubResource("Mat_Wall")
+
+[node name="RoofAperture" type="CSGBox3D" parent="Act3_Dome/DomeRoof"]
+operation = 2
+size = Vector3(6, 1.0, 6)
+
+<!-- Movable Roof Shutter Door -->
+[node name="RoofShutter" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.0, 0)
+use_collision = true
+size = Vector3(6.5, 0.3, 6.5)
+material = SubResource("Mat_Desk")
+
+<!-- Central Lunar Laser Telescope Base -->
+[node name="TelescopeBase" type="CSGCylinder3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+use_collision = true
+radius = 2.4
+height = 3.0
+material = SubResource("Mat_Desk")
+
+<!-- The Primary High Power Laser Beam (blasting straight up into dark sky) -->
+[node name="CentralLaserBeam" type="MeshInstance3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15.0, 0)
+mesh = SubResource("Mesh_MegaBeam")
+
+<!-- Central Core Emitter Light -->
+[node name="BeamLight" type="OmniLight3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2, 0)
+light_color = Color(0.2, 0.8, 1, 1)
+light_energy = 5.0
+omni_range = 16.0
+
+<!-- Emergency Shutdown Console & Lever (In front of telescope) -->
+[node name="ShutdownConsole" parent="Act3_Dome" instance=ExtResource("13_lvr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.6)
+
+<!-- 3 Rotating Telescope Reflector Stations (Forming the Triangle) -->
+<!-- Station Alpha (East): target_angle_deg = 45.0 -->
+[node name="StationAlpha" parent="Act3_Dome" instance=ExtResource("12_dref")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.0, 0, -4.5)
+station_name = "Reflector Station Alpha"
+target_angle_deg = 45.0
+current_angle_deg = 180.0
+
+<!-- Station Beta (South): target_angle_deg = 135.0 -->
+[node name="StationBeta" parent="Act3_Dome" instance=ExtResource("12_dref")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 0, 9.0)
+station_name = "Reflector Station Beta"
+target_angle_deg = 135.0
+current_angle_deg = 270.0
+
+<!-- Station Gamma (North-West): target_angle_deg = 315.0 -->
+[node name="StationGamma" parent="Act3_Dome" instance=ExtResource("12_dref")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.0, 0, -4.5)
+station_name = "Reflector Station Gamma"
+target_angle_deg = 315.0
+current_angle_deg = 90.0
+
+<!-- Triangle Beam Cage Visual Mesh (Activates on solve) -->
+[node name="TriangleBeams" type="MeshInstance3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+visible = false
+
+[node name="BeamAB" type="CSGCylinder3D" parent="Act3_Dome/TriangleBeams"]
+transform = Transform3D(0.83205, 0, 0.5547, 0, 1, 0, -0.5547, 0, 0.83205, 4.5, 0, 2.25)
+radius = 0.08
+height = 16.2
+material = SubResource("Mat_MegaBeam")
+
+[node name="BeamBC" type="CSGCylinder3D" parent="Act3_Dome/TriangleBeams"]
+transform = Transform3D(0.83205, 0, -0.5547, 0, 1, 0, 0.5547, 0, 0.83205, -4.5, 0, 2.25)
+radius = 0.08
+height = 16.2
+material = SubResource("Mat_MegaBeam")
+
+[node name="BeamCA" type="CSGCylinder3D" parent="Act3_Dome/TriangleBeams"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, -4.5)
+radius = 0.08
+height = 18.0
+material = SubResource("Mat_MegaBeam")
+
+<!-- 3 Dome Shadow Entities Guarding Console -->
+[node name="DomeEntity1" parent="Act3_Dome" instance=ExtResource("11_shd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0, 0, 3.0)
+
+[node name="DomeEntity2" parent="Act3_Dome" instance=ExtResource("11_shd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0, 0, 3.0)
+
+[node name="DomeEntity3" parent="Act3_Dome" instance=ExtResource("11_shd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 0, -5.0)
+
+<!-- Emergency Lights in Dome (Turn on after shutter seals) -->
+[node name="EmergencyLights" type="Node3D" parent="Act3_Dome"]
+visible = false
+
+[node name="Amber1" type="OmniLight3D" parent="Act3_Dome/EmergencyLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 5, -8)
+light_color = Color(1, 0.6, 0.1, 1)
+light_energy = 2.5
+omni_range = 14.0
+
+[node name="Amber2" type="OmniLight3D" parent="Act3_Dome/EmergencyLights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 5, 8)
+light_color = Color(1, 0.6, 0.1, 1)
+light_energy = 2.5
+omni_range = 14.0
+
+<!-- Exit Hallway (From Dome X: -14, Z: -14 to mountain exit) -->
+[node name="ExitHall_Floor" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, -0.2, 0)
+use_collision = true
+size = Vector3(10, 0.4, 4)
+material = SubResource("Mat_Floor")
+
+[node name="ExitHall_Ceil" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 3.8, 0)
+use_collision = true
+size = Vector3(10, 0.4, 4)
+material = SubResource("Mat_Wall")
+
+[node name="ExitHall_WallN" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 1.8, -2)
+use_collision = true
+size = Vector3(10, 3.6, 0.4)
+material = SubResource("Mat_Wall")
+
+[node name="ExitHall_WallS" type="CSGBox3D" parent="Act3_Dome"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 1.8, 2)
+use_collision = true
+size = Vector3(10, 3.6, 0.4)
+material = SubResource("Mat_Wall")
+
+<!-- Dark Glass Display Case along the exit hall (The Ending Reflection!) -->
+[node name="DisplayGlassMirror" parent="Act3_Dome" instance=ExtResource("5_mir")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -19, 1.5, -1.8)
+
+<!-- Final Exit Door -->
+[node name="ExitDoor" parent="Act3_Dome" instance=ExtResource("14_ext")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -24, 0, 0)
+"""
+
+with open("/home/koundinyag/Projects/LH1/levels/observatory.tscn", "w") as f:
+    f.write(content)
+
+print("Generated levels/observatory.tscn successfully!")

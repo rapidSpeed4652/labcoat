@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/interactable.gd" id="1_int"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_col"]
+size = Vector3(1.2, 1.2, 0.8)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_console"]
+albedo_color = Color(0.12, 0.14, 0.16, 1)
+metallic = 0.8
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lever"]
+albedo_color = Color(1.0, 0.8, 0.0, 1) 
+metallic = 0.7
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="BoxMesh_console"]
+material = SubResource("StandardMaterial3D_console")
+size = Vector3(1.0, 1.0, 0.7)
+
+[sub_resource type="BoxMesh" id="BoxMesh_lever"]
+material = SubResource("StandardMaterial3D_lever")
+size = Vector3(0.1, 0.6, 0.1)
+
+[node name="ShutdownConsole" type="StaticBody3D"]
+script = ExtResource("1_int")
+interaction_type = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("BoxShape3D_col")
+
+[node name="ConsoleMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("BoxMesh_console")
+
+[node name="LeverHandle" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1.0, 0.1)
+mesh = SubResource("BoxMesh_lever")
+
+[node name="BeaconLight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0)
+light_color = Color(1, 0.2, 0.1, 1)
+light_energy = 2.0
+omni_range = 3.0
