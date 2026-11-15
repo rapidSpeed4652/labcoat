@@ -30,6 +30,9 @@ extends CanvasLayer
 @onready var pause_menu: Control = $Control/PauseMenu
 @onready var crt_overlay: ColorRect = $Control/CRTOverlay
 @onready var minimap_panel: Control = $Control/MinimapPanel
+@onready var health_panel: Control = $Control/HealthPanel
+@onready var health_bar: ProgressBar = $Control/HealthPanel/VBox/HealthBar
+@onready var health_val_label: Label = $Control/HealthPanel/VBox/HeaderHBox/ValLabel
 @onready var full_map_modal: Control = $Control/FullMapModal
 @onready var checklist_label: Label = $Control/FullMapModal/Center/Panel/VBox/ContentHBox/Sidebar/ChecklistLabel
 @onready var map_close_btn: Button = $Control/FullMapModal/Center/Panel/VBox/ContentHBox/Sidebar/CloseButton
@@ -68,6 +71,12 @@ func _ready():
 	update_objective(GameManager.current_objective)
 	_on_mirror_count_changed(GameManager.portable_mirrors_count)
 	update_flashlight(true)
+	
+	var player = get_tree().get_first_node_in_group("Player")
+	if player:
+		if player.has_signal("health_changed") and not player.health_changed.is_connected(update_health):
+			player.health_changed.connect(update_health)
+		update_health(player.health, player.max_health)
 	
 	if keypad_modal:
 		keypad_modal.visible = false
@@ -248,6 +257,31 @@ func _on_player_respawn():
 	pause_menu.visible = false
 	get_tree().paused = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	var player = get_tree().get_first_node_in_group("Player")
+	if player:
+		update_health(player.health, player.max_health)
+
+func update_health(curr: float, maximum: float):
+	if not health_bar:
+		return
+	health_bar.max_value = maximum
+	health_bar.value = curr
+	var pct = int((curr / maximum) * 100.0) if maximum > 0.0 else 0
+	if health_val_label:
+		health_val_label.text = str(pct) + "%"
+	var ratio = curr / maximum if maximum > 0.0 else 0.0
+	if ratio > 0.5:
+		health_bar.modulate = Color(0.2, 0.95, 0.85, 1.0)
+		if health_val_label:
+			health_val_label.modulate = Color(0.2, 0.95, 0.85, 1.0)
+	elif ratio > 0.25:
+		health_bar.modulate = Color(1.0, 0.8, 0.2, 1.0)
+		if health_val_label:
+			health_val_label.modulate = Color(1.0, 0.8, 0.2, 1.0)
+	else:
+		health_bar.modulate = Color(1.0, 0.25, 0.2, 1.0)
+		if health_val_label:
+			health_val_label.modulate = Color(1.0, 0.25, 0.2, 1.0)
 
 func _on_game_won():
 	var cutscene = get_tree().root.find_child("EndingCutscene", true, false)

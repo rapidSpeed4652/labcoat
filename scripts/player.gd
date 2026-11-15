@@ -44,6 +44,10 @@ func _ready():
 	_update_gun_visibility()
 	if flashlight:
 		GameManager.flashlight_toggled.emit(flashlight.visible)
+	health_changed.emit(health, max_health)
+	var ui = get_tree().get_first_node_in_group("UI")
+	if ui and ui.has_method("update_health"):
+		ui.update_health(health, max_health)
 
 func _unhandled_input(event: InputEvent):
 	if event is InputEventMouseButton and event.pressed:
@@ -117,6 +121,9 @@ func _physics_process(delta: float):
 	if time_since_damage > 4.5 and health < max_health and health > 0.0:
 		health = min(max_health, health + delta * 25.0)
 		health_changed.emit(health, max_health)
+		var ui = get_tree().get_first_node_in_group("UI")
+		if ui and ui.has_method("update_health"):
+			ui.update_health(health, max_health)
 
 	is_sprinting = Input.is_action_pressed("sprint") or Input.is_key_pressed(KEY_SHIFT) or Input.is_physical_key_pressed(KEY_SHIFT)
 	var target_speed = sprint_speed if is_sprinting else walk_speed
@@ -242,6 +249,8 @@ func take_damage(amount: float, knockback_dir: Vector3 = Vector3.ZERO):
 	var ui = get_tree().get_first_node_in_group("UI")
 	if ui and ui.has_method("flash_damage"):
 		ui.flash_damage()
+	if ui and ui.has_method("update_health"):
+		ui.update_health(health, max_health)
 	
 	if health <= 0.0:
 		GameManager.player_died()
@@ -250,6 +259,9 @@ func respawn_at_checkpoint():
 	health = max_health
 	time_since_damage = 0.0
 	health_changed.emit(health, max_health)
+	var ui = get_tree().get_first_node_in_group("UI")
+	if ui and ui.has_method("update_health"):
+		ui.update_health(health, max_health)
 	global_position = checkpoint_pos
 	velocity = Vector3.ZERO
 	if laser_system:

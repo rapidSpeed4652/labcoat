@@ -1,14 +1,14 @@
 extends Control
 
 @onready var btn_start: Button = $UI/VBoxContainer/BtnStart
-@onready var btn_missions: Button = $UI/VBoxContainer/BtnMissions
+@onready var btn_missions: Button = get_node_or_null("UI/VBoxContainer/BtnMissions")
 @onready var btn_dossier: Button = $UI/VBoxContainer/BtnDossier
 @onready var btn_controls: Button = $UI/VBoxContainer/BtnControls
 @onready var btn_quit: Button = $UI/VBoxContainer/BtnQuit
 
 @onready var dossier_modal: Control = $UI/DossierModal
 @onready var controls_modal: Control = $UI/ControlsModal
-@onready var missions_modal: Control = $UI/MissionsModal
+@onready var missions_modal: Control = get_node_or_null("UI/MissionsModal")
 @onready var camera_pivot: Node3D = $CameraPivot
 
 var rot_speed: float = 0.04
@@ -19,6 +19,8 @@ func _ready():
 	controls_modal.visible = false
 	
 	btn_start.pressed.connect(func(): _launch_mission(1))
+	if btn_missions:
+		btn_missions.pressed.connect(_on_missions_pressed)
 	btn_dossier.pressed.connect(_on_dossier_pressed)
 	btn_controls.pressed.connect(_on_controls_pressed)
 	btn_quit.pressed.connect(_on_quit_pressed)
@@ -69,7 +71,8 @@ func _on_missions_pressed():
 	var am = get_node_or_null("/root/AudioManager")
 	if am and am.has_method("play_sfx"):
 		am.play_sfx("interact")
-	missions_modal.visible = true
+	if missions_modal:
+		missions_modal.visible = true
 
 func _on_dossier_pressed():
 	var am = get_node_or_null("/root/AudioManager")
