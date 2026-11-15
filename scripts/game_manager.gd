@@ -113,10 +113,8 @@ func close_polaroid():
 	is_inspecting_polaroid = false
 	polaroid_closed.emit()
 
-func play_tape_log(title: String, transcript: String, voice_clip: String = ""):
+func play_tape_log(title: String, transcript: String, _voice_clip: String = ""):
 	tape_played.emit(title, transcript)
-	if voice_clip != "":
-		AudioManager.play_voice(voice_clip)
 
 func request_keypad(target_id: String, expected_code: String, title: String):
 	keypad_requested.emit(target_id, expected_code, title)

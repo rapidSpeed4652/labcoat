@@ -1,0 +1,178 @@
+[gd_scene load_steps=15 format=3]
+
+[sub_resource type="StandardMaterial3D" id="Mat_RocketFoil"]
+albedo_color = Color(0.95, 0.76, 0.18, 1)
+metallic = 0.95
+roughness = 0.22
+
+[sub_resource type="StandardMaterial3D" id="Mat_RocketHull"]
+albedo_color = Color(0.92, 0.93, 0.95, 1)
+metallic = 0.2
+roughness = 0.45
+
+[sub_resource type="StandardMaterial3D" id="Mat_EngineBell"]
+albedo_color = Color(0.24, 0.25, 0.28, 1)
+metallic = 0.92
+roughness = 0.35
+
+[sub_resource type="StandardMaterial3D" id="Mat_TrussLegs"]
+albedo_color = Color(0.65, 0.68, 0.72, 1)
+metallic = 0.85
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="Mat_ExhaustFlame"]
+albedo_color = Color(1.0, 0.85, 0.4, 1)
+emission_enabled = true
+emission = Color(1.0, 0.55, 0.1, 1)
+emission_energy_multiplier = 10.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_RCSThruster"]
+albedo_color = Color(0.18, 0.18, 0.2, 1)
+metallic = 0.9
+roughness = 0.3
+
+[sub_resource type="CylinderMesh" id="Mesh_Stage1"]
+material = SubResource("Mat_RocketFoil")
+top_radius = 1.6
+bottom_radius = 1.6
+height = 2.4
+
+[sub_resource type="CylinderMesh" id="Mesh_Cabin"]
+material = SubResource("Mat_RocketHull")
+top_radius = 0.95
+bottom_radius = 1.6
+height = 2.0
+
+[sub_resource type="CylinderMesh" id="Mesh_Docking"]
+material = SubResource("Mat_RocketHull")
+top_radius = 0.45
+bottom_radius = 0.55
+height = 0.7
+
+[sub_resource type="CylinderMesh" id="Mesh_Engine"]
+material = SubResource("Mat_EngineBell")
+top_radius = 0.35
+bottom_radius = 0.85
+height = 1.2
+
+[sub_resource type="CylinderMesh" id="Mesh_Flame"]
+material = SubResource("Mat_ExhaustFlame")
+top_radius = 0.75
+bottom_radius = 0.08
+height = 6.0
+
+[sub_resource type="BoxMesh" id="Mesh_RCSBlock"]
+material = SubResource("Mat_RCSThruster")
+size = Vector3(0.35, 0.35, 0.35)
+
+[sub_resource type="CylinderMesh" id="Mesh_LegStrut"]
+material = SubResource("Mat_TrussLegs")
+top_radius = 0.06
+bottom_radius = 0.06
+height = 3.2
+
+[sub_resource type="CylinderMesh" id="Mesh_FootPad"]
+material = SubResource("Mat_RocketFoil")
+top_radius = 0.4
+bottom_radius = 0.4
+height = 0.1
+
+[node name="LunarRocket" type="Node3D"]
+
+[node name="PropellantStage" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0)
+mesh = SubResource("Mesh_Stage1")
+
+[node name="AscentCabin" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.4, 0)
+mesh = SubResource("Mesh_Cabin")
+
+[node name="DockingCollar" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.75, 0)
+mesh = SubResource("Mesh_Docking")
+
+[node name="EngineBell" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+mesh = SubResource("Mesh_Engine")
+
+[node name="FlamePlume" type="MeshInstance3D" parent="EngineBell"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.4, 0)
+visible = false
+mesh = SubResource("Mesh_Flame")
+
+[node name="PlumeLight" type="OmniLight3D" parent="EngineBell"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5, 0)
+visible = false
+light_color = Color(1, 0.65, 0.2, 1)
+light_energy = 12.0
+omni_range = 45.0
+shadow_enabled = true
+
+[node name="ThrustParticles" type="CPUParticles3D" parent="EngineBell"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.6, 0)
+emitting = false
+amount = 64
+lifetime = 0.8
+speed_scale = 1.4
+mesh = SubResource("Mesh_FootPad")
+emission_shape = 1
+emission_sphere_radius = 0.4
+direction = Vector3(0, -1, 0)
+spread = 25.0
+gravity = Vector3(0, -1.62, 0)
+initial_velocity_min = 18.0
+initial_velocity_max = 30.0
+scale_amount_min = 0.15
+scale_amount_max = 0.4
+color = Color(1, 0.6, 0.15, 1)
+
+[node name="RCS1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.65, 3.8, 0)
+mesh = SubResource("Mesh_RCSBlock")
+
+[node name="RCS2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.65, 3.8, 0)
+mesh = SubResource("Mesh_RCSBlock")
+
+[node name="RCS3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8, 1.65)
+mesh = SubResource("Mesh_RCSBlock")
+
+[node name="RCS4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8, -1.65)
+mesh = SubResource("Mesh_RCSBlock")
+
+[node name="Leg1" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.906308, -0.422618, 0, 0.422618, 0.906308, 0, 0, 0, 1, 1.8, 1.2, 0)
+mesh = SubResource("Mesh_LegStrut")
+
+[node name="Pad1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 0.05, 0)
+mesh = SubResource("Mesh_FootPad")
+
+[node name="Leg2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 0, 0, 1, -1.8, 1.2, 0)
+mesh = SubResource("Mesh_LegStrut")
+
+[node name="Pad2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.6, 0.05, 0)
+mesh = SubResource("Mesh_FootPad")
+
+[node name="Leg3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.906308, -0.422618, 0, 0.422618, 0.906308, 0, 1.2, 1.8)
+mesh = SubResource("Mesh_LegStrut")
+
+[node name="Pad3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 2.6)
+mesh = SubResource("Mesh_FootPad")
+
+[node name="Leg4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.906308, 0.422618, 0, -0.422618, 0.906308, 0, 1.2, -1.8)
+mesh = SubResource("Mesh_LegStrut")
+
+[node name="Pad4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -2.6)
+mesh = SubResource("Mesh_FootPad")

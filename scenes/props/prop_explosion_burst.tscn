@@ -1,0 +1,76 @@
+[gd_scene load_steps=8 format=3]
+
+[sub_resource type="StandardMaterial3D" id="Mat_Fireball"]
+albedo_color = Color(1.0, 0.8, 0.3, 1)
+emission_enabled = true
+emission = Color(1.0, 0.45, 0.05, 1)
+emission_energy_multiplier = 14.0
+
+[sub_resource type="StandardMaterial3D" id="Mat_Debris"]
+albedo_color = Color(0.18, 0.18, 0.2, 1)
+metallic = 0.9
+roughness = 0.5
+
+[sub_resource type="SphereMesh" id="Mesh_Fireball"]
+material = SubResource("Mat_Fireball")
+radius = 2.4
+height = 4.8
+
+[sub_resource type="BoxMesh" id="Mesh_Debris"]
+material = SubResource("Mat_Debris")
+size = Vector3(0.5, 0.5, 0.5)
+
+[sub_resource type="StandardMaterial3D" id="Mat_Smoke"]
+transparency = 1
+albedo_color = Color(0.2, 0.2, 0.22, 0.6)
+roughness = 0.9
+
+[sub_resource type="SphereMesh" id="Mesh_Smoke"]
+material = SubResource("Mat_Smoke")
+radius = 1.2
+height = 2.4
+
+[node name="ExplosionBurst" type="Node3D"]
+
+[node name="Fireball" type="MeshInstance3D" parent="."]
+unique_name_in_owner = true
+mesh = SubResource("Mesh_Fireball")
+
+[node name="BurstLight" type="OmniLight3D" parent="."]
+unique_name_in_owner = true
+light_color = Color(1, 0.5, 0.1, 1)
+light_energy = 16.0
+omni_range = 65.0
+shadow_enabled = true
+
+[node name="DebrisParticles" type="CPUParticles3D" parent="."]
+unique_name_in_owner = true
+emitting = true
+amount = 48
+lifetime = 2.2
+one_shot = true
+explosiveness = 0.95
+mesh = SubResource("Mesh_Debris")
+direction = Vector3(0, 1, 0)
+spread = 75.0
+gravity = Vector3(0, -1.62, 0)
+initial_velocity_min = 16.0
+initial_velocity_max = 34.0
+scale_amount_min = 0.3
+scale_amount_max = 0.9
+
+[node name="SmokeParticles" type="CPUParticles3D" parent="."]
+unique_name_in_owner = true
+emitting = true
+amount = 32
+lifetime = 3.2
+one_shot = true
+explosiveness = 0.85
+mesh = SubResource("Mesh_Smoke")
+direction = Vector3(0, 1, 0)
+spread = 60.0
+gravity = Vector3(0, -0.6, 0)
+initial_velocity_min = 6.0
+initial_velocity_max = 14.0
+scale_amount_min = 0.8
+scale_amount_max = 2.2

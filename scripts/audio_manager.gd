@@ -63,7 +63,9 @@ func _load_sound_assets():
 		"access_denied.wav",
 		"entity_glitch.wav",
 		"quindar_intro.wav",
-		"quindar_outro.wav"
+		"quindar_outro.wav",
+		"explosion.wav",
+		"rocket_thruster.wav"
 	]
 	
 	for file in audio_files:
@@ -71,30 +73,6 @@ func _load_sound_assets():
 		var path = "res://assets/audio/" + file
 		if ResourceLoader.exists(path):
 			sounds[key] = load(path)
-			
-	var voice_files = [
-		"radio_intro.wav",
-		"radio_laser_acquired.wav",
-		"radio_act1_unlocked.wav",
-		"radio_cap1.wav",
-		"radio_cap2.wav",
-		"radio_cap3.wav",
-		"radio_dome_enter.wav",
-		"radio_ending.wav",
-		"tape_log_1.wav",
-		"tape_log_2.wav",
-		"tape_log_3.wav",
-		"vocal_warning.wav",
-		"vocal_capacitor_offline.wav",
-		"vocal_dome_unlocked.wav",
-		"vocal_shutter_closing.wav"
-	]
-	
-	for vfile in voice_files:
-		var vkey = vfile.get_basename()
-		var vpath = "res://assets/audio/voice/" + vfile
-		if ResourceLoader.exists(vpath):
-			voice_clips[vkey] = load(vpath)
 
 func play_ambient():
 	if sounds.has("ambient_drone"):
@@ -128,12 +106,8 @@ func start_dome_alarm():
 func stop_dome_alarm():
 	alarm_player.stop()
 
-func play_voice(name: String, volume_offset_db: float = 0.0):
-	if voice_clips.has(name):
-		voice_player.stop()
-		voice_player.stream = voice_clips[name]
-		voice_player.volume_db = volume_offset_db
-		voice_player.play()
+func play_voice(_name: String, _volume_offset_db: float = 0.0):
+	pass
 
 func stop_voice():
 	if voice_player and voice_player.playing:

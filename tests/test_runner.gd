@@ -244,10 +244,10 @@ func _ready():
 	lunar_ext.queue_free()
 	print("✓ Test 11: 3D Lunar exterior landscape, craters, comms dishes & solar arrays verified!")
 	
-	assert(AudioManager.voice_clips.has("radio_intro"), "Radio intro voice clip must be loaded")
-	assert(AudioManager.voice_clips.has("tape_log_1"), "Dr. Thorne Tape Log 1 must be loaded")
-	assert(AudioManager.voice_clips.has("tape_log_2"), "Dr. Thorne Tape Log 2 must be loaded")
-	assert(AudioManager.voice_clips.has("tape_log_3"), "Dr. Thorne Tape Log 3 must be loaded")
+	assert(AudioManager.sounds.has("quindar_intro"), "NASA Quindar intro beep must be loaded")
+	assert(AudioManager.sounds.has("quindar_outro"), "NASA Quindar outro beep must be loaded")
+	assert(AudioManager.sounds.has("explosion"), "Cinematic explosion SFX must be loaded")
+	assert(AudioManager.sounds.has("rocket_thruster"), "Lunar rocket thruster SFX must be loaded")
 	
 	var menu_scene = load("res://scenes/start_menu.tscn")
 	assert(menu_scene != null, "Start Menu scene must load cleanly")
