@@ -1,24 +1,23 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://cyiwf1ijbwgku"]
 
-[ext_resource type="Script" path="res://scripts/cutscene_ending.gd" id="1_cut"]
+[ext_resource type="Script" uid="uid://chah4ab6h1skm" path="res://scripts/cutscene_ending.gd" id="1_cut"]
 
-[node name="EndingCutscene" type="CanvasLayer"]
+[node name="EndingCutscene" type="CanvasLayer" unique_id=921331378]
 layer = 50
 script = ExtResource("1_cut")
 
-[node name="CutsceneCamera" type="Camera3D" parent="."]
+[node name="CutsceneCamera" type="Camera3D" parent="." unique_id=105898884]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
-current = false
 fov = 68.0
 
-[node name="LetterboxTop" type="ColorRect" parent="."]
+[node name="LetterboxTop" type="ColorRect" parent="." unique_id=2127859722]
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 100.0
+offset_bottom = 324.0
 grow_horizontal = 2
 color = Color(0, 0, 0, 1)
 
-[node name="LetterboxBottom" type="ColorRect" parent="."]
+[node name="LetterboxBottom" type="ColorRect" parent="." unique_id=1564940172]
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
@@ -28,7 +27,7 @@ grow_horizontal = 2
 grow_vertical = 0
 color = Color(0, 0, 0, 1)
 
-[node name="SubtitleBox" type="VBoxContainer" parent="."]
+[node name="SubtitleBox" type="VBoxContainer" parent="." unique_id=1985494763]
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
@@ -42,14 +41,14 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 4
 
-[node name="SpeakerLabel" type="Label" parent="SubtitleBox"]
+[node name="SpeakerLabel" type="Label" parent="SubtitleBox" unique_id=281557282]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.2, 0.9, 1, 1)
 theme_override_font_sizes/font_size = 14
 text = "FLIGHT DIRECTOR VANCE (HOUSTON)"
 horizontal_alignment = 1
 
-[node name="MessageLabel" type="Label" parent="SubtitleBox"]
+[node name="MessageLabel" type="Label" parent="SubtitleBox" unique_id=723235315]
 custom_minimum_size = Vector2(900, 40)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)

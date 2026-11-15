@@ -1,10 +1,14 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene format=3 uid="uid://dncynudimxjc5"]
 
-[ext_resource type="Script" path="res://scripts/start_menu.gd" id="1_menu"]
-[ext_resource type="Texture2D" path="res://assets/textures/lunar_skybox.png" id="2_sky"]
+[ext_resource type="Script" uid="uid://bk0slb7hn7d67" path="res://scripts/start_menu.gd" id="1_menu"]
+[ext_resource type="Texture2D" uid="uid://dmicjve3mkw7j" path="res://assets/textures/Free+Galaxies+8k.hdr" id="2_fcv5n"]
+[ext_resource type="FontFile" uid="uid://ktmm7jbmmojh" path="res://assets/fonts/AERUNO-Trial.otf" id="3_fcv5n"]
+[ext_resource type="FontFile" uid="uid://cbqv5kwjne01w" path="res://assets/fonts/CyberformDemo.otf" id="4_4v6gu"]
+[ext_resource type="FontFile" uid="uid://becxod0spfcou" path="res://assets/fonts/MidnightLetters-Regular.otf" id="5_nxjfj"]
+[ext_resource type="AudioStream" uid="uid://b2tqom47y540l" path="res://assets/music/mondamusic-space-ambient-597177.mp3" id="6_4v6gu"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lunar"]
-panorama = ExtResource("2_sky")
+panorama = ExtResource("2_fcv5n")
 
 [sub_resource type="Sky" id="Sky_lunar"]
 sky_material = SubResource("PanoramaSkyMaterial_lunar")
@@ -21,15 +25,15 @@ glow_intensity = 1.2
 glow_bloom = 0.3
 volumetric_fog_enabled = true
 volumetric_fog_density = 0.02
-volumetric_fog_albedo = Color(0.85, 0.95, 1.0, 1)
+volumetric_fog_albedo = Color(0.85, 0.95, 1, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn"]
-bg_color = Color(0.08, 0.12, 0.18, 0.92)
+bg_color = Color(0.081687756, 0.1471912, 0.24395883, 0.92156863)
 border_width_left = 3
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 3
-border_color = Color(0.2, 0.8, 1.0, 0.85)
+border_color = Color(0.2, 0.8, 1, 0.85)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
@@ -41,13 +45,13 @@ border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.2, 0.85, 1.0, 0.9)
+border_color = Color(0.2, 0.85, 1, 0.9)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
-[node name="StartMenu" type="Control"]
+[node name="StartMenu" type="Control" unique_id=1201927200]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -56,47 +60,43 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_menu")
 
-; === 3D VISTA ENVIRONMENT ===
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1797952907]
 environment = SubResource("Environment_menu")
 
-[node name="DirectionalMoonlight" type="DirectionalLight3D" parent="."]
+[node name="DirectionalMoonlight" type="DirectionalLight3D" parent="." unique_id=709191369]
 transform = Transform3D(0.866025, -0.353553, 0.353553, 0, 0.707107, 0.707107, -0.5, -0.612372, 0.612372, 0, 20, 0)
 light_color = Color(0.38, 0.55, 0.82, 1)
 light_energy = 0.6
 shadow_enabled = true
 
-; Smooth Orbiting 3D Camera Pivot
-[node name="CameraPivot" type="Node3D" parent="."]
+[node name="CameraPivot" type="Node3D" parent="." unique_id=1002311208]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
 
-[node name="Camera3D" type="Camera3D" parent="CameraPivot"]
-transform = Transform3D(1, 0, 0, 0, 0.939693, 0.34202, 0, -0.34202, 0.939693, 0, 8.0, 24.0)
+[node name="Camera3D" type="Camera3D" parent="CameraPivot" unique_id=742209810]
+transform = Transform3D(0.4287277, 0.3696749, -0.82433796, -0.036616758, 0.91881037, 0.39299715, 0.9026915, -0.13830419, 0.4074557, -23.995253, 12.561602, 6.661442)
 current = true
 
-; Diorama Lunar Terrain in Background
-[node name="MenuLunarGround" type="CSGBox3D" parent="."]
+[node name="MenuLunarGround" type="CSGBox3D" parent="." unique_id=2129342289]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
-size = Vector3(80, 1.0, 80)
+size = Vector3(80, 1, 80)
 
-[node name="MenuDomePylon" type="CSGCylinder3D" parent="."]
+[node name="MenuDomePylon" type="CSGCylinder3D" parent="." unique_id=913276737]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 radius = 4.5
 height = 3.6
 
-[node name="MenuBeam" type="CSGCylinder3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25.0, 0)
+[node name="MenuBeam" type="CSGCylinder3D" parent="." unique_id=866908016]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0)
 radius = 0.15
 height = 50.0
 
-[node name="BeamGlow" type="OmniLight3D" parent="MenuBeam"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20.0, 0)
-light_color = Color(0.1, 0.9, 1.0, 1)
+[node name="BeamGlow" type="OmniLight3D" parent="MenuBeam" unique_id=606135470]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.047932625, -20, 0)
+light_color = Color(0.1, 0.9, 1, 1)
 light_energy = 5.0
 omni_range = 14.0
 
-; === 2D RETRO SCI-FI UI OVERLAY ===
-[node name="UI" type="Control" parent="."]
+[node name="UI" type="Control" parent="." unique_id=1785498439]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -104,7 +104,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="TitleBox" type="VBoxContainer" parent="UI"]
+[node name="TitleBox" type="VBoxContainer" parent="UI" unique_id=1031419213]
 layout_mode = 0
 offset_left = 80.0
 offset_top = 70.0
@@ -112,31 +112,34 @@ offset_right = 780.0
 offset_bottom = 240.0
 theme_override_constants/separation = 4
 
-[node name="Badge" type="Label" parent="UI/TitleBox"]
+[node name="Badge" type="Label" parent="UI/TitleBox" unique_id=696165738]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.35, 0.85, 1.0, 1)
+theme_override_colors/font_color = Color(0.35, 0.85, 1, 1)
 theme_override_font_sizes/font_size = 14
-text = "[NASA / LURE // MOUNT HALE LUNAR LASER OBSERVATORY - 1977]"
+text = "[MOUNT HALE LUNAR LASER OBSERVATORY - 1977]"
 
-[node name="Title" type="Label" parent="UI/TitleBox"]
+[node name="Title" type="Label" parent="UI/TitleBox" unique_id=1335760394]
 layout_mode = 2
-theme_override_colors/font_color = Color(1.0, 1.0, 1.0, 1)
-theme_override_font_sizes/font_size = 56
-text = "RETRO-REFLECTOR"
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_fcv5n")
+theme_override_font_sizes/font_size = 66
+text = "LabCoat"
 
-[node name="Subtitle" type="Label" parent="UI/TitleBox"]
+[node name="Subtitle" type="Label" parent="UI/TitleBox" unique_id=497512759]
 layout_mode = 2
-theme_override_colors/font_color = Color(1.0, 0.78, 0.25, 1)
-theme_override_font_sizes/font_size = 18
-text = "LUNAR LASER RANGING EXPERIMENT (LURE) // ANOMALOUS RETURN REPORT"
+theme_override_colors/font_color = Color(1, 0.78, 0.25, 1)
+theme_override_fonts/font = ExtResource("4_4v6gu")
+theme_override_font_sizes/font_size = 21
+text = "A HACKCLUB INITIATIVE"
 
-[node name="Status" type="Label" parent="UI/TitleBox"]
+[node name="Status" type="Label" parent="UI/TitleBox" unique_id=666202486]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.35, 0.35, 1)
-theme_override_font_sizes/font_size = 13
-text = "TELEMETRY STATUS: COUDÉ LASER RETURN ANOMALY • OPTICAL SHIFT OBSERVED"
+theme_override_fonts/font = ExtResource("4_4v6gu")
+theme_override_font_sizes/font_size = 20
+text = "! Laboratory compromised !"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI" unique_id=213323702]
 layout_mode = 0
 offset_left = 80.0
 offset_top = 270.0
@@ -144,110 +147,44 @@ offset_right = 460.0
 offset_bottom = 570.0
 theme_override_constants/separation = 14
 
-[node name="BtnStart" type="Button" parent="UI/VBoxContainer"]
+[node name="BtnStart" type="Button" parent="UI/VBoxContainer" unique_id=2080921367]
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_hover_color = Color(0.2, 1.0, 0.6, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_colors/font_hover_color = Color(0.2, 1, 0.6, 1)
+theme_override_fonts/font = ExtResource("5_nxjfj")
+theme_override_font_sizes/font_size = 23
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
-text = "▶  COMMENCE CAMPAIGN"
+text = "PLAY"
 
-[node name="BtnMissions" type="Button" parent="UI/VBoxContainer"]
+[node name="BtnDossier" type="Button" parent="UI/VBoxContainer" unique_id=2041648965]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
-theme_override_font_sizes/font_size = 15
+theme_override_fonts/font = ExtResource("5_nxjfj")
+theme_override_font_sizes/font_size = 19
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
-text = "🚀  SELECT MISSION CHAPTER"
+text = "📜 LORE 📜"
 
-[node name="BtnDossier" type="Button" parent="UI/VBoxContainer"]
+[node name="BtnControls" type="Button" parent="UI/VBoxContainer" unique_id=981094403]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
-theme_override_font_sizes/font_size = 15
+theme_override_fonts/font = ExtResource("5_nxjfj")
+theme_override_font_sizes/font_size = 19
 theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
-text = "📁  MISSION DOSSIER (LORE)"
+text = "KEYBINDS"
 
-[node name="BtnControls" type="Button" parent="UI/VBoxContainer"]
-custom_minimum_size = Vector2(0, 44)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.9, 0.9, 0.9, 1)
-theme_override_font_sizes/font_size = 15
-theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
-text = "⚙  OPTICS & KEYBINDINGS"
-
-[node name="BtnQuit" type="Button" parent="UI/VBoxContainer"]
+[node name="BtnQuit" type="Button" parent="UI/VBoxContainer" unique_id=1861279139]
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
-theme_override_font_sizes/font_size = 15
-theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
-text = "✖  ABORT MISSION"
-
-; Mission Selector Modal
-[node name="MissionsModal" type="ColorRect" parent="UI"]
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 0.88)
-
-[node name="Center" type="CenterContainer" parent="UI/MissionsModal"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Panel" type="PanelContainer" parent="UI/MissionsModal/Center"]
-custom_minimum_size = Vector2(750, 460)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
-
-[node name="VBox" type="VBoxContainer" parent="UI/MissionsModal/Center/Panel"]
-layout_mode = 2
-theme_override_constants/separation = 12
-
-[node name="Title" type="Label" parent="UI/MissionsModal/Center/Panel/VBox"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.3, 0.9, 1.0, 1)
+theme_override_fonts/font = ExtResource("5_nxjfj")
 theme_override_font_sizes/font_size = 22
-text = "LUNAR EXPEDITION CHAPTER SELECTOR"
-horizontal_alignment = 1
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn")
+text = "QUIT"
 
-[node name="M1_Btn" type="Button" parent="UI/MissionsModal/Center/Panel/VBox"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-text = "MISSION 1: COMMAND DECK (Optical Alignment • Diagnostic Polaroid)"
-
-[node name="M2_Btn" type="Button" parent="UI/MissionsModal/Center/Panel/VBox"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-text = "MISSION 2: TRANQUILLITY LINE (Exterior EVA • Apollo 11 LRRR Benchmark)"
-
-[node name="M3_Btn" type="Button" parent="UI/MissionsModal/Center/Panel/VBox"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-text = "MISSION 3: RESEARCH BAYS (Cleanroom Lab • Capacitor Sequence 1->3->2)"
-
-[node name="M4_Btn" type="Button" parent="UI/MissionsModal/Center/Panel/VBox"]
-custom_minimum_size = Vector2(0, 48)
-layout_mode = 2
-text = "MISSION 4: COUDÉ DOME (Triad Mirror Alignment • System Discharge)"
-
-[node name="BtnCloseMissions" type="Button" parent="UI/MissionsModal/Center/Panel/VBox"]
-custom_minimum_size = Vector2(200, 36)
-layout_mode = 2
-size_flags_horizontal = 4
-text = "[ RETURN ]"
-
-; Dossier Modal
-[node name="DossierModal" type="ColorRect" parent="UI"]
+[node name="DossierModal" type="ColorRect" parent="UI" unique_id=455232237]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -257,7 +194,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.88)
 
-[node name="Center" type="CenterContainer" parent="UI/DossierModal"]
+[node name="Center" type="CenterContainer" parent="UI/DossierModal" unique_id=1375823964]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -265,23 +202,24 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="PanelContainer" parent="UI/DossierModal/Center"]
+[node name="Panel" type="PanelContainer" parent="UI/DossierModal/Center" unique_id=408768580]
 custom_minimum_size = Vector2(850, 520)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
-[node name="VBox" type="VBoxContainer" parent="UI/DossierModal/Center/Panel"]
+[node name="VBox" type="VBoxContainer" parent="UI/DossierModal/Center/Panel" unique_id=1442339762]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="Title" type="Label" parent="UI/DossierModal/Center/Panel/VBox"]
+[node name="Title" type="Label" parent="UI/DossierModal/Center/Panel/VBox" unique_id=1726113602]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.3, 0.9, 1.0, 1)
+theme_override_colors/font_color = Color(0.3, 0.9, 1, 1)
+theme_override_fonts/font = ExtResource("4_4v6gu")
 theme_override_font_sizes/font_size = 22
-text = "TOP SECRET // PROJECT L.U.R.E. EXPEDITION DOSSIER"
+text = "TOP SECRET // LORE"
 horizontal_alignment = 1
 
-[node name="Text" type="RichTextLabel" parent="UI/DossierModal/Center/Panel/VBox"]
+[node name="Text" type="RichTextLabel" parent="UI/DossierModal/Center/Panel/VBox" unique_id=1881555008]
 custom_minimum_size = Vector2(0, 380)
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 14
@@ -311,14 +249,13 @@ PROCEDURE:
 4. Energize Capacitor Bays in sequence: Bay A -> Bay C -> Bay B (1 -> 3 -> 2) to prepare the discharge bank.
 5. In the Coude Dome, orient the three mirror stations (45°, 135°, 315°) to clear the platform, enter Azimuth Code 8352, and pull the primary discharge lever."
 
-[node name="BtnCloseDossier" type="Button" parent="UI/DossierModal/Center/Panel/VBox"]
+[node name="BtnCloseDossier" type="Button" parent="UI/DossierModal/Center/Panel/VBox" unique_id=1585141302]
 custom_minimum_size = Vector2(200, 36)
 layout_mode = 2
 size_flags_horizontal = 4
-text = "[ CLOSE DOSSIER ]"
+text = "[ CLOSE ]"
 
-; Controls Modal
-[node name="ControlsModal" type="ColorRect" parent="UI"]
+[node name="ControlsModal" type="ColorRect" parent="UI" unique_id=1263388536]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -328,7 +265,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.88)
 
-[node name="Center" type="CenterContainer" parent="UI/ControlsModal"]
+[node name="Center" type="CenterContainer" parent="UI/ControlsModal" unique_id=1807431555]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -336,23 +273,24 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="PanelContainer" parent="UI/ControlsModal/Center"]
+[node name="Panel" type="PanelContainer" parent="UI/ControlsModal/Center" unique_id=771066002]
 custom_minimum_size = Vector2(700, 460)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
-[node name="VBox" type="VBoxContainer" parent="UI/ControlsModal/Center/Panel"]
+[node name="VBox" type="VBoxContainer" parent="UI/ControlsModal/Center/Panel" unique_id=133310300]
 layout_mode = 2
 theme_override_constants/separation = 14
 
-[node name="Title" type="Label" parent="UI/ControlsModal/Center/Panel/VBox"]
+[node name="Title" type="Label" parent="UI/ControlsModal/Center/Panel/VBox" unique_id=58066021]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.3, 0.9, 1.0, 1)
+theme_override_colors/font_color = Color(0.3, 0.9, 1, 1)
+theme_override_fonts/font = ExtResource("4_4v6gu")
 theme_override_font_sizes/font_size = 22
-text = "OPTICS CONTROLS & FLIGHT MANUAL"
+text = "KEYBINDS"
 horizontal_alignment = 1
 
-[node name="ControlsList" type="RichTextLabel" parent="UI/ControlsModal/Center/Panel/VBox"]
+[node name="ControlsList" type="RichTextLabel" parent="UI/ControlsModal/Center/Panel/VBox" unique_id=1835098766]
 custom_minimum_size = Vector2(0, 310)
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 15
@@ -369,8 +307,13 @@ Space — Low-Gravity Jump
 R — Restart at Checkpoint
 Escape — Pause / Resume"
 
-[node name="BtnCloseControls" type="Button" parent="UI/ControlsModal/Center/Panel/VBox"]
+[node name="BtnCloseControls" type="Button" parent="UI/ControlsModal/Center/Panel/VBox" unique_id=656635692]
 custom_minimum_size = Vector2(200, 36)
 layout_mode = 2
 size_flags_horizontal = 4
-text = "[ RETURN TO MENU ]"
+text = "[ CLOSE ]"
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." unique_id=2039863596]
+stream = ExtResource("6_4v6gu")
+volume_db = 13.552
+autoplay = true

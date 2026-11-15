@@ -1,10 +1,13 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene format=3 uid="uid://ddwrybvpoellc"]
 
-[ext_resource type="Script" path="res://scripts/ui.gd" id="1_ui"]
-[ext_resource type="Shader" path="res://assets/shaders/crt_postprocess.gdshader" id="2_crt"]
-[ext_resource type="Texture2D" path="res://assets/textures/polaroid.png" id="3_pol"]
-[ext_resource type="Script" path="res://scripts/minimap.gd" id="4_map"]
+[ext_resource type="Script" uid="uid://6ufvrehburw0" path="res://scripts/ui.gd" id="1_ui"]
+[ext_resource type="Shader" uid="uid://b22b2g1deldgg" path="res://assets/shaders/crt_postprocess.gdshader" id="2_crt"]
+[ext_resource type="Texture2D" uid="uid://c676cbegtcqhj" path="res://assets/textures/polaroid.png" id="3_pol"]
+[ext_resource type="Script" uid="uid://br4u76vn3k3kh" path="res://scripts/minimap.gd" id="4_map"]
 [ext_resource type="PackedScene" path="res://scenes/keypad_modal.tscn" id="5_kpad"]
+[ext_resource type="FontFile" uid="uid://ktmm7jbmmojh" path="res://assets/fonts/AERUNO-Trial.otf" id="6_ktti3"]
+[ext_resource type="FontFile" uid="uid://becxod0spfcou" path="res://assets/fonts/MidnightLetters-Regular.otf" id="7_cgfq5"]
+[ext_resource type="FontFile" uid="uid://cbqv5kwjne01w" path="res://assets/fonts/CyberformDemo.otf" id="8_7dvkv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_crt"]
 shader = ExtResource("2_crt")
@@ -14,11 +17,11 @@ shader_parameter/vignette_intensity = 0.65
 shader_parameter/aberration_amount = 0.002
 shader_parameter/static_noise = 0.025
 
-[node name="UI" type="CanvasLayer"]
+[node name="UI" type="CanvasLayer" unique_id=1718386731]
 process_mode = 3
 script = ExtResource("1_ui")
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=1931968667]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,7 +30,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="CRTOverlay" type="ColorRect" parent="Control"]
+[node name="CRTOverlay" type="ColorRect" parent="Control" unique_id=915213576]
 material = SubResource("ShaderMaterial_crt")
 layout_mode = 1
 anchors_preset = 15
@@ -37,8 +40,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-; Dynamic Targeting Reticle
-[node name="Crosshair" type="HBoxContainer" parent="Control"]
+[node name="Crosshair" type="HBoxContainer" parent="Control" unique_id=553224372]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -51,29 +53,28 @@ offset_right = 30.0
 offset_bottom = 15.0
 grow_horizontal = 2
 grow_vertical = 2
-alignment = 1
 mouse_filter = 2
+alignment = 1
 
-[node name="BracketL" type="Label" parent="Control/Crosshair"]
+[node name="BracketL" type="Label" parent="Control/Crosshair" unique_id=1264308226]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
 theme_override_font_sizes/font_size = 20
 text = "["
 
-[node name="Dot" type="ColorRect" parent="Control/Crosshair"]
+[node name="Dot" type="ColorRect" parent="Control/Crosshair" unique_id=178785140]
 custom_minimum_size = Vector2(4, 4)
 layout_mode = 2
 size_flags_vertical = 4
 color = Color(0.2, 0.9, 1, 0.6)
 
-[node name="BracketR" type="Label" parent="Control/Crosshair"]
+[node name="BracketR" type="Label" parent="Control/Crosshair" unique_id=593307621]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.85, 0.2, 1)
 theme_override_font_sizes/font_size = 20
 text = "]"
 
-; Object Identification & Action Card
-[node name="TargetCard" type="PanelContainer" parent="Control"]
+[node name="TargetCard" type="PanelContainer" parent="Control" unique_id=1273708755]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -87,25 +88,25 @@ offset_bottom = 118.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBox" type="VBoxContainer" parent="Control/TargetCard"]
+[node name="VBox" type="VBoxContainer" parent="Control/TargetCard" unique_id=323639425]
 layout_mode = 2
 theme_override_constants/separation = 3
 
-[node name="BadgeLabel" type="Label" parent="Control/TargetCard/VBox"]
+[node name="BadgeLabel" type="Label" parent="Control/TargetCard/VBox" unique_id=1027114074]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.2, 0.9, 1, 1)
 theme_override_font_sizes/font_size = 13
 text = "⚡ [EQUIPMENT: MODEL 74 EMITTER]"
 horizontal_alignment = 1
 
-[node name="ActionLabel" type="Label" parent="Control/TargetCard/VBox"]
+[node name="ActionLabel" type="Label" parent="Control/TargetCard/VBox" unique_id=1767183209]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.95, 0.7, 1)
 theme_override_font_sizes/font_size = 17
 text = "[E] Pick up Handheld Alignment Laser"
 horizontal_alignment = 1
 
-[node name="HintLabel" type="Label" parent="Control/TargetCard/VBox"]
+[node name="HintLabel" type="Label" parent="Control/TargetCard/VBox" unique_id=250714588]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.75, 0.82, 0.9, 1)
 theme_override_font_sizes/font_size = 12
@@ -113,8 +114,7 @@ text = "Raw beam absorbs into shadows. Bounce beam off mirrors to banish."
 horizontal_alignment = 1
 autowrap_mode = 3
 
-; Objective Panel
-[node name="ObjectivePanel" type="PanelContainer" parent="Control"]
+[node name="ObjectivePanel" type="PanelContainer" parent="Control" unique_id=137229637]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -125,7 +125,7 @@ offset_right = 340.0
 offset_bottom = 65.0
 grow_horizontal = 2
 
-[node name="ObjectiveLabel" type="Label" parent="Control/ObjectivePanel"]
+[node name="ObjectiveLabel" type="Label" parent="Control/ObjectivePanel" unique_id=872385477]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.3, 1, 0.6, 1)
 theme_override_font_sizes/font_size = 15
@@ -133,8 +133,7 @@ text = "OBJECTIVE: Inspect the observatory."
 horizontal_alignment = 1
 vertical_alignment = 1
 
-; Laser Heat Panel
-[node name="LaserPanel" type="VBoxContainer" parent="Control"]
+[node name="LaserPanel" type="VBoxContainer" parent="Control" unique_id=849680820]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -148,20 +147,20 @@ offset_bottom = -30.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="HeatLabel" type="Label" parent="Control/LaserPanel"]
+[node name="HeatLabel" type="Label" parent="Control/LaserPanel" unique_id=1954602094]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.2, 0.9, 1, 1)
 theme_override_font_sizes/font_size = 13
 text = "EMITTER HEAT: 0%"
 horizontal_alignment = 2
 
-[node name="HeatBar" type="ProgressBar" parent="Control/LaserPanel"]
+[node name="HeatBar" type="ProgressBar" parent="Control/LaserPanel" unique_id=1539094950]
 custom_minimum_size = Vector2(0, 14)
 layout_mode = 2
 value = 20.0
 show_percentage = false
 
-[node name="FlashlightPanel" type="PanelContainer" parent="Control"]
+[node name="FlashlightPanel" type="PanelContainer" parent="Control" unique_id=1218501013]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -172,14 +171,14 @@ offset_right = 330.0
 offset_bottom = -75.0
 grow_vertical = 0
 
-[node name="FlashlightLabel" type="Label" parent="Control/FlashlightPanel"]
+[node name="FlashlightLabel" type="Label" parent="Control/FlashlightPanel" unique_id=239304929]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.2, 0.9, 1, 1)
 theme_override_font_sizes/font_size = 13
 text = "FLASHLIGHT: ON [F TOGGLE]"
 vertical_alignment = 1
 
-[node name="MirrorPanel" type="PanelContainer" parent="Control"]
+[node name="MirrorPanel" type="PanelContainer" parent="Control" unique_id=658340177]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -190,15 +189,14 @@ offset_right = 330.0
 offset_bottom = -30.0
 grow_vertical = 0
 
-[node name="MirrorLabel" type="Label" parent="Control/MirrorPanel"]
+[node name="MirrorLabel" type="Label" parent="Control/MirrorPanel" unique_id=966565139]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.9, 0.5, 1)
 theme_override_font_sizes/font_size = 13
 text = "PORTABLE MIRRORS: 1 [RMB PLACE]"
 vertical_alignment = 1
 
-; Persistent Corner Minimap
-[node name="MinimapPanel" type="PanelContainer" parent="Control"]
+[node name="MinimapPanel" type="PanelContainer" parent="Control" unique_id=1445453313]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -209,31 +207,30 @@ offset_right = -18.0
 offset_bottom = 225.0
 grow_horizontal = 0
 
-[node name="VBox" type="VBoxContainer" parent="Control/MinimapPanel"]
+[node name="VBox" type="VBoxContainer" parent="Control/MinimapPanel" unique_id=1620118387]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="HeaderLabel" type="Label" parent="Control/MinimapPanel/VBox"]
+[node name="HeaderLabel" type="Label" parent="Control/MinimapPanel/VBox" unique_id=1092587066]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.2, 0.9, 1, 1)
 theme_override_font_sizes/font_size = 11
 text = "SECTOR RADAR [M / TAB]"
 horizontal_alignment = 1
 
-[node name="MinimapDisplay" type="Control" parent="Control/MinimapPanel/VBox"]
+[node name="MinimapDisplay" type="Control" parent="Control/MinimapPanel/VBox" unique_id=881451385]
 custom_minimum_size = Vector2(190, 165)
 layout_mode = 2
 script = ExtResource("4_map")
 
-[node name="LegendLabel" type="Label" parent="Control/MinimapPanel/VBox"]
+[node name="LegendLabel" type="Label" parent="Control/MinimapPanel/VBox" unique_id=681971926]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6, 0.8, 0.9, 0.8)
 theme_override_font_sizes/font_size = 9
 text = "● YOU  ◆ CAP(3)  ✦ SENSOR"
 horizontal_alignment = 1
 
-; Radio Dialogue Box
-[node name="RadioBox" type="PanelContainer" parent="Control"]
+[node name="RadioBox" type="PanelContainer" parent="Control" unique_id=1607135294]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -247,24 +244,23 @@ offset_bottom = -50.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="VBox" type="VBoxContainer" parent="Control/RadioBox"]
+[node name="VBox" type="VBoxContainer" parent="Control/RadioBox" unique_id=1944804991]
 layout_mode = 2
 
-[node name="SpeakerLabel" type="Label" parent="Control/RadioBox/VBox"]
+[node name="SpeakerLabel" type="Label" parent="Control/RadioBox/VBox" unique_id=928511076]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.8, 0.2, 1)
 theme_override_font_sizes/font_size = 14
 text = "[ TRANSMISSION: SUPERVISOR CHEN ]"
 
-[node name="MessageLabel" type="Label" parent="Control/RadioBox/VBox"]
+[node name="MessageLabel" type="Label" parent="Control/RadioBox/VBox" unique_id=860151742]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.95, 1, 1)
 theme_override_font_sizes/font_size = 14
 text = "Leo, shut down the capacitors and get out!"
 autowrap_mode = 3
 
-; Fullscreen Polaroid Inspector
-[node name="PolaroidModal" type="ColorRect" parent="Control"]
+[node name="PolaroidModal" type="ColorRect" parent="Control" unique_id=1937789299]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -273,7 +269,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.92)
 
-[node name="Center" type="CenterContainer" parent="Control/PolaroidModal"]
+[node name="Center" type="CenterContainer" parent="Control/PolaroidModal" unique_id=1931616370]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -281,26 +277,25 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBox" type="VBoxContainer" parent="Control/PolaroidModal/Center"]
+[node name="VBox" type="VBoxContainer" parent="Control/PolaroidModal/Center" unique_id=1480370152]
 layout_mode = 2
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="Control/PolaroidModal/Center/VBox"]
+[node name="TextureRect" type="TextureRect" parent="Control/PolaroidModal/Center/VBox" unique_id=877971896]
 custom_minimum_size = Vector2(540, 648)
 layout_mode = 2
 texture = ExtResource("3_pol")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="CloseLabel" type="Label" parent="Control/PolaroidModal/Center/VBox"]
+[node name="CloseLabel" type="Label" parent="Control/PolaroidModal/Center/VBox" unique_id=87018956]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
 theme_override_font_sizes/font_size = 16
 text = "[E / CLICK / ESC] Put Down Polaroid • Look closely into the mirror behind Dr. Thorne..."
 horizontal_alignment = 1
 
-; Reel Cassette Audio Log Modal
-[node name="TapeModal" type="ColorRect" parent="Control"]
+[node name="TapeModal" type="ColorRect" parent="Control" unique_id=555050236]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -310,7 +305,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.88)
 
-[node name="Center" type="CenterContainer" parent="Control/TapeModal"]
+[node name="Center" type="CenterContainer" parent="Control/TapeModal" unique_id=461835118]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -318,47 +313,46 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="PanelContainer" parent="Control/TapeModal/Center"]
+[node name="Panel" type="PanelContainer" parent="Control/TapeModal/Center" unique_id=760671922]
 custom_minimum_size = Vector2(720, 360)
 layout_mode = 2
 
-[node name="VBox" type="VBoxContainer" parent="Control/TapeModal/Center/Panel"]
+[node name="VBox" type="VBoxContainer" parent="Control/TapeModal/Center/Panel" unique_id=952974872]
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="HeaderLabel" type="Label" parent="Control/TapeModal/Center/Panel/VBox"]
+[node name="HeaderLabel" type="Label" parent="Control/TapeModal/Center/Panel/VBox" unique_id=1344330344]
 layout_mode = 2
-theme_override_colors/font_color = Color(1.0, 0.7, 0.2, 1)
+theme_override_colors/font_color = Color(1, 0.7, 0.2, 1)
 theme_override_font_sizes/font_size = 14
 text = "▶ [ANALOG REEL CASSETTE C-60 // DR. ARIS THORNE TELEMETRY]"
 
-[node name="TitleLabel" type="Label" parent="Control/TapeModal/Center/Panel/VBox"]
+[node name="TitleLabel" type="Label" parent="Control/TapeModal/Center/Panel/VBox" unique_id=1574989027]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.3, 0.9, 1.0, 1)
+theme_override_colors/font_color = Color(0.3, 0.9, 1, 1)
 theme_override_font_sizes/font_size = 20
 text = "Log 77-B: Perseus Calibration"
 
-[node name="TranscriptLabel" type="RichTextLabel" parent="Control/TapeModal/Center/Panel/VBox"]
+[node name="TranscriptLabel" type="RichTextLabel" parent="Control/TapeModal/Center/Panel/VBox" unique_id=1709281485]
 custom_minimum_size = Vector2(0, 220)
 layout_mode = 2
-theme_override_colors/default_color = Color(0.9, 0.95, 1.0, 1)
+theme_override_colors/default_color = Color(0.9, 0.95, 1, 1)
 theme_override_font_sizes/normal_font_size = 15
 bbcode_enabled = true
 text = "The lunar retroreflector array didn't return the beam..."
 
-[node name="CloseLabel" type="Label" parent="Control/TapeModal/Center/Panel/VBox"]
+[node name="CloseLabel" type="Label" parent="Control/TapeModal/Center/Panel/VBox" unique_id=1071989819]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.8, 0.3, 1)
 theme_override_font_sizes/font_size = 14
 text = "[E / CLICK / ESC] Stow Audio Cassette"
 horizontal_alignment = 1
 
-; Digital Security Keypad Modal
-[node name="KeypadModal" parent="Control" instance=ExtResource("5_kpad")]
+[node name="KeypadModal" parent="Control" unique_id=2126835295 instance=ExtResource("5_kpad")]
 visible = false
+layout_mode = 1
 
-; Fullscreen Facility Schematic Map
-[node name="FullMapModal" type="ColorRect" parent="Control"]
+[node name="FullMapModal" type="ColorRect" parent="Control" unique_id=659797316]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -368,7 +362,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.01, 0.02, 0.04, 0.92)
 
-[node name="Center" type="CenterContainer" parent="Control/FullMapModal"]
+[node name="Center" type="CenterContainer" parent="Control/FullMapModal" unique_id=1931168513]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -376,68 +370,83 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Panel" type="PanelContainer" parent="Control/FullMapModal/Center"]
+[node name="Panel" type="PanelContainer" parent="Control/FullMapModal/Center" unique_id=1734745686]
 custom_minimum_size = Vector2(920, 600)
 layout_mode = 2
 
-[node name="VBox" type="VBoxContainer" parent="Control/FullMapModal/Center/Panel"]
+[node name="VBox" type="VBoxContainer" parent="Control/FullMapModal/Center/Panel" unique_id=1795249765]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="TitleLabel" type="Label" parent="Control/FullMapModal/Center/Panel/VBox"]
+[node name="TitleLabel" type="Label" parent="Control/FullMapModal/Center/Panel/VBox" unique_id=1015759388]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.2, 0.95, 1, 1)
 theme_override_font_sizes/font_size = 18
 text = "TRANQUILLITATIS LUNAR RESEARCH BASE // FACILITY SCHEMATIC"
 horizontal_alignment = 1
 
-[node name="SubLabel" type="Label" parent="Control/FullMapModal/Center/Panel/VBox"]
+[node name="SubLabel" type="Label" parent="Control/FullMapModal/Center/Panel/VBox" unique_id=564480122]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.85, 0.9, 0.7)
 theme_override_font_sizes/font_size = 12
 text = "APOLLO 11 / LRRR COUDÉ EXPANSION // SECTOR BLUEPRINT & TELEMETRY"
 horizontal_alignment = 1
 
-[node name="ContentHBox" type="HBoxContainer" parent="Control/FullMapModal/Center/Panel/VBox"]
+[node name="ContentHBox" type="HBoxContainer" parent="Control/FullMapModal/Center/Panel/VBox" unique_id=1118682910]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="MapContainer" type="VBoxContainer" parent="Control/FullMapModal/Center/Panel/VBox/ContentHBox"]
+[node name="MapContainer" type="VBoxContainer" parent="Control/FullMapModal/Center/Panel/VBox/ContentHBox" unique_id=77771073]
 custom_minimum_size = Vector2(500, 480)
 layout_mode = 2
 
-[node name="FullMapDisplay" type="Control" parent="Control/FullMapModal/Center/Panel/VBox/ContentHBox/MapContainer"]
+[node name="FullMapDisplay" type="Control" parent="Control/FullMapModal/Center/Panel/VBox/ContentHBox/MapContainer" unique_id=1946321998]
 custom_minimum_size = Vector2(500, 470)
 layout_mode = 2
 script = ExtResource("4_map")
 is_fullscreen_map = true
 
-[node name="Sidebar" type="VBoxContainer" parent="Control/FullMapModal/Center/Panel/VBox/ContentHBox"]
+[node name="Sidebar" type="VBoxContainer" parent="Control/FullMapModal/Center/Panel/VBox/ContentHBox" unique_id=1111743572]
 custom_minimum_size = Vector2(380, 480)
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="ChecklistLabel" type="Label" parent="Control/FullMapModal/Center/Panel/VBox/ContentHBox/Sidebar"]
+[node name="ChecklistLabel" type="Label" parent="Control/FullMapModal/Center/Panel/VBox/ContentHBox/Sidebar" unique_id=911120241]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.3, 1, 0.6, 1)
 theme_override_font_sizes/font_size = 13
-text = "MISSION CHECKLIST & TELEMETRY:\n\n[ ] Equipment: Model 74 Alignment Laser\n[ ] Sector 1 Sensor: LOCKED\n[ ] Bay A Capacitor: ONLINE\n[ ] Bay B Capacitor: ONLINE\n[ ] Bay C Capacitor: ONLINE\n[ ] Dome Blast Doors: SEALED\n[ ] Coudé Optical Triangle: PENDING\n[ ] Primary Shutter: JAMMED OPEN"
+text = "MISSION CHECKLIST & TELEMETRY:
+
+[ ] Equipment: Model 74 Alignment Laser
+[ ] Sector 1 Sensor: LOCKED
+[ ] Bay A Capacitor: ONLINE
+[ ] Bay B Capacitor: ONLINE
+[ ] Bay C Capacitor: ONLINE
+[ ] Dome Blast Doors: SEALED
+[ ] Coudé Optical Triangle: PENDING
+[ ] Primary Shutter: JAMMED OPEN"
 autowrap_mode = 3
 
-[node name="SectorLegend" type="Label" parent="Control/FullMapModal/Center/Panel/VBox/ContentHBox/Sidebar"]
+[node name="SectorLegend" type="Label" parent="Control/FullMapModal/Center/Panel/VBox/ContentHBox/Sidebar" unique_id=73291399]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.85, 0.6, 1)
 theme_override_font_sizes/font_size = 12
-text = "SECTOR DIRECTORY:\n• CMD: Operations & Observation Deck\n• H1/H2: Sub-surface Optical Corridors\n• BAY A: South High-Voltage Capacitor\n• BAY B: West Laser Transformer\n• BAY C: East Regolith Physics Lab\n• DOME: Primary Coudé Telescope\n• EXIT: Lunar Surface Airlock"
+text = "SECTOR DIRECTORY:
+• CMD: Operations & Observation Deck
+• H1/H2: Sub-surface Optical Corridors
+• BAY A: South High-Voltage Capacitor
+• BAY B: West Laser Transformer
+• BAY C: East Regolith Physics Lab
+• DOME: Primary Coudé Telescope
+• EXIT: Lunar Surface Airlock"
 autowrap_mode = 3
 
-[node name="CloseButton" type="Button" parent="Control/FullMapModal/Center/Panel/VBox/ContentHBox/Sidebar"]
+[node name="CloseButton" type="Button" parent="Control/FullMapModal/Center/Panel/VBox/ContentHBox/Sidebar" unique_id=85170208]
 custom_minimum_size = Vector2(0, 36)
 layout_mode = 2
 text = "[M / TAB / ESC] RETURN TO HUD"
 
-; Pause Menu
-[node name="PauseMenu" type="ColorRect" parent="Control"]
+[node name="PauseMenu" type="ColorRect" parent="Control" unique_id=1485724476]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -446,7 +455,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.02, 0.03, 0.05, 0.85)
 
-[node name="Center" type="CenterContainer" parent="Control/PauseMenu"]
+[node name="Center" type="CenterContainer" parent="Control/PauseMenu" unique_id=320073393]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -454,48 +463,47 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBox" type="VBoxContainer" parent="Control/PauseMenu/Center"]
+[node name="VBox" type="VBoxContainer" parent="Control/PauseMenu/Center" unique_id=1424192582]
 custom_minimum_size = Vector2(280, 0)
 layout_mode = 2
 theme_override_constants/separation = 12
 alignment = 1
 
-[node name="Title" type="Label" parent="Control/PauseMenu/Center/VBox"]
+[node name="Title" type="Label" parent="Control/PauseMenu/Center/VBox" unique_id=290380182]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.2, 0.9, 1, 1)
 theme_override_font_sizes/font_size = 28
 text = "PAUSED"
 horizontal_alignment = 1
 
-[node name="Sub" type="Label" parent="Control/PauseMenu/Center/VBox"]
+[node name="Sub" type="Label" parent="Control/PauseMenu/Center/VBox" unique_id=2065477413]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.7, 0.8, 0.9, 1)
 theme_override_font_sizes/font_size = 14
 text = "Mount Hale Lunar Observatory"
 horizontal_alignment = 1
 
-[node name="ResumeBtn" type="Button" parent="Control/PauseMenu/Center/VBox"]
+[node name="ResumeBtn" type="Button" parent="Control/PauseMenu/Center/VBox" unique_id=819621050]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "RESUME"
 
-[node name="RestartBtn" type="Button" parent="Control/PauseMenu/Center/VBox"]
+[node name="RestartBtn" type="Button" parent="Control/PauseMenu/Center/VBox" unique_id=1361965000]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "RESTART CHECKPOINT"
 
-[node name="CrtToggle" type="CheckButton" parent="Control/PauseMenu/Center/VBox"]
+[node name="CrtToggle" type="CheckButton" parent="Control/PauseMenu/Center/VBox" unique_id=1524370946]
 layout_mode = 2
 button_pressed = true
 text = "CRT Display Shader"
 
-[node name="QuitBtn" type="Button" parent="Control/PauseMenu/Center/VBox"]
+[node name="QuitBtn" type="Button" parent="Control/PauseMenu/Center/VBox" unique_id=2006753912]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 text = "QUIT"
 
-; Death Screen
-[node name="DeathScreen" type="ColorRect" parent="Control"]
+[node name="DeathScreen" type="ColorRect" parent="Control" unique_id=781448495]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -504,7 +512,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.08, 0, 0.02, 0.95)
 
-[node name="Center" type="CenterContainer" parent="Control/DeathScreen"]
+[node name="Center" type="CenterContainer" parent="Control/DeathScreen" unique_id=1355988873]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -512,36 +520,35 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBox" type="VBoxContainer" parent="Control/DeathScreen/Center"]
+[node name="VBox" type="VBoxContainer" parent="Control/DeathScreen/Center" unique_id=1526177453]
 layout_mode = 2
 alignment = 1
 
-[node name="Title" type="Label" parent="Control/DeathScreen/Center/VBox"]
+[node name="Title" type="Label" parent="Control/DeathScreen/Center/VBox" unique_id=2142458330]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.1, 0.1, 1)
 theme_override_font_sizes/font_size = 38
 text = "CONSUMED BY THE VOID"
 horizontal_alignment = 1
 
-[node name="Sub" type="Label" parent="Control/DeathScreen/Center/VBox"]
+[node name="Sub" type="Label" parent="Control/DeathScreen/Center/VBox" unique_id=1349165523]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.7, 0.7, 1)
 theme_override_font_sizes/font_size = 16
 text = "Direct light only fed the shadow. You must bounce back."
 horizontal_alignment = 1
 
-[node name="Spacer" type="Control" parent="Control/DeathScreen/Center/VBox"]
+[node name="Spacer" type="Control" parent="Control/DeathScreen/Center/VBox" unique_id=410243105]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 
-[node name="RestartBtn" type="Button" parent="Control/DeathScreen/Center/VBox"]
+[node name="RestartBtn" type="Button" parent="Control/DeathScreen/Center/VBox" unique_id=1333639526]
 custom_minimum_size = Vector2(220, 45)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "[R] RETRY CHECKPOINT"
 
-; Victory Screen
-[node name="WinScreen" type="ColorRect" parent="Control"]
+[node name="WinScreen" type="ColorRect" parent="Control" unique_id=1353057826]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -550,7 +557,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.01, 0.03, 0.06, 0.95)
 
-[node name="Center" type="CenterContainer" parent="Control/WinScreen"]
+[node name="Center" type="CenterContainer" parent="Control/WinScreen" unique_id=2078131813]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -558,33 +565,38 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBox" type="VBoxContainer" parent="Control/WinScreen/Center"]
+[node name="VBox" type="VBoxContainer" parent="Control/WinScreen/Center" unique_id=129425225]
 layout_mode = 2
 alignment = 1
 
-[node name="Title" type="Label" parent="Control/WinScreen/Center/VBox"]
+[node name="Title" type="Label" parent="Control/WinScreen/Center/VBox" unique_id=1051802412]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.2, 0.9, 1, 1)
-theme_override_font_sizes/font_size = 40
-text = "RETRO-REFLECTOR"
+theme_override_fonts/font = ExtResource("6_ktti3")
+theme_override_font_sizes/font_size = 60
+text = "LabCoat"
 horizontal_alignment = 1
 
-[node name="Sub" type="Label" parent="Control/WinScreen/Center/VBox"]
+[node name="Sub" type="Label" parent="Control/WinScreen/Center/VBox" unique_id=1137467859]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.8, 0.9, 1, 1)
+theme_override_fonts/font = ExtResource("7_cgfq5")
 theme_override_font_sizes/font_size = 16
-text = "The primary roof shutter is sealed. The Perseus Void beam is severed."
+text = "
+The primary roof shutter is sealed. The Perseus Void beam is severed."
 horizontal_alignment = 1
 
-[node name="Spacer" type="Control" parent="Control/WinScreen/Center/VBox"]
+[node name="Spacer" type="Control" parent="Control/WinScreen/Center/VBox" unique_id=1999085859]
 custom_minimum_size = Vector2(0, 15)
 layout_mode = 2
 
-[node name="Lore" type="Label" parent="Control/WinScreen/Center/VBox"]
+[node name="Lore" type="Label" parent="Control/WinScreen/Center/VBox" unique_id=2095289387]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.6, 0.7, 0.8, 1)
+theme_override_fonts/font = ExtResource("8_7dvkv")
 theme_override_font_sizes/font_size = 14
-text = "As Leo reaches the mountain air, he catches a brief, lingering reflection\nin the dark display glass behind him... watching."
+text = "As Leo reaches the mountain air, he catches a brief, lingering reflection
+in the dark display glass behind him... watching."
 horizontal_alignment = 1
 
 [connection signal="pressed" from="Control/PauseMenu/Center/VBox/ResumeBtn" to="." method="_on_resume_button_pressed"]

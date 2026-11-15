@@ -1,12 +1,12 @@
-[gd_scene load_steps=42 format=3]
+[gd_scene format=3 uid="uid://cjnl5sp407agf"]
 
-[ext_resource type="Script" path="res://scripts/dome_controller.gd" id="1_dctrl"]
-[ext_resource type="Texture2D" path="res://assets/textures/floor.png" id="2_flr"]
-[ext_resource type="Texture2D" path="res://assets/textures/wall.png" id="3_wal"]
+[ext_resource type="Script" uid="uid://c3chnkh1vyoga" path="res://scripts/dome_controller.gd" id="1_dctrl"]
+[ext_resource type="Texture2D" uid="uid://c4x4rh8skim6h" path="res://assets/textures/floor.png" id="2_flr"]
+[ext_resource type="Texture2D" uid="uid://b5gbupequi4q3" path="res://assets/textures/wall.png" id="3_wal"]
 [ext_resource type="PackedScene" path="res://scenes/door.tscn" id="4_dor"]
 [ext_resource type="PackedScene" path="res://scenes/mirror.tscn" id="5_mir"]
 [ext_resource type="PackedScene" path="res://scenes/optical_receptor.tscn" id="6_rec"]
-[ext_resource type="PackedScene" path="res://scenes/item_laser_pickup.tscn" id="7_las"]
+[ext_resource type="PackedScene" uid="uid://cx6q3kidfboxq" path="res://scenes/item_laser_pickup.tscn" id="7_las"]
 [ext_resource type="PackedScene" path="res://scenes/item_polaroid.tscn" id="8_pol"]
 [ext_resource type="PackedScene" path="res://scenes/item_tape_recorder.tscn" id="9_tap"]
 [ext_resource type="PackedScene" path="res://scenes/item_capacitor_breaker.tscn" id="10_brk"]
@@ -15,60 +15,46 @@
 [ext_resource type="PackedScene" path="res://scenes/item_shutdown_lever.tscn" id="13_lvr"]
 [ext_resource type="PackedScene" path="res://scenes/item_exit_door.tscn" id="14_ext"]
 [ext_resource type="PackedScene" path="res://scenes/portable_mirror.tscn" id="15_pmir"]
-[ext_resource type="Shader" path="res://assets/shaders/laser_beam.gdshader" id="16_bshd"]
-[ext_resource type="Texture2D" path="res://assets/textures/console_desk.png" id="17_csk"]
+[ext_resource type="Shader" uid="uid://bp60kq3s0816t" path="res://assets/shaders/laser_beam.gdshader" id="16_bshd"]
+[ext_resource type="Texture2D" uid="uid://cexk7tbm4v4je" path="res://assets/textures/console_desk.png" id="17_csk"]
 [ext_resource type="PackedScene" path="res://scenes/item_lrrr_array.tscn" id="18_lrrr"]
 [ext_resource type="PackedScene" path="res://scenes/cleanroom_laser_barrier.tscn" id="19_cbar"]
-[ext_resource type="Texture2D" path="res://assets/textures/floor_normal.png" id="20_flrn"]
-[ext_resource type="Texture2D" path="res://assets/textures/floor_roughness.png" id="21_flrr"]
-[ext_resource type="Texture2D" path="res://assets/textures/wall_normal.png" id="22_waln"]
-[ext_resource type="Texture2D" path="res://assets/textures/wall_roughness.png" id="23_walr"]
-[ext_resource type="Texture2D" path="res://assets/textures/console_desk_normal.png" id="24_cskn"]
-[ext_resource type="Texture2D" path="res://assets/textures/console_desk_roughness.png" id="25_cskr"]
-[ext_resource type="Texture2D" path="res://assets/textures/lunar_regolith.png" id="26_lreg"]
-[ext_resource type="Texture2D" path="res://assets/textures/lunar_regolith_normal.png" id="27_lregn"]
-[ext_resource type="Texture2D" path="res://assets/textures/lunar_regolith_roughness.png" id="28_lregr"]
+[ext_resource type="Texture2D" uid="uid://c43vogvw52n80" path="res://assets/textures/floor_normal.png" id="20_flrn"]
+[ext_resource type="Texture2D" uid="uid://8w3bauycxney" path="res://assets/textures/floor_roughness.png" id="21_flrr"]
+[ext_resource type="Texture2D" uid="uid://c4bjes16ngn" path="res://assets/textures/wall_normal.png" id="22_waln"]
+[ext_resource type="Texture2D" uid="uid://dhgesnkbkmmjp" path="res://assets/textures/wall_roughness.png" id="23_walr"]
+[ext_resource type="Texture2D" uid="uid://r01bxo0x2el4" path="res://assets/textures/console_desk_normal.png" id="24_cskn"]
+[ext_resource type="Texture2D" uid="uid://dtit3mju1gqw0" path="res://assets/textures/console_desk_roughness.png" id="25_cskr"]
+[ext_resource type="Texture2D" uid="uid://j3y6wvygj2k1" path="res://assets/textures/lunar_regolith.png" id="26_lreg"]
+[ext_resource type="Texture2D" uid="uid://d31gwlusc6s7o" path="res://assets/textures/lunar_regolith_normal.png" id="27_lregn"]
+[ext_resource type="Texture2D" uid="uid://hs1mx0fvt2wa" path="res://assets/textures/lunar_regolith_roughness.png" id="28_lregr"]
 [ext_resource type="PackedScene" path="res://scenes/props/prop_oscilloscope.tscn" id="29_posc"]
-[ext_resource type="PackedScene" path="res://scenes/props/prop_mainframe_rack.tscn" id="30_pmfr"]
+[ext_resource type="PackedScene" uid="uid://cs6qbt5x3s4cn" path="res://scenes/props/prop_mainframe_rack.tscn" id="30_pmfr"]
 [ext_resource type="PackedScene" path="res://scenes/props/prop_optical_bench.tscn" id="31_popt"]
 [ext_resource type="PackedScene" path="res://scenes/props/prop_swivel_chair.tscn" id="32_pchr"]
 [ext_resource type="PackedScene" path="res://scenes/props/prop_file_cabinet.tscn" id="33_pcab"]
 [ext_resource type="PackedScene" path="res://scenes/props/prop_cryo_tank.tscn" id="34_ptnk"]
 [ext_resource type="PackedScene" path="res://scenes/props/prop_ceiling_conduit.tscn" id="35_pcnd"]
 
-
 [sub_resource type="StandardMaterial3D" id="Mat_Floor"]
 albedo_texture = ExtResource("2_flr")
+metallic = 0.35
+roughness = 0.8
 roughness_texture = ExtResource("21_flrr")
 normal_enabled = true
 normal_texture = ExtResource("20_flrn")
-normal_scale = 1.0
 uv1_scale = Vector3(0.25, 0.25, 0.25)
 uv1_triplanar = true
-metallic = 0.35
-roughness = 0.8
 
 [sub_resource type="StandardMaterial3D" id="Mat_Wall"]
 albedo_texture = ExtResource("3_wal")
+metallic = 0.25
+roughness = 0.9
 roughness_texture = ExtResource("23_walr")
 normal_enabled = true
 normal_texture = ExtResource("22_waln")
-normal_scale = 1.0
 uv1_scale = Vector3(0.25, 0.25, 0.25)
 uv1_triplanar = true
-metallic = 0.25
-roughness = 0.9
-
-[sub_resource type="StandardMaterial3D" id="Mat_Desk"]
-albedo_texture = ExtResource("17_csk")
-roughness_texture = ExtResource("25_cskr")
-normal_enabled = true
-normal_texture = ExtResource("24_cskn")
-normal_scale = 1.0
-uv1_scale = Vector3(0.5, 0.5, 0.5)
-uv1_triplanar = true
-metallic = 0.4
-roughness = 0.7
 
 [sub_resource type="StandardMaterial3D" id="Mat_Glass"]
 transparency = 1
@@ -78,40 +64,39 @@ roughness = 0.05
 
 [sub_resource type="StandardMaterial3D" id="Mat_LunarRegolith"]
 albedo_texture = ExtResource("26_lreg")
+metallic = 0.05
 roughness_texture = ExtResource("28_lregr")
 normal_enabled = true
-normal_texture = ExtResource("27_lregn")
 normal_scale = 1.2
+normal_texture = ExtResource("27_lregn")
 uv1_scale = Vector3(0.08, 0.08, 0.08)
 uv1_triplanar = true
-metallic = 0.05
-roughness = 1.0
-[sub_resource type="StandardMaterial3D" id="Mat_GoldFoil"]
-albedo_color = Color(0.95, 0.75, 0.15, 1)
-metallic = 0.9
-roughness = 0.25
 
-[sub_resource type="StandardMaterial3D" id="Mat_HazardStripe"]
-albedo_color = Color(0.9, 0.75, 0.1, 1)
-metallic = 0.3
-roughness = 0.4
+[sub_resource type="StandardMaterial3D" id="Mat_Desk"]
+albedo_texture = ExtResource("17_csk")
+metallic = 0.4
+roughness = 0.7
+roughness_texture = ExtResource("25_cskr")
+normal_enabled = true
+normal_texture = ExtResource("24_cskn")
+uv1_scale = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
 
 [sub_resource type="ShaderMaterial" id="Mat_MegaBeam"]
 render_priority = 0
 shader = ExtResource("16_bshd")
 shader_parameter/laser_color = Color(0.1, 0.7, 1, 1)
 shader_parameter/core_color = Color(0.9, 0.96, 1, 1)
+shader_parameter/pulse_speed = 10.0
 shader_parameter/intensity = 5.0
 
 [sub_resource type="CylinderMesh" id="Mesh_MegaBeam"]
 material = SubResource("Mat_MegaBeam")
-top_radius = 0.5
-bottom_radius = 0.5
 height = 35.0
 
-[node name="Observatory" type="Node3D"]
+[node name="Observatory" type="Node3D" unique_id=1739618533]
 
-[node name="DomeController" type="Node3D" parent="." node_paths=PackedStringArray("station_alpha", "station_beta", "station_gamma", "roof_shutter", "central_beam", "triangle_beam_mesh", "emergency_lights_root")]
+[node name="DomeController" type="Node3D" parent="." unique_id=811595082 node_paths=PackedStringArray("station_alpha", "station_beta", "station_gamma", "roof_shutter", "central_beam", "triangle_beam_mesh", "emergency_lights_root")]
 script = ExtResource("1_dctrl")
 station_alpha = NodePath("../Act3_Dome/StationAlpha")
 station_beta = NodePath("../Act3_Dome/StationBeta")
@@ -121,49 +106,41 @@ central_beam = NodePath("../Act3_Dome/CentralLaserBeam")
 triangle_beam_mesh = NodePath("../Act3_Dome/TriangleBeams")
 emergency_lights_root = NodePath("../Act3_Dome/EmergencyLights")
 
-; Exterior Lunar Void Entity prowling the crater rim
-[node name="ExteriorVoidEntity" parent="." instance=ExtResource("11_shd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.0, 0.2, -11.0)
+[node name="ExteriorVoidEntity" parent="." unique_id=1144319544 instance=ExtResource("11_shd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0.2, -11)
 
-; ==============================================
-; ACT 1: CONTROL ROOM
-; ==============================================
-[node name="Act1_ControlRoom" type="Node3D" parent="."]
+[node name="Act1_ControlRoom" type="Node3D" parent="." unique_id=384475311]
 
-; Floor
-[node name="Floor" type="CSGBox3D" parent="Act1_ControlRoom"]
+[node name="Floor" type="CSGBox3D" parent="Act1_ControlRoom" unique_id=1745077609]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
 use_collision = true
 size = Vector3(12, 0.4, 12)
 material = SubResource("Mat_Floor")
 
-; Ceiling
-[node name="Ceiling" type="CSGBox3D" parent="Act1_ControlRoom"]
+[node name="Ceiling" type="CSGBox3D" parent="Act1_ControlRoom" unique_id=1531902694]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8, 0)
 use_collision = true
 size = Vector3(12, 0.4, 12)
 material = SubResource("Mat_Wall")
 
-[node name="Ceiling_Skylight_Cutout" type="CSGBox3D" parent="Act1_ControlRoom/Ceiling"]
+[node name="Ceiling_Skylight_Cutout" type="CSGBox3D" parent="Act1_ControlRoom/Ceiling" unique_id=964851123]
 operation = 2
-size = Vector3(4.0, 0.6, 4.0)
+size = Vector3(4, 0.6, 4)
 
-[node name="Ceiling_Skylight_Glass" type="CSGBox3D" parent="Act1_ControlRoom"]
+[node name="Ceiling_Skylight_Glass" type="CSGBox3D" parent="Act1_ControlRoom" unique_id=1472197226]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.8, 0)
 use_collision = true
-size = Vector3(4.0, 0.1, 4.0)
+size = Vector3(4, 0.1, 4)
 material = SubResource("Mat_Glass")
 
-; Walls
-[node name="Wall_North_W" type="CSGBox3D" parent="Act1_ControlRoom"]
+[node name="Wall_North_W" type="CSGBox3D" parent="Act1_ControlRoom" unique_id=604045480]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 1.8, -6)
 use_collision = true
-size = Vector3(1.0, 3.6, 0.4)
+size = Vector3(1, 3.6, 0.4)
 material = SubResource("Mat_Wall")
 
-; Airlock Alpha Doorway to Lunar Surface
-[node name="AirlockAlpha_Door" parent="Act1_ControlRoom" instance=ExtResource("4_dor")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0, 0, -6)
+[node name="AirlockAlpha_Door" parent="Act1_ControlRoom" unique_id=2137004187 instance=ExtResource("4_dor")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -6)
 door_name = "Airlock Alpha (Lunar Surface Access)"
 lock_text = "[SECURITY LOCK: ENTER PERSEUS ACCESS CODE]"
 lock_hint = "Code written on Dr. Thorne's Polaroid photograph margin."
@@ -172,598 +149,570 @@ keypad_code = "1974"
 keypad_id = "airlock_alpha"
 keypad_title = "AIRLOCK ALPHA - PERSEUS ACCESS CODE"
 
-[node name="Wall_North_E" type="CSGBox3D" parent="Act1_ControlRoom"]
+[node name="Wall_North_E" type="CSGBox3D" parent="Act1_ControlRoom" unique_id=345519224]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 1.8, -6)
 use_collision = true
 size = Vector3(3, 3.6, 0.4)
 material = SubResource("Mat_Wall")
 
-[node name="Wall_North_Sill" type="CSGBox3D" parent="Act1_ControlRoom"]
+[node name="Wall_North_Sill" type="CSGBox3D" parent="Act1_ControlRoom" unique_id=621376718]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -6)
 use_collision = true
-size = Vector3(6, 1.0, 0.4)
+size = Vector3(6, 1, 0.4)
 material = SubResource("Mat_Wall")
 
-[node name="Wall_North_Lintel" type="CSGBox3D" parent="Act1_ControlRoom"]
+[node name="Wall_North_Lintel" type="CSGBox3D" parent="Act1_ControlRoom" unique_id=2117438353]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.3, -6)
 use_collision = true
-size = Vector3(6, 1.0, 0.4)
+size = Vector3(6, 1, 0.4)
 material = SubResource("Mat_Wall")
 
-[node name="ObservationWindow_Glass" type="CSGBox3D" parent="Act1_ControlRoom"]
+[node name="ObservationWindow_Glass" type="CSGBox3D" parent="Act1_ControlRoom" unique_id=24662422]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9, -6)
 use_collision = true
 size = Vector3(6, 1.8, 0.4)
 material = SubResource("Mat_Glass")
 
-; Exterior Lunar Surface & Apollo 11 Retroreflector Array (Visible through window)
-[node name="ExteriorLunarGround" type="CSGBox3D" parent="Act1_ControlRoom"]
+[node name="ExteriorLunarGround" type="CSGBox3D" parent="Act1_ControlRoom" unique_id=1164905069]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, -12)
 use_collision = true
 size = Vector3(26, 0.4, 12)
 material = SubResource("Mat_LunarRegolith")
 
-[node name="LRRR_Array" parent="Act1_ControlRoom" instance=ExtResource("18_lrrr")]
+[node name="LRRR_Array" parent="Act1_ControlRoom" unique_id=2126724191 instance=ExtResource("18_lrrr")]
 transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 0, 0, -9.5)
 
-[node name="Wall_South" type="CSGBox3D" parent="Act1_ControlRoom"]
+[node name="Wall_South" type="CSGBox3D" parent="Act1_ControlRoom" unique_id=1119732493]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 6)
 use_collision = true
 size = Vector3(12, 3.6, 0.4)
 material = SubResource("Mat_Wall")
 
-[node name="Wall_West" type="CSGBox3D" parent="Act1_ControlRoom"]
+[node name="Wall_West" type="CSGBox3D" parent="Act1_ControlRoom" unique_id=688987874]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.8, 0)
 use_collision = true
 size = Vector3(0.4, 3.6, 12)
 material = SubResource("Mat_Wall")
 
-[node name="Wall_West_Cutout" type="CSGBox3D" parent="Act1_ControlRoom/Wall_West"]
+[node name="Wall_West_Cutout" type="CSGBox3D" parent="Act1_ControlRoom/Wall_West" unique_id=720966387]
 operation = 2
-size = Vector3(0.6, 2.0, 6.0)
+size = Vector3(0.6, 2, 6)
 
-[node name="Wall_West_Glass" type="CSGBox3D" parent="Act1_ControlRoom"]
+[node name="Wall_West_Glass" type="CSGBox3D" parent="Act1_ControlRoom" unique_id=1900124539]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 1.8, 0)
 use_collision = true
-size = Vector3(0.4, 2.0, 6.0)
+size = Vector3(0.4, 2, 6)
 material = SubResource("Mat_Glass")
 
-[node name="WestLunarGround" type="CSGBox3D" parent="Act1_ControlRoom"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, -0.4, 0)
+[node name="WestLunarGround" type="CSGBox3D" parent="Act1_ControlRoom" unique_id=1311819947]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.583317, -0.33641663, -30.403378)
 use_collision = true
-size = Vector3(16, 0.4, 20)
+size = Vector3(90.872116, 0.4, 110.62482)
 material = SubResource("Mat_LunarRegolith")
 
-; East Wall with doorway to Gallery
-[node name="Wall_East_1" type="CSGBox3D" parent="Act1_ControlRoom"]
+[node name="Wall_East_1" type="CSGBox3D" parent="Act1_ControlRoom" unique_id=908734031]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.8, -3.5)
 use_collision = true
 size = Vector3(0.4, 3.6, 5)
 material = SubResource("Mat_Wall")
 
-[node name="Wall_East_2" type="CSGBox3D" parent="Act1_ControlRoom"]
+[node name="Wall_East_2" type="CSGBox3D" parent="Act1_ControlRoom" unique_id=1868130911]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.8, 3.5)
 use_collision = true
 size = Vector3(0.4, 3.6, 5)
 material = SubResource("Mat_Wall")
 
-; Baffle partition blocking direct shot at sensor
-[node name="BaffleWall" type="CSGBox3D" parent="Act1_ControlRoom"]
+[node name="BaffleWall" type="CSGBox3D" parent="Act1_ControlRoom" unique_id=357788804]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 1.8, -0.6)
 use_collision = true
 size = Vector3(0.3, 3.6, 2.2)
 material = SubResource("Mat_Wall")
 
-; Control Desks
-[node name="Desk" type="CSGBox3D" parent="Act1_ControlRoom"]
+[node name="Desk" type="CSGBox3D" parent="Act1_ControlRoom" unique_id=334754963]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5, 0.45, -3.5)
 use_collision = true
-size = Vector3(4.0, 0.9, 1.6)
+size = Vector3(4, 0.9, 1.6)
 material = SubResource("Mat_Desk")
 
-; Secondary Telemetry Bank
-[node name="Desk2" type="CSGBox3D" parent="Act1_ControlRoom"]
+[node name="Desk2" type="CSGBox3D" parent="Act1_ControlRoom" unique_id=1595695326]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0.45, 0)
 use_collision = true
-size = Vector3(1.6, 0.9, 4.0)
+size = Vector3(1.6, 0.9, 4)
 material = SubResource("Mat_Desk")
 
-; Apollo Archive Terminal Slate
-[node name="Terminal_Apollo" parent="Act1_ControlRoom" instance=ExtResource("9_tap")]
+[node name="Terminal_Apollo" parent="Act1_ControlRoom" unique_id=111796858 instance=ExtResource("9_tap")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0.95, 0)
 tape_title = "Archive 11-A: Project Apollo LRRR"
 tape_transcript = "BASE TRANQUILLITATIS LUNAR RANGING ARCHIVE (1969-1974)
 In July 1969, the Apollo 11 crew placed the quartz retroreflector array at Mare Tranquillitatis. For five years, we fired ruby lasers from this station to measure lunar distance down to centimeters. During the October eclipse calibration, the Coude emitter recorded an anomalous return photon signature. The return signal stabilized into an active optical conduit, and shadow silhouettes began moving in unreflected dark spaces across the facility."
 tape_voice_clip = "vocal_warning"
 
-; Polaroid on Desk
-[node name="PolaroidItem" parent="Act1_ControlRoom" instance=ExtResource("8_pol")]
+[node name="PolaroidItem" parent="Act1_ControlRoom" unique_id=1305370403 instance=ExtResource("8_pol")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.2, 0.93, -3.4)
 
-; Handheld Laser on Desk
-[node name="LaserPickup" parent="Act1_ControlRoom" instance=ExtResource("7_las")]
+[node name="LaserPickup" parent="Act1_ControlRoom" unique_id=1575103471 instance=ExtResource("7_las")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, 1.05, -3.4)
 
-; Wall Mirror (Calibrated at -16 degrees to reflect beams from control room into alcove optical sensor)
-[node name="WallMirror_Act1" parent="Act1_ControlRoom" instance=ExtResource("5_mir")]
+[node name="WallMirror_Act1" parent="Act1_ControlRoom" unique_id=2144035808 instance=ExtResource("5_mir")]
 transform = Transform3D(0.9612617, 0, -0.27563736, 0, 1, 0, 0.27563736, 0, 0.9612617, 4.2, 1.5, -4.8)
 
-; Optical Receptor (Inside alcove behind baffle wall, aimed at mirror)
-[node name="OpticalReceptor_Act1" parent="Act1_ControlRoom" node_paths=PackedStringArray("target_door") instance=ExtResource("6_rec")]
+[node name="OpticalReceptor_Act1" parent="Act1_ControlRoom" unique_id=1295288890 node_paths=PackedStringArray("target_door") instance=ExtResource("6_rec")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.8, 1.5, -0.6)
 requires_lrrr_benchmark = true
 target_door = NodePath("../Act1SecurityDoor")
 
-; Security Door to Gallery
-[node name="Act1SecurityDoor" parent="Act1_ControlRoom" instance=ExtResource("4_dor")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6.0, 0, 0)
+[node name="Act1SecurityDoor" parent="Act1_ControlRoom" unique_id=1438052638 instance=ExtResource("4_dor")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6, 0, 0)
 door_name = "Sector 1 Magnetic Security Door"
 lock_text = "[MAGNETIC LOCK: BOUNCE BEAM ON SENSOR]"
 lock_hint = "Aim laser at wall mirror to bounce the beam into the optical receptor above the door."
 
-; Mood & Emergency Lighting
-[node name="ControlLight1" type="OmniLight3D" parent="Act1_ControlRoom"]
+[node name="ControlLight1" type="OmniLight3D" parent="Act1_ControlRoom" unique_id=1744655539]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2.8, -2)
 light_color = Color(1, 0.35, 0.2, 1)
 light_energy = 1.6
 omni_range = 7.0
 
-[node name="ControlLight2" type="OmniLight3D" parent="Act1_ControlRoom"]
+[node name="ControlLight2" type="OmniLight3D" parent="Act1_ControlRoom" unique_id=536993903]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2.8, 2)
 light_color = Color(1, 0.45, 0.2, 1)
 light_energy = 1.2
 omni_range = 7.0
 
-[node name="DeskGlow" type="SpotLight3D" parent="Act1_ControlRoom"]
+[node name="DeskGlow" type="SpotLight3D" parent="Act1_ControlRoom" unique_id=1352889647]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -2.5, 3.2, -3.5)
 light_color = Color(0.3, 0.9, 0.6, 1)
 light_energy = 1.8
 spot_range = 4.0
 spot_angle = 50.0
 
-; ==============================================
-; ACT 2: THE MIRROR GALLERY & BREAKER ROOMS
-; ==============================================
-[node name="Act2_Gallery" type="Node3D" parent="."]
+[node name="Prop_Oscilloscope1" parent="Act1_ControlRoom" unique_id=2059330929 instance=ExtResource("29_posc")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -2.8, 0.9, -3.7157643)
+
+[node name="Prop_Chair1" parent="Act1_ControlRoom" unique_id=1210921724 instance=ExtResource("32_pchr")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -2.8, 0, -2.0658832)
+
+[node name="Prop_Chair2" parent="Act1_ControlRoom" unique_id=51057793 instance=ExtResource("32_pchr")]
+transform = Transform3D(-0.20268321, 0, 0.9792445, 0, 1, 0, -0.9792445, 0, -0.20268321, -1.4, 0, -2.1781461)
+
+[node name="Prop_Cabinet1" parent="Act1_ControlRoom" unique_id=640597443 instance=ExtResource("33_pcab")]
+transform = Transform3D(-0.9999995, 0, -0.0009730719, 0, 1, 0, 0.0009730719, 0, -0.9999995, -0.5006068, 0, 5.5112934)
+
+[node name="MainframeRack1" parent="Act1_ControlRoom" unique_id=510559971 instance=ExtResource("30_pmfr")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0.4313811, -0.012118399, 5.3670497)
+
+[node name="MainframeRack2" parent="Act1_ControlRoom" unique_id=1963971841 instance=ExtResource("30_pmfr")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -1.4276688, 0, 5.3882422)
+
+[node name="Conduit_Act1_1" parent="Act1_ControlRoom" unique_id=728833868 instance=ExtResource("35_pcnd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4, 0)
+
+[node name="Act2_Gallery" type="Node3D" parent="." unique_id=688771736]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 0)
 
-; Hallway 1 Floor & Ceiling
-[node name="Hall1_Floor" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="Hall1_Floor" type="CSGBox3D" parent="Act2_Gallery" unique_id=159154489]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, -0.2, 0)
 use_collision = true
 size = Vector3(18, 0.4, 4)
 material = SubResource("Mat_Floor")
 
-[node name="Hall1_Ceil" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="Hall1_Ceil" type="CSGBox3D" parent="Act2_Gallery" unique_id=182582673]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 3.8, 0)
 use_collision = true
 size = Vector3(18, 0.4, 4)
 material = SubResource("Mat_Wall")
 
-[node name="Hall1_WallN" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="Hall1_WallN" type="CSGBox3D" parent="Act2_Gallery" unique_id=1976831253]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1.8, -2)
 use_collision = true
 size = Vector3(18, 3.6, 0.4)
 material = SubResource("Mat_Wall")
 
-[node name="Hall1_Window_Cutout" type="CSGBox3D" parent="Act2_Gallery/Hall1_WallN"]
+[node name="Hall1_Window_Cutout" type="CSGBox3D" parent="Act2_Gallery/Hall1_WallN" unique_id=1569591491]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 0)
 operation = 2
 size = Vector3(5, 1.8, 0.6)
 
-[node name="Hall1_Window_Glass" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="Hall1_Window_Glass" type="CSGBox3D" parent="Act2_Gallery" unique_id=1413781497]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.8, -2)
 use_collision = true
 size = Vector3(5, 1.8, 0.4)
 material = SubResource("Mat_Glass")
 
-[node name="Hall1_LunarSurface" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="Hall1_LunarSurface" type="CSGBox3D" parent="Act2_Gallery" unique_id=1305960943]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, -0.4, -6)
 size = Vector3(14, 0.4, 8)
 material = SubResource("Mat_LunarRegolith")
 
-[node name="Hall1_WallS1" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="Hall1_WallS1" type="CSGBox3D" parent="Act2_Gallery" unique_id=957554265]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 1.8, 2)
 use_collision = true
 size = Vector3(7, 3.6, 0.4)
 material = SubResource("Mat_Wall")
 
-[node name="Hall1_WallS2" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="Hall1_WallS2" type="CSGBox3D" parent="Act2_Gallery" unique_id=1710265993]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 1.8, 2)
 use_collision = true
 size = Vector3(7, 3.6, 0.4)
 material = SubResource("Mat_Wall")
 
-[node name="Hall1_Corner_Floor" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.0, -0.2, 1.0)
+[node name="Hall1_Corner_Floor" type="CSGBox3D" parent="Act2_Gallery" unique_id=1030909982]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, -0.2, 1)
 use_collision = true
-size = Vector3(2.4, 0.4, 2.0)
+size = Vector3(2.4, 0.4, 2)
 material = SubResource("Mat_Floor")
 
-[node name="Hall1_Corner_Ceil" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.0, 3.8, 1.0)
+[node name="Hall1_Corner_Ceil" type="CSGBox3D" parent="Act2_Gallery" unique_id=1240958681]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 3.8, 1)
 use_collision = true
-size = Vector3(2.4, 0.4, 2.0)
+size = Vector3(2.4, 0.4, 2)
 material = SubResource("Mat_Wall")
 
-[node name="Hall1_Corner_WallS" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.0, 1.8, 2.0)
+[node name="Hall1_Corner_WallS" type="CSGBox3D" parent="Act2_Gallery" unique_id=266262177]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 1.8, 2)
 use_collision = true
 size = Vector3(2.4, 3.6, 0.4)
 material = SubResource("Mat_Wall")
 
-[node name="Hall1_Corner_WallE" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.0, 1.8, 1.0)
+[node name="Hall1_Corner_WallE" type="CSGBox3D" parent="Act2_Gallery" unique_id=1680317762]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1.8, 1)
 use_collision = true
-size = Vector3(0.4, 3.6, 2.0)
+size = Vector3(0.4, 3.6, 2)
 material = SubResource("Mat_Wall")
 
-; Corner 1 Mirror (Calibrated at -135 degrees to reflect beams from Hallway 1 North into Hallway 2)
-[node name="Mirror_Corner1" parent="Act2_Gallery" instance=ExtResource("5_mir")]
-transform = Transform3D(-0.70710677, 0, -0.70710677, 0, 1, 0, 0.70710677, 0, -0.70710677, 17.5, 1.5, 0)
-
-; Hallway 2
-[node name="Hall2_Floor" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="Hall2_Floor" type="CSGBox3D" parent="Act2_Gallery" unique_id=226375288]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, -0.2, -8)
 use_collision = true
 size = Vector3(4, 0.4, 16)
 material = SubResource("Mat_Floor")
 
-[node name="Hall2_Ceil" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="Hall2_Ceil" type="CSGBox3D" parent="Act2_Gallery" unique_id=126073291]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 3.8, -8)
 use_collision = true
 size = Vector3(4, 0.4, 16)
 material = SubResource("Mat_Wall")
 
-[node name="Hall2_WallE1_N" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="Hall2_WallE1_N" type="CSGBox3D" parent="Act2_Gallery" unique_id=236699127]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1.8, -0.5)
 use_collision = true
-size = Vector3(0.4, 3.6, 1.0)
+size = Vector3(0.4, 3.6, 1)
 material = SubResource("Mat_Wall")
 
-[node name="Hall2_WallE1_Lintel" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 3.3, -2.0)
+[node name="Hall2_WallE1_Lintel" type="CSGBox3D" parent="Act2_Gallery" unique_id=1585232144]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 3.3, -2)
 use_collision = true
-size = Vector3(0.4, 1.0, 2.0)
+size = Vector3(0.4, 1, 2)
 material = SubResource("Mat_Wall")
 
-[node name="Hall2_WallE1_S" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1.8, -5.0)
+[node name="Hall2_WallE1_S" type="CSGBox3D" parent="Act2_Gallery" unique_id=1882093181]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1.8, -5)
 use_collision = true
-size = Vector3(0.4, 3.6, 4.0)
+size = Vector3(0.4, 3.6, 4)
 material = SubResource("Mat_Wall")
 
-[node name="Hall2_WallE2" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="Hall2_WallE2" type="CSGBox3D" parent="Act2_Gallery" unique_id=1915203795]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1.8, -12.5)
 use_collision = true
 size = Vector3(0.4, 3.6, 7)
 material = SubResource("Mat_Wall")
 
-[node name="Hall2_WallW1" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="Hall2_WallW1" type="CSGBox3D" parent="Act2_Gallery" unique_id=1293468871]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 1.8, -3.5)
 use_collision = true
 size = Vector3(0.4, 3.6, 7)
 material = SubResource("Mat_Wall")
 
-[node name="Hall2_WallW2_N" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="Hall2_WallW2_N" type="CSGBox3D" parent="Act2_Gallery" unique_id=1365471657]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 1.8, -10.5)
 use_collision = true
-size = Vector3(0.4, 3.6, 3.0)
+size = Vector3(0.4, 3.6, 3)
 material = SubResource("Mat_Wall")
 
-[node name="Hall2_WallW2_Lintel" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 3.3, -13.0)
+[node name="Hall2_WallW2_Lintel" type="CSGBox3D" parent="Act2_Gallery" unique_id=1057509352]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 3.3, -13)
 use_collision = true
-size = Vector3(0.4, 1.0, 2.0)
+size = Vector3(0.4, 1, 2)
 material = SubResource("Mat_Wall")
 
-[node name="Hall2_WallW2_S" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 1.8, -15.0)
+[node name="Hall2_WallW2_S" type="CSGBox3D" parent="Act2_Gallery" unique_id=2066843101]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 1.8, -15)
 use_collision = true
-size = Vector3(0.4, 3.6, 2.0)
+size = Vector3(0.4, 3.6, 2)
 material = SubResource("Mat_Wall")
 
-; Corner 2 Mirror (Faces South down Hallway 2 to bounce beams onto Shadow Entity's blind spot)
-[node name="Mirror_Corner2" parent="Act2_Gallery" instance=ExtResource("5_mir")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 1.5, -15.5)
+[node name="Mirror_Corner2" parent="Act2_Gallery" unique_id=1810721427 instance=ExtResource("5_mir")]
+transform = Transform3D(-0.99992585, 0, 0.012178808, 0, 1, 0, -0.012178808, 0, -0.99992585, -0.9472151, 1.5585628, -30.210766)
 
-; Breaker Room 1
-[node name="BR1_Floor" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="BR1_Floor" type="CSGBox3D" parent="Act2_Gallery" unique_id=796420744]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, -0.2, 6)
 use_collision = true
 size = Vector3(8, 0.4, 8)
 material = SubResource("Mat_Floor")
 
-[node name="BR1_Ceil" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="BR1_Ceil" type="CSGBox3D" parent="Act2_Gallery" unique_id=1839174477]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 3.8, 6)
 use_collision = true
 size = Vector3(8, 0.4, 8)
 material = SubResource("Mat_Wall")
 
-[node name="BR1_WallS1" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="BR1_WallS1" type="CSGBox3D" parent="Act2_Gallery" unique_id=892036383]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5, 1.8, 10)
 use_collision = true
 size = Vector3(3, 3.6, 0.4)
 material = SubResource("Mat_Wall")
 
-[node name="BR1_WallS2" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="BR1_WallS2" type="CSGBox3D" parent="Act2_Gallery" unique_id=636825455]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 1.8, 10)
 use_collision = true
 size = Vector3(3, 3.6, 0.4)
 material = SubResource("Mat_Wall")
 
-; Airlock Beta Doorway to Lunar Surface
-[node name="AirlockBeta_Door" parent="Act2_Gallery" instance=ExtResource("4_dor")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.0, 0, 10)
+[node name="AirlockBeta_Door" parent="Act2_Gallery" unique_id=261138580 instance=ExtResource("4_dor")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, 10)
 door_name = "Airlock Beta (Research Wing Lunar Hatch)"
 lock_text = "[AIRLOCK PRESSURE BALANCED - PRESS E TO ENTER/EXIT]"
 lock_hint = "Step between the exterior lunar regolith and Capacitor Bay A."
 
-[node name="BR1_WallE" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="BR1_WallE" type="CSGBox3D" parent="Act2_Gallery" unique_id=1669390295]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 1.8, 6)
 use_collision = true
 size = Vector3(0.4, 3.6, 8)
 material = SubResource("Mat_Wall")
 
-[node name="BR1_WallW" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="BR1_WallW" type="CSGBox3D" parent="Act2_Gallery" unique_id=77989266]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.8, 6)
 use_collision = true
 size = Vector3(0.4, 3.6, 8)
 material = SubResource("Mat_Wall")
 
-[node name="BR1_Window_Cutout" type="CSGBox3D" parent="Act2_Gallery/BR1_WallW"]
+[node name="BR1_Window_Cutout" type="CSGBox3D" parent="Act2_Gallery/BR1_WallW" unique_id=162637078]
 operation = 2
-size = Vector3(0.6, 1.8, 4.0)
+size = Vector3(0.6, 1.8, 4)
 
-[node name="BR1_Window_Glass" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="BR1_Window_Glass" type="CSGBox3D" parent="Act2_Gallery" unique_id=899010003]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 1.8, 6)
 use_collision = true
-size = Vector3(0.4, 1.8, 4.0)
+size = Vector3(0.4, 1.8, 4)
 material = SubResource("Mat_Glass")
 
-; Breaker 1 Desk
-[node name="BR1_Desk" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="BR1_Desk" type="CSGBox3D" parent="Act2_Gallery" unique_id=604714590]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0.45, 7.5)
 use_collision = true
 size = Vector3(2.5, 0.9, 1.4)
 material = SubResource("Mat_Desk")
 
-; Capacitor Breaker 1 (Prominently mounted on East wall of BR1)
-[node name="CapacitorBreaker1" parent="Act2_Gallery" instance=ExtResource("10_brk")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 12.7, 1.6, 6.0)
-capacitor_index = 1
+[node name="CapacitorBreaker1" parent="Act2_Gallery" unique_id=880166042 instance=ExtResource("10_brk")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 12.7, 1.6, 6)
 
-[node name="BR1_Light" type="OmniLight3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.0, 2.8, 6.0)
-light_color = Color(0.92, 0.96, 1.0, 1)
+[node name="BR1_Light" type="OmniLight3D" parent="Act2_Gallery" unique_id=2090666999]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 2.8, 6)
+light_color = Color(0.92, 0.96, 1, 1)
 light_energy = 2.0
 omni_range = 8.0
 
-[node name="BR1_Breaker_Spot" type="SpotLight3D" parent="Act2_Gallery"]
-transform = Transform3D(-4.37114e-08, 0, -1, 0.5, 0.866025, -2.18557e-08, 0.866025, -0.5, -3.78552e-08, 10.5, 2.8, 6.0)
-light_color = Color(1.0, 0.9, 0.7, 1)
+[node name="BR1_Breaker_Spot" type="SpotLight3D" parent="Act2_Gallery" unique_id=1556233061]
+transform = Transform3D(-4.37114e-08, 0, -1, 0.5, 0.866025, -2.18557e-08, 0.866025, -0.5, -3.78552e-08, 10.5, 2.8, 6)
+light_color = Color(1, 0.9, 0.7, 1)
 light_energy = 3.5
-spot_range = 5.0
 spot_angle = 35.0
 
-; Tape Recorder 1
-[node name="TapeRecorder1" parent="Act2_Gallery" instance=ExtResource("9_tap")]
+[node name="TapeRecorder1" parent="Act2_Gallery" unique_id=602508575 instance=ExtResource("9_tap")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.8, 0.95, 7.5)
 tape_title = "Log 77-B: The Argon Line & Optical Return"
 tape_transcript = "Mount Hale Observatory. October 14, 1974. Dr. Thorne recording. The return beam from the Apollo array has stabilized into an active optical conduit. Shadow silhouettes are moving along the floor line. Direct illumination slows them, but they absorb raw forward light. To dissipate them, the beam must be reflected—the phase shift of a mirrored reflection destabilizes their silhouette structure. If the cleanroom interlock engages, use the Argon-ion laser wavelength: 488. Four, eight, eight."
-tape_voice_clip = "tape_log_1"
 
-; Portable Mirror Stand in Breaker Room 1
-[node name="PortableMirrorPickup1" parent="Act2_Gallery" instance=ExtResource("15_pmir")]
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="Act2_Gallery/TapeRecorder1" unique_id=508086032]
+
+[node name="PortableMirrorPickup1" parent="Act2_Gallery" unique_id=228919875 instance=ExtResource("15_pmir")]
 transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, 11, 0, 7)
 
-; Shadow Entity 1 (Patrolling near Breaker Room 1)
-[node name="ShadowEntity1" parent="Act2_Gallery" instance=ExtResource("11_shd")]
+[node name="ShadowEntity1" parent="Act2_Gallery" unique_id=1238957118 instance=ExtResource("11_shd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 1)
 
-; Breaker Room 2
-[node name="BR2_Floor" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="BR2_Floor" type="CSGBox3D" parent="Act2_Gallery" unique_id=775257692]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, -0.2, -8)
 use_collision = true
 size = Vector3(9.2, 0.4, 8)
 material = SubResource("Mat_Floor")
 
-[node name="BR2_Ceil" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="BR2_Ceil" type="CSGBox3D" parent="Act2_Gallery" unique_id=1748688450]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 3.8, -8)
 use_collision = true
 size = Vector3(9.2, 0.4, 8)
 material = SubResource("Mat_Wall")
 
-[node name="BR2_WallW" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="BR2_WallW" type="CSGBox3D" parent="Act2_Gallery" unique_id=725951446]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.8, -8)
 use_collision = true
 size = Vector3(0.4, 3.6, 8)
 material = SubResource("Mat_Wall")
 
-[node name="BR2_Window_Cutout" type="CSGBox3D" parent="Act2_Gallery/BR2_WallW"]
+[node name="BR2_Window_Cutout" type="CSGBox3D" parent="Act2_Gallery/BR2_WallW" unique_id=686769266]
 operation = 2
-size = Vector3(0.6, 1.8, 4.0)
+size = Vector3(0.6, 1.8, 4)
 
-[node name="BR2_Window_Glass" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="BR2_Window_Glass" type="CSGBox3D" parent="Act2_Gallery" unique_id=1453700800]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.8, -8)
 use_collision = true
-size = Vector3(0.4, 1.8, 4.0)
+size = Vector3(0.4, 1.8, 4)
 material = SubResource("Mat_Glass")
 
-[node name="BR2_WallN" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="BR2_WallN" type="CSGBox3D" parent="Act2_Gallery" unique_id=1869448306]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 1.8, -12)
 use_collision = true
 size = Vector3(9.2, 3.6, 0.4)
 material = SubResource("Mat_Wall")
 
-[node name="BR2_WallS" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="BR2_WallS" type="CSGBox3D" parent="Act2_Gallery" unique_id=1660661912]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 1.8, -4)
 use_collision = true
 size = Vector3(9.2, 3.6, 0.4)
 material = SubResource("Mat_Wall")
 
-; Breaker 2 Desk
-[node name="BR2_Desk" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="BR2_Desk" type="CSGBox3D" parent="Act2_Gallery" unique_id=1101297503]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0.45, -9.5)
 use_collision = true
 size = Vector3(2.5, 0.9, 1.4)
 material = SubResource("Mat_Desk")
 
-; Capacitor Breaker 2 (Mounted on solid North wall of BR2)
-[node name="CapacitorBreaker2" parent="Act2_Gallery" instance=ExtResource("10_brk")]
+[node name="CapacitorBreaker2" parent="Act2_Gallery" unique_id=982082241 instance=ExtResource("10_brk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 1.6, -11.7)
 capacitor_index = 2
 
-[node name="BR2_Light" type="OmniLight3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 2.8, -8.0)
-light_color = Color(0.92, 0.96, 1.0, 1)
+[node name="BR2_Light" type="OmniLight3D" parent="Act2_Gallery" unique_id=930304888]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 2.8, -8)
+light_color = Color(0.92, 0.96, 1, 1)
 light_energy = 2.0
 omni_range = 8.0
 
-[node name="BR2_Breaker_Spot" type="SpotLight3D" parent="Act2_Gallery"]
+[node name="BR2_Breaker_Spot" type="SpotLight3D" parent="Act2_Gallery" unique_id=1425638527]
 transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 11.5, 2.8, -9.5)
-light_color = Color(1.0, 0.9, 0.7, 1)
+light_color = Color(1, 0.9, 0.7, 1)
 light_energy = 3.5
-spot_range = 5.0
 spot_angle = 35.0
 
-; Shadow Entity 2
-[node name="ShadowEntity2" parent="Act2_Gallery" instance=ExtResource("11_shd")]
+[node name="ShadowEntity2" parent="Act2_Gallery" unique_id=744468022 instance=ExtResource("11_shd")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, -10)
 
-; ==============================================
-; Breaker Room 3: Optical Calibration & Capacitor 3
-; ==============================================
-[node name="BR3_Floor" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="BR3_Floor" type="CSGBox3D" parent="Act2_Gallery" unique_id=622735881]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, -0.2, -8)
 use_collision = true
 size = Vector3(9.2, 0.4, 8)
 material = SubResource("Mat_Floor")
 
-[node name="BR3_Ceil" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="BR3_Ceil" type="CSGBox3D" parent="Act2_Gallery" unique_id=341479528]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 3.8, -8)
 use_collision = true
 size = Vector3(9.2, 0.4, 8)
 material = SubResource("Mat_Wall")
 
-[node name="BR3_WallE" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.0, 1.8, -8)
+[node name="BR3_WallE" type="CSGBox3D" parent="Act2_Gallery" unique_id=97131450]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 1.8, -8)
 use_collision = true
 size = Vector3(0.4, 3.6, 8)
 material = SubResource("Mat_Wall")
 
-[node name="BR3_Window_Cutout" type="CSGBox3D" parent="Act2_Gallery/BR3_WallE"]
+[node name="BR3_Window_Cutout" type="CSGBox3D" parent="Act2_Gallery/BR3_WallE" unique_id=585528798]
 operation = 2
-size = Vector3(0.6, 1.8, 4.0)
+size = Vector3(0.6, 1.8, 4)
 
-[node name="BR3_Window_Glass" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.0, 1.8, -8)
+[node name="BR3_Window_Glass" type="CSGBox3D" parent="Act2_Gallery" unique_id=642964907]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 1.8, -8)
 use_collision = true
-size = Vector3(0.4, 1.8, 4.0)
+size = Vector3(0.4, 1.8, 4)
 material = SubResource("Mat_Glass")
 
-[node name="BR3_LunarGround" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35.0, -0.4, -8.0)
+[node name="BR3_LunarGround" type="CSGBox3D" parent="Act2_Gallery" unique_id=1195755659]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 35, -0.4, -8)
 size = Vector3(14, 0.4, 16)
 material = SubResource("Mat_LunarRegolith")
 
-[node name="BR3_WallN" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="BR3_WallN" type="CSGBox3D" parent="Act2_Gallery" unique_id=1358119703]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 1.8, -12)
 use_collision = true
 size = Vector3(9.2, 3.6, 0.4)
 material = SubResource("Mat_Wall")
 
-[node name="BR3_WallS" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="BR3_WallS" type="CSGBox3D" parent="Act2_Gallery" unique_id=1164190176]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 1.8, -4)
 use_collision = true
 size = Vector3(9.2, 3.6, 0.4)
 material = SubResource("Mat_Wall")
 
-; Breaker 3 Desk
-[node name="BR3_Desk" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.0, 0.45, -9.5)
+[node name="BR3_Desk" type="CSGBox3D" parent="Act2_Gallery" unique_id=2107770254]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 0.45, -9.5)
 use_collision = true
 size = Vector3(2.5, 0.9, 1.4)
 material = SubResource("Mat_Desk")
 
-; Capacitor Breaker 3 (Mounted on solid North wall of BR3)
-[node name="CapacitorBreaker3" parent="Act2_Gallery" instance=ExtResource("10_brk")]
+[node name="CapacitorBreaker3" parent="Act2_Gallery" unique_id=942625324 instance=ExtResource("10_brk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 1.6, -11.7)
 capacitor_index = 3
 
-[node name="BR3_Breaker_Spot" type="SpotLight3D" parent="Act2_Gallery"]
+[node name="BR3_Breaker_Spot" type="SpotLight3D" parent="Act2_Gallery" unique_id=2105152405]
 transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 24.5, 2.8, -9.5)
-light_color = Color(1.0, 0.9, 0.7, 1)
+light_color = Color(1, 0.9, 0.7, 1)
 light_energy = 3.5
-spot_range = 5.0
 spot_angle = 35.0
 
-; Room 3 Wall Mirror
-[node name="Mirror_BR3" parent="Act2_Gallery" instance=ExtResource("5_mir")]
-transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 28.5, 1.5, -5.0)
+[node name="Mirror_BR3" parent="Act2_Gallery" unique_id=587663561 instance=ExtResource("5_mir")]
+transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 28.5, 1.5, -5)
 
-; Shadow Entity 3 (Stalking inside calibration wing)
-[node name="ShadowEntity3" parent="Act2_Gallery" instance=ExtResource("11_shd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.0, 0, -7.0)
+[node name="ShadowEntity3" parent="Act2_Gallery" unique_id=1706221056 instance=ExtResource("11_shd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, -7)
 
-; Room 3 Atmospheric Light
-[node name="BR3_Light" type="OmniLight3D" parent="Act2_Gallery"]
+[node name="BR3_Light" type="OmniLight3D" parent="Act2_Gallery" unique_id=525193429]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 2.8, -8)
 light_color = Color(0.25, 0.75, 1, 1)
 light_energy = 1.2
 omni_range = 7.0
 
-; Hallway Atmospheric Lights
-[node name="GalleryLight1" type="OmniLight3D" parent="Act2_Gallery"]
+[node name="GalleryLight1" type="OmniLight3D" parent="Act2_Gallery" unique_id=911723211]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 2.8, 0)
 light_color = Color(1, 0.35, 0.2, 1)
 light_energy = 1.1
 omni_range = 7.0
 
-[node name="GalleryLight2" type="OmniLight3D" parent="Act2_Gallery"]
+[node name="GalleryLight2" type="OmniLight3D" parent="Act2_Gallery" unique_id=1295096540]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 2.8, -8)
 light_color = Color(0.2, 0.5, 1, 1)
-light_energy = 1.0
 omni_range = 7.0
 
-; ==============================================
-; Spectrometry Cleanroom (Lab Alpha)
-; ==============================================
-[node name="Cleanroom_Floor" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="Cleanroom_Floor" type="CSGBox3D" parent="Act2_Gallery" unique_id=678716084]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, -0.2, -2)
 use_collision = true
-size = Vector3(9.2, 0.4, 4.0)
+size = Vector3(9.2, 0.4, 4)
 material = SubResource("Mat_Floor")
 
-[node name="Cleanroom_Ceil" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="Cleanroom_Ceil" type="CSGBox3D" parent="Act2_Gallery" unique_id=1861250626]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 3.8, -2)
 use_collision = true
-size = Vector3(9.2, 0.4, 4.0)
+size = Vector3(9.2, 0.4, 4)
 material = SubResource("Mat_Wall")
 
-[node name="Cleanroom_WallE" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29.0, 1.8, -2)
+[node name="Cleanroom_WallE" type="CSGBox3D" parent="Act2_Gallery" unique_id=1224328238]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 29, 1.8, -2)
 use_collision = true
-size = Vector3(0.4, 3.6, 4.0)
+size = Vector3(0.4, 3.6, 4)
 material = SubResource("Mat_Wall")
 
-[node name="Cleanroom_WallN" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="Cleanroom_WallN" type="CSGBox3D" parent="Act2_Gallery" unique_id=70393246]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 1.8, 0)
 use_collision = true
 size = Vector3(9.2, 3.6, 0.4)
 material = SubResource("Mat_Wall")
 
-[node name="Cleanroom_WallS" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="Cleanroom_WallS" type="CSGBox3D" parent="Act2_Gallery" unique_id=435687797]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 1.8, -4)
 use_collision = true
 size = Vector3(9.2, 3.6, 0.4)
 material = SubResource("Mat_Wall")
 
-[node name="CleanroomLaserBarrier" parent="Act2_Gallery" instance=ExtResource("19_cbar")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.0, 0, -2.0)
+[node name="CleanroomLaserBarrier" parent="Act2_Gallery" unique_id=1047071515 instance=ExtResource("19_cbar")]
+transform = Transform3D(0.84450865, 0, 0.53554153, 0, 1.3499999, 0, -0.53554153, 0, 0.84450865, 18.884323, -0.16018641, -2.7228189)
 
-[node name="CleanroomKeypadTerminal" parent="Act2_Gallery" instance=ExtResource("4_dor")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 20.0, 0, -2.0)
+[node name="CleanroomKeypadTerminal" parent="Act2_Gallery" unique_id=1823749123 instance=ExtResource("4_dor")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 20, 0, -2)
 door_name = "Cleanroom Security Terminal"
 lock_text = "[SECURITY LOCK: ENTER ARGON SPECTRAL LINE]"
 lock_hint = "Argon-ion laser wavelength code recorded in Dr. Thorne's Tape Log 1."
@@ -772,486 +721,491 @@ keypad_code = "488"
 keypad_id = "cleanroom_barrier"
 keypad_title = "SPECTROMETRY CLEANROOM - 488nm WAVELENGTH"
 
-[node name="Cleanroom_Desk" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 0.45, -2.0)
+[node name="Cleanroom_Desk" type="CSGBox3D" parent="Act2_Gallery" unique_id=723310537]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 0.45, -2)
 use_collision = true
 size = Vector3(2.5, 0.9, 1.4)
 material = SubResource("Mat_Desk")
 
-[node name="TapeRecorder2" parent="Act2_Gallery" instance=ExtResource("9_tap")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 0.95, -2.0)
+[node name="TapeRecorder2" parent="Act2_Gallery" unique_id=1970678180 instance=ExtResource("9_tap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 0.95, -2)
 tape_title = "Log 78-C: Capacitor Interlock Sequence"
 tape_transcript = "Dr. Thorne, Cleanroom Lab. If you are hearing this, the gallery capacitors are held under automatic safety interlock. Do not trip the breakers out of order—the cryogenic coolant loop will blow its safety seals and force an interlock reset. The charging sequence must strictly follow the optical path: Bay A Cryo-Coolant first, then Bay C Oscillator, and Bay B Magnetic Flux last. One, then three, then two."
 tape_voice_clip = "tape_log_2"
 
-[node name="PortableMirrorPickup2" parent="Act2_Gallery" instance=ExtResource("15_pmir")]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 27.5, 0, -2.0)
+[node name="PortableMirrorPickup2" parent="Act2_Gallery" unique_id=607377303 instance=ExtResource("15_pmir")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 27.5, 0, -2)
 
-[node name="Cleanroom_Light" type="OmniLight3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 2.8, -2.0)
-light_color = Color(0.2, 0.85, 1.0, 1)
+[node name="Cleanroom_Light" type="OmniLight3D" parent="Act2_Gallery" unique_id=144930034]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 2.8, -2)
+light_color = Color(0.2, 0.85, 1, 1)
 light_energy = 1.6
 omni_range = 7.0
 
-; ==============================================
-; Astrometric Archive & Photographic Darkroom
-; ==============================================
-[node name="Archive_Floor" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, -0.2, -14.0)
+[node name="Archive_Floor" type="CSGBox3D" parent="Act2_Gallery" unique_id=1052690842]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, -0.2, -14)
 use_collision = true
-size = Vector3(9.2, 0.4, 4.0)
+size = Vector3(9.2, 0.4, 4)
 material = SubResource("Mat_Floor")
 
-[node name="Archive_Ceil" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 3.8, -14.0)
+[node name="Archive_Ceil" type="CSGBox3D" parent="Act2_Gallery" unique_id=538408141]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 3.8, -14)
 use_collision = true
-size = Vector3(9.2, 0.4, 4.0)
+size = Vector3(9.2, 0.4, 4)
 material = SubResource("Mat_Wall")
 
-[node name="Archive_WallW" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.0, 1.8, -14.0)
+[node name="Archive_WallW" type="CSGBox3D" parent="Act2_Gallery" unique_id=1146057450]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 1.8, -14)
 use_collision = true
-size = Vector3(0.4, 3.6, 4.0)
+size = Vector3(0.4, 3.6, 4)
 material = SubResource("Mat_Wall")
 
-[node name="Archive_WallS" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 1.8, -16.0)
+[node name="Archive_WallS" type="CSGBox3D" parent="Act2_Gallery" unique_id=1642493510]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 1.8, -16)
 use_collision = true
 size = Vector3(9.2, 3.6, 0.4)
 material = SubResource("Mat_Wall")
 
-[node name="Archive_Desk" type="CSGBox3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0, 0.45, -14.0)
+[node name="Archive_Desk" type="CSGBox3D" parent="Act2_Gallery" unique_id=618039339]
+transform = Transform3D(-0.009416366, 0, 0.99995565, 0, 1, 0, -0.99995565, 0, -0.009416366, 9.65671, 0.45, -14)
 use_collision = true
 size = Vector3(2.5, 0.9, 1.4)
 material = SubResource("Mat_Desk")
 
-[node name="TapeRecorder3" parent="Act2_Gallery" instance=ExtResource("9_tap")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0, 0.95, -14.0)
+[node name="TapeRecorder3" parent="Act2_Gallery" unique_id=763125113 instance=ExtResource("9_tap")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.464224, 0.95, -14)
 tape_title = "Log 79-D: Dome Triad Alignment & Azimuth"
 tape_transcript = "The silhouettes have concentrated around the dome console platform. Direct light will not clear them in time, but a closed triad of reflected beams will sweep the entire dome floor. Station Alpha must be set to 45 degrees, Station Beta to 135 degrees, and Station Gamma to 315 degrees. Once the reflected triangle locks, enter the Master Azimuth code on the console keypad: 8352. Eight, three, five, two. Then engage the discharge lever and seal the dome shutter."
 tape_voice_clip = "tape_log_3"
 
-[node name="Archive_Chalkboard" type="Label3D" parent="Act2_Gallery"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.3, 1.8, -14.0)
+[node name="Archive_Chalkboard" type="Label3D" parent="Act2_Gallery" unique_id=1434720201]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.3, 1.8, -14)
+modulate = Color(1, 0.85, 0.4, 0.95)
 text = "LUNAR LASER RANGING EXPERIMENT // CALIBRATION RECORD
 MASTER AZIMUTH CONSOLE CODE: [ 8352 ]
 CAPACITOR INTERLOCK SEQUENCE: BAY A -> BAY C -> BAY B
 SEQUENCE: [ 1 -> 3 -> 2 ]"
 font_size = 14
 outline_size = 4
-outline_modulate = Color(0, 0, 0, 1)
-modulate = Color(1.0, 0.85, 0.4, 0.95)
 
-[node name="Archive_Light" type="OmniLight3D" parent="Act2_Gallery"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 2.8, -14.0)
-light_color = Color(1.0, 0.45, 0.1, 1)
+[node name="Archive_Light" type="OmniLight3D" parent="Act2_Gallery" unique_id=1772366931]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 2.8, -14)
+light_color = Color(1, 0.45, 0.1, 1)
 light_energy = 1.3
 omni_range = 6.0
 
-; Dome Blast Door
-[node name="DomeBlastDoor" parent="Act2_Gallery" instance=ExtResource("4_dor")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, -16)
+[node name="DomeBlastDoor" parent="Act2_Gallery" unique_id=1888504611 instance=ExtResource("4_dor")]
+transform = Transform3D(1.4, 0, 0, 0, 1.05, 0, 0, 0, 1, 18, 0, -16)
 door_name = "Primary Dome Blast Door"
 lock_text = "[BLAST LOCK: 3 AUXILIARY CAPACITORS REQUIRED]"
 lock_hint = "Shut down all 3 auxiliary capacitors in Bay A, Bay B, and Bay C to unlock the Dome."
 
-; Vestibule Transition to Dome
-[node name="Vestibule_Floor" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="Vestibule_Floor" type="CSGBox3D" parent="Act2_Gallery" unique_id=1167288227]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, -0.2, -17)
 use_collision = true
 size = Vector3(4, 0.4, 2)
 material = SubResource("Mat_Floor")
 
-[node name="Vestibule_Ceil" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="Vestibule_Ceil" type="CSGBox3D" parent="Act2_Gallery" unique_id=577419430]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 3.8, -17)
 use_collision = true
 size = Vector3(4, 0.4, 2)
 material = SubResource("Mat_Wall")
 
-[node name="Vestibule_WallE" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="Vestibule_WallE" type="CSGBox3D" parent="Act2_Gallery" unique_id=1316832424]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1.8, -17)
 use_collision = true
 size = Vector3(0.4, 3.6, 2)
 material = SubResource("Mat_Wall")
 
-[node name="Vestibule_WallW" type="CSGBox3D" parent="Act2_Gallery"]
+[node name="Vestibule_WallW" type="CSGBox3D" parent="Act2_Gallery" unique_id=1953291248]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 1.8, -17)
 use_collision = true
 size = Vector3(0.4, 3.6, 2)
 material = SubResource("Mat_Wall")
 
-; ==============================================
-; ACT 3: THE DOME & THE ALIGNMENT
-; ==============================================
-[node name="Act3_Dome" type="Node3D" parent="."]
+[node name="Mirror_Hall1_Turn" parent="Act2_Gallery" unique_id=1039440137 instance=ExtResource("5_mir")]
+transform = Transform3D(-0.64358974, 0, -0.7653711, 0, 1, 0, 0.7653711, 0, -0.64358974, 18.958485, 1.5, 0.95290965)
+
+[node name="Mirror_BR1" parent="Act2_Gallery" unique_id=1602754886 instance=ExtResource("5_mir")]
+transform = Transform3D(0.73833364, 0, -0.6744361, 0, 1, 0, 0.6744361, 0, 0.73833364, 12.071882, 1.5, 2.9190884)
+
+[node name="Mirror_BR2" parent="Act2_Gallery" unique_id=949241235 instance=ExtResource("5_mir")]
+transform = Transform3D(-0.67865545, 0, 0.73445714, 0, 1, 0, -0.73445714, 0, -0.67865545, 7.8361063, 1.5, -4.872779)
+
+[node name="Mirror_Cleanroom" parent="Act2_Gallery" unique_id=1025799657 instance=ExtResource("5_mir")]
+transform = Transform3D(0.05561073, 0, -0.9984528, 0, 1, 0, 0.9984528, 0, 0.05561073, 28.7, 1.8125491, -2)
+
+[node name="Mirror_Archive" parent="Act2_Gallery" unique_id=1271548795 instance=ExtResource("5_mir")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 14, 1.5, -15.8)
+
+[node name="Conduit_Hall1" parent="Act2_Gallery" unique_id=1986250259 instance=ExtResource("35_pcnd")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 12, 3.4, 0)
+
+[node name="Conduit_Hall2" parent="Act2_Gallery" unique_id=287499872 instance=ExtResource("35_pcnd")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 24, 3.4, 0)
+
+[node name="Conduit_Spine" parent="Act2_Gallery" unique_id=1958063830 instance=ExtResource("35_pcnd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 3.4, -8)
+
+[node name="Prop_OpticalBench1" parent="Act2_Gallery" unique_id=1932846872 instance=ExtResource("31_popt")]
+transform = Transform3D(-0.9996441, 0, -0.026680108, 0, 1, 0, 0.026680108, 0, -0.9996441, 24.421385, 0, -4.6611295)
+
+[node name="Prop_Oscilloscope2" parent="Act2_Gallery" unique_id=639191635 instance=ExtResource("29_posc")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 26.2, 0.9, -1.6)
+
+[node name="Prop_CryoTank_Clean1" parent="Act2_Gallery" unique_id=1754754741 instance=ExtResource("34_ptnk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.446466, 0, -1.5437261)
+
+[node name="Prop_CryoTank_Clean2" parent="Act2_Gallery" unique_id=1009196380 instance=ExtResource("34_ptnk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.443123, 0, -1.0692022)
+
+[node name="Prop_CryoTank_BR1" parent="Act2_Gallery" unique_id=1700292587 instance=ExtResource("34_ptnk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.529623, 0, 9.515069)
+
+[node name="Prop_CryoTank_BR2" parent="Act2_Gallery" unique_id=1369152622 instance=ExtResource("34_ptnk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.8, 0, -11)
+
+[node name="Prop_CryoTank_BR3" parent="Act2_Gallery" unique_id=895308036 instance=ExtResource("34_ptnk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.434338, 0, -11.5391445)
+
+[node name="Prop_Cabinet_Archive1" parent="Act2_Gallery" unique_id=1135884074 instance=ExtResource("33_pcab")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.5, 0, -15.559834)
+
+[node name="Prop_Cabinet_Archive2" parent="Act2_Gallery" unique_id=1980886387 instance=ExtResource("33_pcab")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.5385513, 0, -12.451997)
+
+[node name="Prop_Chair_Archive" parent="Act2_Gallery" unique_id=1983428348 instance=ExtResource("32_pchr")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 8.439397, 0, -14.05683)
+
+[node name="Act3_Dome" type="Node3D" parent="." unique_id=140752076]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24, 0, -32)
 
-; Dome Floor
-[node name="DomeFloor" type="CSGBox3D" parent="Act3_Dome"]
+[node name="DomeFloor" type="CSGBox3D" parent="Act3_Dome" unique_id=282730380]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
 use_collision = true
 size = Vector3(28, 0.4, 28)
 material = SubResource("Mat_Floor")
 
-; Dome Walls
-[node name="Wall_N" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0, -14)
+[node name="ObservationWindow_Glass2" type="CSGBox3D" parent="Act3_Dome" unique_id=749651078]
+transform = Transform3D(-0.04946946, -0.99877566, 0, 0.99877566, -0.04946946, 0, 0, 0, 1, -10.913706, 4.116257, 13.795837)
 use_collision = true
-size = Vector3(14, 8.0, 1.2)
-material = SubResource("Mat_Wall")
-
-[node name="Dome_Window_Cutout" type="CSGBox3D" parent="Act3_Dome/Wall_N"]
-operation = 2
-size = Vector3(8.0, 4.0, 1.4)
-
-[node name="Dome_Window_Glass" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.0, -14)
-use_collision = true
-size = Vector3(8.0, 4.0, 0.4)
+size = Vector3(8.131897, 4.195569, 0.4)
 material = SubResource("Mat_Glass")
 
-[node name="Dome_ExteriorLunarGround" type="CSGBox3D" parent="Act3_Dome"]
+[node name="ObservationWindow_Glass4" type="CSGBox3D" parent="Act3_Dome" unique_id=1398277413]
+transform = Transform3D(-0.04946946, -0.99877566, 0, 0.99877566, -0.04946946, 0, 0, 0, 1, 11.112839, 4.116257, 13.795837)
+use_collision = true
+size = Vector3(8.131897, 4.195569, 0.4)
+material = SubResource("Mat_Glass")
+
+[node name="ObservationWindow_Glass8" type="CSGBox3D" parent="Act3_Dome" unique_id=1563738572]
+transform = Transform3D(-0.049410276, -0.99758077, 0.04890125, 0.99877566, -0.04946946, 0, 0.0024191183, 0.048841376, 0.9988036, 9.973614, 4.059831, -13.766502)
+use_collision = true
+size = Vector3(8.131897, 6.476813, 0.4)
+material = SubResource("Mat_Glass")
+
+[node name="ObservationWindow_Glass9" type="CSGBox3D" parent="Act3_Dome" unique_id=1652783743]
+transform = Transform3D(-0.019818861, -0.9997789, -0.0070100203, 0.9998028, -0.019809145, -0.001452874, 0.00131369, -0.0070374273, 0.9999744, -10.101961, 4.059831, -13.766502)
+use_collision = true
+size = Vector3(8.131897, 6.476813, 0.4)
+material = SubResource("Mat_Glass")
+
+[node name="ObservationWindow_Glass3" type="CSGBox3D" parent="Act3_Dome" unique_id=496066302]
+transform = Transform3D(0.0025791042, 0.052071422, 0.99864, 0.99877566, -0.04946946, 5.2548277e-09, 0.04940218, 0.99741733, -0.05213523, -13.798239, 4.116257, 11.085789)
+use_collision = true
+size = Vector3(8.131897, 4.195569, 0.4)
+material = SubResource("Mat_Glass")
+
+[node name="ObservationWindow_Glass5" type="CSGBox3D" parent="Act3_Dome" unique_id=162531925]
+transform = Transform3D(0.0025791042, 0.052071422, 0.99864, 0.99877566, -0.04946946, 5.2548277e-09, 0.04940218, 0.99741733, -0.05213523, 13.812473, 4.1801543, 9.797474)
+use_collision = true
+size = Vector3(8.131897, 6.7788725, 0.4)
+material = SubResource("Mat_Glass")
+
+[node name="ObservationWindow_Glass6" type="CSGBox3D" parent="Act3_Dome" unique_id=876567900]
+transform = Transform3D(0.0025791042, 0.052071422, 0.99864, 0.99877566, -0.04946946, 5.2548277e-09, 0.04940218, 0.99741733, -0.05213523, 13.812473, 4.1801543, 9.797474)
+use_collision = true
+size = Vector3(8.131897, 6.7788725, 0.4)
+material = SubResource("Mat_Glass")
+
+[node name="ObservationWindow_Glass7" type="CSGBox3D" parent="Act3_Dome" unique_id=82905317]
+transform = Transform3D(-0.0030146001, -0.06086403, 0.9981415, 0.99877566, -0.04946946, 5.1618336e-09, 0.04937752, 0.99691945, 0.060938668, 13.812473, 4.1801543, -9.65572)
+use_collision = true
+size = Vector3(8.131897, 6.7788725, 0.4)
+material = SubResource("Mat_Glass")
+
+[node name="ObservationWindow_Glass10" type="CSGBox3D" parent="Act3_Dome" unique_id=1568700369]
+transform = Transform3D(0.0018299761, 0.03694673, 0.9993156, 0.9999619, 0.008460507, -0.002143954, -0.008533925, 0.99928135, -0.036929812, -13.74507, 4.1690545, -10.966743)
+use_collision = true
+size = Vector3(8.131897, 4.154939, 0.4)
+material = SubResource("Mat_Glass")
+
+[node name="Wall_N" type="CSGBox3D" parent="Act3_Dome" unique_id=66336962]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -14)
+use_collision = true
+size = Vector3(14, 8, 1.2)
+material = SubResource("Mat_Wall")
+
+[node name="Dome_Window_Cutout" type="CSGBox3D" parent="Act3_Dome/Wall_N" unique_id=1041568657]
+operation = 2
+size = Vector3(8, 4, 1.4)
+
+[node name="Dome_Window_Glass" type="CSGBox3D" parent="Act3_Dome" unique_id=565973410]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -14)
+use_collision = true
+size = Vector3(8, 4, 0.4)
+material = SubResource("Mat_Glass")
+
+[node name="Dome_ExteriorLunarGround" type="CSGBox3D" parent="Act3_Dome" unique_id=781441146]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, -22)
 use_collision = true
 size = Vector3(32, 0.4, 16)
 material = SubResource("Mat_LunarRegolith")
 
-[node name="Wall_S_West" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 4.0, 14)
+[node name="Wall_S_West" type="CSGBox3D" parent="Act3_Dome" unique_id=462963373]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.5, 4, 14)
 use_collision = true
-size = Vector3(7, 8.0, 1.2)
+size = Vector3(7, 8, 1.2)
 material = SubResource("Mat_Wall")
 
-[node name="Wall_S_East" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 4.0, 14)
+[node name="Wall_S_East" type="CSGBox3D" parent="Act3_Dome" unique_id=1047404341]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 4, 14)
 use_collision = true
-size = Vector3(7, 8.0, 1.2)
+size = Vector3(7, 8, 1.2)
 material = SubResource("Mat_Wall")
 
-[node name="Wall_S_Arch" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.0, 14)
+[node name="Wall_S_Arch" type="CSGBox3D" parent="Act3_Dome" unique_id=1458417728]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6, 14)
 use_collision = true
-size = Vector3(4, 4.0, 1.2)
+size = Vector3(4, 4, 1.2)
 material = SubResource("Mat_Wall")
 
-[node name="Wall_E" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 4.0, 0)
+[node name="Wall_E" type="CSGBox3D" parent="Act3_Dome" unique_id=2015716325]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 4, 0)
 use_collision = true
-size = Vector3(1.2, 8.0, 14)
+size = Vector3(1.2, 8, 14)
 material = SubResource("Mat_Wall")
 
-[node name="Wall_W_North" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 4.0, -5.5)
+[node name="Wall_W_North" type="CSGBox3D" parent="Act3_Dome" unique_id=296408146]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 4, -5.5)
 use_collision = true
-size = Vector3(1.2, 8.0, 7)
+size = Vector3(1.2, 8, 7)
 material = SubResource("Mat_Wall")
 
-[node name="Wall_W_South" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 4.0, 5.5)
+[node name="Wall_W_South" type="CSGBox3D" parent="Act3_Dome" unique_id=1489636327]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 4, 5.5)
 use_collision = true
-size = Vector3(1.2, 8.0, 7)
+size = Vector3(1.2, 8, 7)
 material = SubResource("Mat_Wall")
 
-[node name="Wall_W_Arch" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 6.0, 0)
+[node name="Wall_W_Arch" type="CSGBox3D" parent="Act3_Dome" unique_id=462504306]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14, 6, 0)
 use_collision = true
-size = Vector3(1.2, 4.0, 4)
+size = Vector3(1.2, 4, 4)
 material = SubResource("Mat_Wall")
 
-[node name="Wall_NE" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 10, 4.0, -10)
+[node name="Wall_NE" type="CSGBox3D" parent="Act3_Dome" unique_id=1863711753]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 10.339161, 4, -10.339161)
 use_collision = true
-size = Vector3(13, 8.0, 1.2)
+size = Vector3(9.114685, 8, 1.2)
 material = SubResource("Mat_Wall")
 
-[node name="Wall_NW" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -10, 4.0, -10)
+[node name="Wall_NW" type="CSGBox3D" parent="Act3_Dome" unique_id=954750318]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -10.324012, 4, -10.324013)
 use_collision = true
-size = Vector3(13, 8.0, 1.2)
+size = Vector3(8.989807, 8, 1.2)
 material = SubResource("Mat_Wall")
 
-[node name="Wall_SE" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 10, 4.0, 10)
+[node name="Wall_SE" type="CSGBox3D" parent="Act3_Dome" unique_id=403287766]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 10.378628, 4, 10.378628)
 use_collision = true
-size = Vector3(13, 8.0, 1.2)
+size = Vector3(8.913696, 8, 1.2)
 material = SubResource("Mat_Wall")
 
-[node name="Wall_SW" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -10, 4.0, 10)
+[node name="Wall_SW" type="CSGBox3D" parent="Act3_Dome" unique_id=1649478094]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -10.27958, 4, 10.279579)
 use_collision = true
-size = Vector3(13, 8.0, 1.2)
+size = Vector3(8.843018, 8, 1.2)
 material = SubResource("Mat_Wall")
 
-; Dome Roof with Aperture
-[node name="DomeRoof" type="CSGBox3D" parent="Act3_Dome"]
+[node name="DomeRoof" type="CSGBox3D" parent="Act3_Dome" unique_id=2081350950]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.2, 0)
 use_collision = true
 size = Vector3(28, 0.4, 28)
 material = SubResource("Mat_Wall")
 
-[node name="RoofAperture" type="CSGBox3D" parent="Act3_Dome/DomeRoof"]
+[node name="RoofAperture" type="CSGBox3D" parent="Act3_Dome/DomeRoof" unique_id=1378534376]
 operation = 2
-size = Vector3(6, 1.0, 6)
+size = Vector3(6, 1, 6)
 
-; Movable Roof Shutter
-[node name="RoofShutter" type="CSGBox3D" parent="Act3_Dome"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12.0, 0)
+[node name="RoofShutter" type="CSGBox3D" parent="Act3_Dome" unique_id=1966658819]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 12, 0)
 use_collision = true
 size = Vector3(6.5, 0.3, 6.5)
 material = SubResource("Mat_Desk")
 
-; Central Telescope Base
-[node name="TelescopeBase" type="CSGCylinder3D" parent="Act3_Dome"]
+[node name="TelescopeBase" type="CSGCylinder3D" parent="Act3_Dome" unique_id=677922460]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 use_collision = true
 radius = 2.4
 height = 3.0
 material = SubResource("Mat_Desk")
 
-; Primary Laser Beam
-[node name="CentralLaserBeam" type="MeshInstance3D" parent="Act3_Dome"]
+[node name="CentralLaserBeam" type="MeshInstance3D" parent="Act3_Dome" unique_id=1092980549]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.5, 0)
 mesh = SubResource("Mesh_MegaBeam")
 
-; Central Core Emitter Light
-[node name="BeamLight" type="OmniLight3D" parent="Act3_Dome"]
+[node name="BeamLight" type="OmniLight3D" parent="Act3_Dome" unique_id=1812747769]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2, 0)
 light_color = Color(0.2, 0.8, 1, 1)
 light_energy = 5.0
 omni_range = 18.0
 
-; Emergency Shutdown Console
-[node name="ShutdownConsole" parent="Act3_Dome" instance=ExtResource("13_lvr")]
+[node name="ShutdownConsole" parent="Act3_Dome" unique_id=1671473992 instance=ExtResource("13_lvr")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.6)
 
-; Dome Alignment Log Slate
-[node name="TelescopeLog" parent="Act3_Dome" instance=ExtResource("9_tap")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 0.9, 3.6)
+[node name="TelescopeLog" parent="Act3_Dome" unique_id=1451195279 instance=ExtResource("9_tap")]
+transform = Transform3D(1, 0, 0, 0, 0.047726497, -0.99886036, 0, 0.99886036, 0.047726497, -14.458005, 1.520033, -1.7211952)
 tape_title = "Log 80-E: Houston Telemetry Dispatch"
 tape_transcript = "Emergency Dispatch. Flight Director Vance, Houston link. Leo, the silhouettes have clustered on the Coude console platform. The only way to clear them is an equilateral circuit of reflected light across the dome floor. Station Alpha to 45 degrees, Station Beta to 135 degrees, Station Gamma to 315 degrees. When the beam forms the closed triangle, the platform will be clear. Enter Master Azimuth 8352 on the console, pull the primary discharge lever to collapse the return conduit, and seal the shutter."
 
-; 3 Rotating Telescope Reflector Stations
-[node name="StationAlpha" parent="Act3_Dome" instance=ExtResource("12_dref")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.0, 0, -4.5)
+[node name="StationAlpha" parent="Act3_Dome" unique_id=1429282374 instance=ExtResource("12_dref")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 0, -4.5)
 station_name = "Reflector Station Alpha"
-target_angle_deg = 45.0
 current_angle_deg = 180.0
 
-[node name="StationBeta" parent="Act3_Dome" instance=ExtResource("12_dref")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 0, 9.0)
+[node name="StationBeta" parent="Act3_Dome" unique_id=1770844179 instance=ExtResource("12_dref")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 9)
 station_name = "Reflector Station Beta"
 target_angle_deg = 135.0
 current_angle_deg = 270.0
 
-[node name="StationGamma" parent="Act3_Dome" instance=ExtResource("12_dref")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.0, 0, -4.5)
+[node name="StationGamma" parent="Act3_Dome" unique_id=1646796648 instance=ExtResource("12_dref")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 0, -4.5)
 station_name = "Reflector Station Gamma"
 target_angle_deg = 315.0
 current_angle_deg = 90.0
 
-; Equilateral Reflected Triangle Laser Rays & Mirror Bounce Glows
-[node name="TriangleBeams" type="Node3D" parent="Act3_Dome"]
+[node name="TriangleBeams" type="Node3D" parent="Act3_Dome" unique_id=2120187363]
 visible = false
 
-[node name="BeamCenterToAlpha" type="CSGCylinder3D" parent="Act3_Dome/TriangleBeams"]
-transform = Transform3D(0.44721, 0.89443, 0.00000, 0.00000, 0.00000, 1.00000, 0.89443, -0.44721, 0.00000, 4.50, 1.80, -2.25)
+[node name="BeamCenterToAlpha" type="CSGCylinder3D" parent="Act3_Dome/TriangleBeams" unique_id=1347276107]
+transform = Transform3D(0.44721, 0.89443, 0, 0, 0, 1, 0.89443, -0.44721, 0, 4.5, 1.8, -2.25)
 radius = 0.09
 height = 10.06
 material = SubResource("Mat_MegaBeam")
 
-[node name="BeamAlphaToBeta" type="CSGCylinder3D" parent="Act3_Dome/TriangleBeams"]
-transform = Transform3D(-0.83205, -0.55470, 0.00000, 0.00000, 0.00000, 1.00000, -0.55470, 0.83205, 0.00000, 4.50, 1.80, 2.25)
+[node name="BeamAlphaToBeta" type="CSGCylinder3D" parent="Act3_Dome/TriangleBeams" unique_id=1541057758]
+transform = Transform3D(-0.83205, -0.5547, 0, 0, 0, 1, -0.5547, 0.83205, 0, 4.5, 1.8, 2.25)
 radius = 0.09
 height = 16.22
 material = SubResource("Mat_MegaBeam")
 
-[node name="BeamBetaToGamma" type="CSGCylinder3D" parent="Act3_Dome/TriangleBeams"]
-transform = Transform3D(0.83205, -0.55470, 0.00000, 0.00000, 0.00000, 1.00000, -0.55470, -0.83205, 0.00000, -4.50, 1.80, 2.25)
+[node name="BeamBetaToGamma" type="CSGCylinder3D" parent="Act3_Dome/TriangleBeams" unique_id=121327868]
+transform = Transform3D(0.83205, -0.5547, 0, 0, 0, 1, -0.5547, -0.83205, 0, -4.5, 1.8, 2.25)
 radius = 0.09
 height = 16.22
 material = SubResource("Mat_MegaBeam")
 
-[node name="BeamGammaToAlpha" type="CSGCylinder3D" parent="Act3_Dome/TriangleBeams"]
-transform = Transform3D(0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 1.00000, 0.00000, 0.00000, 0.00, 1.80, -4.50)
+[node name="BeamGammaToAlpha" type="CSGCylinder3D" parent="Act3_Dome/TriangleBeams" unique_id=1522436936]
+transform = Transform3D(0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1.8, -4.5)
 radius = 0.09
-height = 18.00
+height = 18.0
 material = SubResource("Mat_MegaBeam")
 
-[node name="AlphaReflectGlow" type="OmniLight3D" parent="Act3_Dome/TriangleBeams"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.0, 1.8, -4.5)
-light_color = Color(0.2, 0.9, 1.0, 1)
+[node name="AlphaReflectGlow" type="OmniLight3D" parent="Act3_Dome/TriangleBeams" unique_id=1237565672]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1.8, -4.5)
+light_color = Color(0.2, 0.9, 1, 1)
 light_energy = 5.0
 omni_range = 7.0
 
-[node name="BetaReflectGlow" type="OmniLight3D" parent="Act3_Dome/TriangleBeams"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 1.8, 9.0)
-light_color = Color(0.2, 0.9, 1.0, 1)
+[node name="BetaReflectGlow" type="OmniLight3D" parent="Act3_Dome/TriangleBeams" unique_id=952866614]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 9)
+light_color = Color(0.2, 0.9, 1, 1)
 light_energy = 5.0
 omni_range = 7.0
 
-[node name="GammaReflectGlow" type="OmniLight3D" parent="Act3_Dome/TriangleBeams"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.0, 1.8, -4.5)
-light_color = Color(0.2, 0.9, 1.0, 1)
+[node name="GammaReflectGlow" type="OmniLight3D" parent="Act3_Dome/TriangleBeams" unique_id=252877709]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, 1.8, -4.5)
+light_color = Color(0.2, 0.9, 1, 1)
 light_energy = 5.0
 omni_range = 7.0
 
-; 3 Dome Shadow Entities Guarding Console
-[node name="DomeEntity1" parent="Act3_Dome" instance=ExtResource("11_shd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.0, 0, 3.0)
+[node name="DomeEntity1" parent="Act3_Dome" unique_id=59695933 instance=ExtResource("11_shd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 3)
 
-[node name="DomeEntity2" parent="Act3_Dome" instance=ExtResource("11_shd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0, 0, 3.0)
+[node name="DomeEntity2" parent="Act3_Dome" unique_id=1144722935 instance=ExtResource("11_shd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 3)
 
-[node name="DomeEntity3" parent="Act3_Dome" instance=ExtResource("11_shd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 0, -5.0)
+[node name="DomeEntity3" parent="Act3_Dome" unique_id=1557480076 instance=ExtResource("11_shd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
 
-; Emergency Amber Lights
-[node name="EmergencyLights" type="Node3D" parent="Act3_Dome"]
+[node name="EmergencyLights" type="Node3D" parent="Act3_Dome" unique_id=1528264640]
 visible = false
 
-[node name="Amber1" type="OmniLight3D" parent="Act3_Dome/EmergencyLights"]
+[node name="Amber1" type="OmniLight3D" parent="Act3_Dome/EmergencyLights" unique_id=455179892]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 5, -8)
 light_color = Color(1, 0.6, 0.1, 1)
 light_energy = 2.5
 omni_range = 14.0
 
-[node name="Amber2" type="OmniLight3D" parent="Act3_Dome/EmergencyLights"]
+[node name="Amber2" type="OmniLight3D" parent="Act3_Dome/EmergencyLights" unique_id=235294587]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 5, 8)
 light_color = Color(1, 0.6, 0.1, 1)
 light_energy = 2.5
 omni_range = 14.0
 
-; Exit Hallway
-[node name="ExitHall_Floor" type="CSGBox3D" parent="Act3_Dome"]
+[node name="ExitHall_Floor" type="CSGBox3D" parent="Act3_Dome" unique_id=693448178]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, -0.2, 0)
 use_collision = true
 size = Vector3(10, 0.4, 4)
 material = SubResource("Mat_Floor")
 
-[node name="ExitHall_Ceil" type="CSGBox3D" parent="Act3_Dome"]
+[node name="ExitHall_Ceil" type="CSGBox3D" parent="Act3_Dome" unique_id=1662733417]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 3.8, 0)
 use_collision = true
 size = Vector3(10, 0.4, 4)
 material = SubResource("Mat_Wall")
 
-[node name="ExitHall_WallN" type="CSGBox3D" parent="Act3_Dome"]
+[node name="ExitHall_WallN" type="CSGBox3D" parent="Act3_Dome" unique_id=50969986]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 1.8, -2)
 use_collision = true
 size = Vector3(10, 3.6, 0.4)
 material = SubResource("Mat_Wall")
 
-[node name="ExitHall_WallS" type="CSGBox3D" parent="Act3_Dome"]
+[node name="ExitHall_WallS" type="CSGBox3D" parent="Act3_Dome" unique_id=1874554549]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 1.8, 2)
 use_collision = true
 size = Vector3(10, 3.6, 0.4)
 material = SubResource("Mat_Wall")
 
-[node name="ExitHall_WallEnd_N" type="CSGBox3D" parent="Act3_Dome"]
+[node name="ExitHall_WallEnd_N" type="CSGBox3D" parent="Act3_Dome" unique_id=273840569]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 1.8, -1.5)
 use_collision = true
-size = Vector3(0.6, 3.6, 1.0)
+size = Vector3(0.6, 3.6, 1)
 material = SubResource("Mat_Wall")
 
-[node name="ExitHall_WallEnd_S" type="CSGBox3D" parent="Act3_Dome"]
+[node name="ExitHall_WallEnd_S" type="CSGBox3D" parent="Act3_Dome" unique_id=1585310939]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 1.8, 1.5)
 use_collision = true
-size = Vector3(0.6, 3.6, 1.0)
+size = Vector3(0.6, 3.6, 1)
 material = SubResource("Mat_Wall")
 
-[node name="ExitHall_WallEnd_Top" type="CSGBox3D" parent="Act3_Dome"]
+[node name="ExitHall_WallEnd_Top" type="CSGBox3D" parent="Act3_Dome" unique_id=613293553]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 3.3, 0)
 use_collision = true
-size = Vector3(0.6, 0.6, 2.0)
+size = Vector3(0.6, 0.6, 2)
 material = SubResource("Mat_Wall")
 
-; Dark Glass Display Case (The Final Lingering Reflection)
-[node name="DisplayGlassMirror" parent="Act3_Dome" instance=ExtResource("5_mir")]
+[node name="DisplayGlassMirror" parent="Act3_Dome" unique_id=1393415927 instance=ExtResource("5_mir")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 1.5, -1.8)
 
-; Final Exit Door
-[node name="ExitDoor" parent="Act3_Dome" instance=ExtResource("14_ext")]
+[node name="ExitDoor" parent="Act3_Dome" unique_id=701575554 instance=ExtResource("14_ext")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -24, 0, 0)
 
-; Additional Optical Reflection Elements
-[node name="Mirror_Hall1_Turn" parent="Act2_Gallery" instance=ExtResource("5_mir")]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 18.0, 1.5, 0.0)
+[node name="MainframeRack_Dome1" parent="Act3_Dome" unique_id=1568139815 instance=ExtResource("30_pmfr")]
+transform = Transform3D(-0.056823015, 0, -0.99838424, 0, 1, 0, 0.99838424, 0, -0.056823015, 12.8930855, 0, -0.5426636)
 
-[node name="Mirror_BR1" parent="Act2_Gallery" instance=ExtResource("5_mir")]
-transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 12.7, 1.5, 3.5)
-
-[node name="Mirror_BR2" parent="Act2_Gallery" instance=ExtResource("5_mir")]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 7.3, 1.5, -5.0)
-
-[node name="Mirror_Cleanroom" parent="Act2_Gallery" instance=ExtResource("5_mir")]
-transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 28.7, 1.5, -2.0)
-
-[node name="Mirror_Archive" parent="Act2_Gallery" instance=ExtResource("5_mir")]
-transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 14.0, 1.5, -15.8)
-
-; 3D High-Detail Physical Props
-[node name="Prop_Oscilloscope1" parent="Act1_ControlRoom" instance=ExtResource("29_posc")]
-transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -2.8, 0.9, -3.4)
-
-[node name="Prop_Chair1" parent="Act1_ControlRoom" instance=ExtResource("32_pchr")]
-transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -2.8, 0.0, -2.6)
-
-[node name="Prop_Chair2" parent="Act1_ControlRoom" instance=ExtResource("32_pchr")]
-transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -1.4, 0.0, -2.6)
-
-[node name="Prop_Cabinet1" parent="Act1_ControlRoom" instance=ExtResource("33_pcab")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.5, 0.0, 4.0)
-
-[node name="MainframeRack1" parent="Act1_ControlRoom" instance=ExtResource("30_pmfr")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 4.2, 0.0, -4.8)
-
-[node name="MainframeRack2" parent="Act1_ControlRoom" instance=ExtResource("30_pmfr")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 3.2, 0.0, -4.8)
-
-[node name="Conduit_Act1_1" parent="Act1_ControlRoom" instance=ExtResource("35_pcnd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 3.4, 0.0)
-
-[node name="Conduit_Hall1" parent="Act2_Gallery" instance=ExtResource("35_pcnd")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 12.0, 3.4, 0.0)
-
-[node name="Conduit_Hall2" parent="Act2_Gallery" instance=ExtResource("35_pcnd")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 24.0, 3.4, 0.0)
-
-[node name="Conduit_Spine" parent="Act2_Gallery" instance=ExtResource("35_pcnd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.0, 3.4, -8.0)
-
-[node name="Prop_OpticalBench1" parent="Act2_Gallery" instance=ExtResource("31_popt")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 26.5, 0.0, -2.0)
-
-[node name="Prop_Oscilloscope2" parent="Act2_Gallery" instance=ExtResource("29_posc")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 26.2, 0.9, -1.6)
-
-[node name="Prop_CryoTank_Clean1" parent="Act2_Gallery" instance=ExtResource("34_ptnk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 0.0, 0.5)
-
-[node name="Prop_CryoTank_Clean2" parent="Act2_Gallery" instance=ExtResource("34_ptnk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 0.0, 1.2)
-
-[node name="Prop_CryoTank_BR1" parent="Act2_Gallery" instance=ExtResource("34_ptnk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.2, 0.0, 8.5)
-
-[node name="Prop_CryoTank_BR2" parent="Act2_Gallery" instance=ExtResource("34_ptnk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.8, 0.0, -11.0)
-
-[node name="Prop_CryoTank_BR3" parent="Act2_Gallery" instance=ExtResource("34_ptnk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.2, 0.0, -11.0)
-
-[node name="Prop_Cabinet_Archive1" parent="Act2_Gallery" instance=ExtResource("33_pcab")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.5, 0.0, -14.0)
-
-[node name="Prop_Cabinet_Archive2" parent="Act2_Gallery" instance=ExtResource("33_pcab")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 8.2, 0.0, -14.0)
-
-[node name="Prop_Chair_Archive" parent="Act2_Gallery" instance=ExtResource("32_pchr")]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 10.0, 0.0, -13.0)
-
-[node name="MainframeRack_Dome1" parent="Act3_Dome" instance=ExtResource("30_pmfr")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 18.5, 0.0, -32.0)
-
-[node name="MainframeRack_Dome2" parent="Act3_Dome" instance=ExtResource("30_pmfr")]
-transform = Transform3D(4.37114e-08, 0, -1, 0, 1, 0, 1, 0, 4.37114e-08, 29.5, 0.0, -32.0)
+[node name="MainframeRack_Dome2" parent="Act3_Dome" unique_id=1771627418 instance=ExtResource("30_pmfr")]
+transform = Transform3D(4.37114e-08, 0, -1, 0, 1, 0, 1, 0, 4.37114e-08, -2.5934048, 0, 26.330301)

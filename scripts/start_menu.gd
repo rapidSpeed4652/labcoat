@@ -17,23 +17,15 @@ func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	dossier_modal.visible = false
 	controls_modal.visible = false
-	missions_modal.visible = false
 	
 	btn_start.pressed.connect(func(): _launch_mission(1))
-	btn_missions.pressed.connect(_on_missions_pressed)
 	btn_dossier.pressed.connect(_on_dossier_pressed)
 	btn_controls.pressed.connect(_on_controls_pressed)
 	btn_quit.pressed.connect(_on_quit_pressed)
 	
 	$UI/DossierModal/Center/Panel/VBox/BtnCloseDossier.pressed.connect(func(): dossier_modal.visible = false)
 	$UI/ControlsModal/Center/Panel/VBox/BtnCloseControls.pressed.connect(func(): controls_modal.visible = false)
-	$UI/MissionsModal/Center/Panel/VBox/BtnCloseMissions.pressed.connect(func(): missions_modal.visible = false)
-	
-	$UI/MissionsModal/Center/Panel/VBox/M1_Btn.pressed.connect(func(): _launch_mission(1))
-	$UI/MissionsModal/Center/Panel/VBox/M2_Btn.pressed.connect(func(): _launch_mission(2))
-	$UI/MissionsModal/Center/Panel/VBox/M3_Btn.pressed.connect(func(): _launch_mission(3))
-	$UI/MissionsModal/Center/Panel/VBox/M4_Btn.pressed.connect(func(): _launch_mission(4))
-	
+		
 	var am = get_node_or_null("/root/AudioManager")
 	if am and am.has_method("play_ambient"):
 		am.play_ambient()
