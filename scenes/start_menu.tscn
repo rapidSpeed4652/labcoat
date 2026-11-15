@@ -128,13 +128,13 @@ text = "RETRO-REFLECTOR"
 layout_mode = 2
 theme_override_colors/font_color = Color(1.0, 0.78, 0.25, 1)
 theme_override_font_sizes/font_size = 18
-text = "LIGHT-BOUNCE SCI-FI SURVIVAL // THE BOÖTES VOID CASCADE"
+text = "LUNAR LASER RANGING EXPERIMENT (LURE) // ANOMALOUS RETURN REPORT"
 
 [node name="Status" type="Label" parent="UI/TitleBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.95, 0.35, 0.35, 1)
 theme_override_font_sizes/font_size = 13
-text = "BREACH STATUS: COUDÉ LASER BRIDGING VOID • SHADOW ENTITIES ENGAGED"
+text = "TELEMETRY STATUS: COUDÉ LASER RETURN ANOMALY • OPTICAL SHIFT OBSERVED"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI"]
 layout_mode = 0
@@ -223,22 +223,22 @@ horizontal_alignment = 1
 [node name="M1_Btn" type="Button" parent="UI/MissionsModal/Center/Panel/VBox"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-text = "MISSION 1: THE BREACH (Command Deck • Laser Calibration • Polaroid)"
+text = "MISSION 1: COMMAND DECK (Optical Alignment • Diagnostic Polaroid)"
 
 [node name="M2_Btn" type="Button" parent="UI/MissionsModal/Center/Panel/VBox"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-text = "MISSION 2: TRANQUILLITY LINE (Exterior Lunar EVA • Apollo 11 LRRR • Comms Relay)"
+text = "MISSION 2: TRANQUILLITY LINE (Exterior EVA • Apollo 11 LRRR Benchmark)"
 
 [node name="M3_Btn" type="Button" parent="UI/MissionsModal/Center/Panel/VBox"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-text = "MISSION 3: RETRO-INVERSION (Cleanroom Lab • Resonance Sequence 1->3->2)"
+text = "MISSION 3: RESEARCH BAYS (Cleanroom Lab • Capacitor Sequence 1->3->2)"
 
 [node name="M4_Btn" type="Button" parent="UI/MissionsModal/Center/Panel/VBox"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
-text = "MISSION 4: THE HYPER-PULSE (The Coudé Dome • Triad Alignment • Retro-Strike)"
+text = "MISSION 4: COUDÉ DOME (Triad Mirror Alignment • System Discharge)"
 
 [node name="BtnCloseMissions" type="Button" parent="UI/MissionsModal/Center/Panel/VBox"]
 custom_minimum_size = Vector2(200, 36)
@@ -286,24 +286,30 @@ custom_minimum_size = Vector2(0, 380)
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 14
 bbcode_enabled = true
-text = "PREMISE & SETTING:
-You play as Leo, an optics recovery specialist deployed to the Mount Hale Lunar Observatory—a 1970s lunar research facility designed to bounce high-powered lasers off Apollo retroreflectors on the Moon.
+text = "FACILITY RECORD // PROJECT L.U.R.E. (1974)
+FACILITY: Mount Hale Lunar Observatory, Mare Tranquillitatis
+OPERATIONS: Lunar Laser Ranging Experiment (LURE)
 
-During an eclipse test, Chief Astronomer Dr. Vance redirected the primary array toward the Boötes void in deep space. The laser established a self-sustaining quantum bridge: entities slipped down the returning beam into the lunar complex! Simply cutting main power would trigger a localized spacetime collapse that would swallow the station.
+BACKGROUND:
+Following the Apollo 11 deployment of quartz retroreflectors on the lunar surface, Mount Hale was established to conduct high-precision lunar distance ranging using ruby and argon-ion lasers.
 
-THE RETRO-INVERSION PROTOCOL (BOUNCE BACK):
-We must execute an active optical counter-strike: overcharging and phase-inverting the laser to fire a 100-Petawatt Hyper-Pulse backward down the void bridge to annihilate the rift at its cosmic source!
+INCIDENT SUMMARY:
+During an off-axis calibration run during the solar eclipse, an anomalous optical feedback loop locked onto the Coude telescope array. A persistent backscatter return established an optical conduit through the roof shutter, accompanied by localized shadow silhouettes moving against the ambient light.
 
-CORE MECHANICS:
-• DIRECT BEAM STASIS: Direct laser fire cannot destroy shadow phantoms—it only halts them in stasis via photon pressure. Beware: phantoms phase-glitch closer when you look away, and sprint when you overheat!
-• REFLECTED BEAM ANNIHILATION: Bouncing light off mirrors, bulkheads, or deployable tripod mirrors inverts quantum phase, dissolving phantoms in an electric Cherenkov flash!
-• OVERHEAT LOCKOUT: Continuous firing triggers a 3-second lockout in total darkness.
+Standard power shutdown will collapse line voltage while the return conduit is energized, causing an uncontrolled rupture of the pressurized dome envelope. A controlled phase inversion through the primary capacitor banks is required to discharge the loop and seal the dome shutter.
 
-MISSION OBJECTIVES:
-1. Calibrate Apollo 11 LRRR array on the lunar crater floor (Code 1974) to lock baseline Stokes sync.
-2. Infiltrate Spectrometry Cleanroom (Code 488) to synthesize the phase carrier wave.
-3. Energize Bays A, C, and B (1 -> 3 -> 2) in harmonic resonance to achieve 100 Petawatts.
-4. Align the Coudé Dome triad (45°, 135°, 315°), enter Master Azimuth 8352, and pull the Retro-Inversion Trigger!"
+OPTICAL MECHANICS:
+• DIRECT ILLUMINATION: The handheld laser beam slows and damages anomalous silhouettes, but sustained direct exposure risks emitter overheat.
+• REFLECTED BEAM DISCHARGE: Bouncing the laser beam off optical mirrors or deployable reflectors produces phase-inverted reflected light, rapidly breaking silhouette cohesion.
+• EMITTER COOLDOWN: Overheating forces a 3-second thermal reset.
+• FLASHLIGHT (F): Toggle suit headlamp to illuminate dark corridors.
+
+PROCEDURE:
+1. Recover the alignment laser from the control console.
+2. Cycle through Airlock Alpha (Code 1974) and benchmark the Apollo 11 LRRR array at Azimuth 214°.
+3. Clear the Cleanroom laser barrier using the Argon-ion wavelength code (488).
+4. Energize Capacitor Bays in sequence: Bay A -> Bay C -> Bay B (1 -> 3 -> 2) to prepare the discharge bank.
+5. In the Coude Dome, orient the three mirror stations (45°, 135°, 315°) to clear the platform, enter Azimuth Code 8352, and pull the primary discharge lever."
 
 [node name="BtnCloseDossier" type="Button" parent="UI/DossierModal/Center/Panel/VBox"]
 custom_minimum_size = Vector2(200, 36)
@@ -351,16 +357,17 @@ custom_minimum_size = Vector2(0, 310)
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 15
 bbcode_enabled = true
-text = "WASD / Arrow Keys — EVA Mobility (Forward, Left, Back, Right)
-Mouse Movement — Optics Pitch & Yaw Aiming
+text = "WASD / Arrow Keys — Mobility (Forward, Left, Back, Right)
+Mouse Movement — Pitch & Yaw Aiming
 Left Mouse Button (Hold) — Fire Handheld Alignment Laser
-Right Mouse Button / Q — Deploy / Retrieve Portable Mirror
-E / F — Interact (Examine Polaroid, Play Tape Logs, Flip Breakers, Pull Lever)
-M / TAB — Toggle Tactical Facility Schematic Map
+Right Mouse Button / Q — Deploy Portable Tripod Mirror
+F — Toggle Flashlight (Suit Headlamp)
+E — Interact (Examine Polaroid, Play Audio Logs, Flip Breakers, Pull Lever)
+M / TAB — Toggle Facility Schematic Map
 Shift (Hold) — Sprint Propulsion
-Space — Low-Gravity Leap
-R — Emergency Checkpoint Reset
-Escape — Pause Station Systems / Close Modals"
+Space — Low-Gravity Jump
+R — Restart at Checkpoint
+Escape — Pause / Resume"
 
 [node name="BtnCloseControls" type="Button" parent="UI/ControlsModal/Center/Panel/VBox"]
 custom_minimum_size = Vector2(200, 36)

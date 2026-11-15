@@ -1,0 +1,55 @@
+[gd_scene load_steps=8 format=3]
+
+[sub_resource type="StandardMaterial3D" id="Mat_TankSteel"]
+albedo_color = Color(0.72, 0.76, 0.8, 1)
+metallic = 0.95
+roughness = 0.2
+
+[sub_resource type="StandardMaterial3D" id="Mat_BrassValve"]
+albedo_color = Color(0.85, 0.65, 0.15, 1)
+metallic = 0.9
+roughness = 0.25
+
+[sub_resource type="StandardMaterial3D" id="Mat_DialFace"]
+albedo_color = Color(0.95, 0.95, 0.9, 1)
+roughness = 0.1
+
+[sub_resource type="CylinderMesh" id="Mesh_TankBody"]
+material = SubResource("Mat_TankSteel")
+top_radius = 0.24
+bottom_radius = 0.24
+height = 1.05
+
+[sub_resource type="SphereMesh" id="Mesh_TankDome"]
+material = SubResource("Mat_TankSteel")
+radius = 0.24
+height = 0.24
+
+[sub_resource type="TorusMesh" id="Mesh_ValveWheel"]
+material = SubResource("Mat_BrassValve")
+inner_radius = 0.04
+outer_radius = 0.08
+
+[sub_resource type="CylinderMesh" id="Mesh_Gauge"]
+material = SubResource("Mat_DialFace")
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.025
+
+[node name="PropCryoTank" type="Node3D"]
+
+[node name="TankCylinder" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.525, 0)
+mesh = SubResource("Mesh_TankBody")
+
+[node name="TankDome" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05, 0)
+mesh = SubResource("Mesh_TankDome")
+
+[node name="ValveWheel" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0)
+mesh = SubResource("Mesh_ValveWheel")
+
+[node name="PressureGauge" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 1.15, 0.18)
+mesh = SubResource("Mesh_Gauge")

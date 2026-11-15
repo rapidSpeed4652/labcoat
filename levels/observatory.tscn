@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3]
+[gd_scene load_steps=42 format=3]
 
 [ext_resource type="Script" path="res://scripts/dome_controller.gd" id="1_dctrl"]
 [ext_resource type="Texture2D" path="res://assets/textures/floor.png" id="2_flr"]
@@ -19,27 +19,56 @@
 [ext_resource type="Texture2D" path="res://assets/textures/console_desk.png" id="17_csk"]
 [ext_resource type="PackedScene" path="res://scenes/item_lrrr_array.tscn" id="18_lrrr"]
 [ext_resource type="PackedScene" path="res://scenes/cleanroom_laser_barrier.tscn" id="19_cbar"]
+[ext_resource type="Texture2D" path="res://assets/textures/floor_normal.png" id="20_flrn"]
+[ext_resource type="Texture2D" path="res://assets/textures/floor_roughness.png" id="21_flrr"]
+[ext_resource type="Texture2D" path="res://assets/textures/wall_normal.png" id="22_waln"]
+[ext_resource type="Texture2D" path="res://assets/textures/wall_roughness.png" id="23_walr"]
+[ext_resource type="Texture2D" path="res://assets/textures/console_desk_normal.png" id="24_cskn"]
+[ext_resource type="Texture2D" path="res://assets/textures/console_desk_roughness.png" id="25_cskr"]
+[ext_resource type="Texture2D" path="res://assets/textures/lunar_regolith.png" id="26_lreg"]
+[ext_resource type="Texture2D" path="res://assets/textures/lunar_regolith_normal.png" id="27_lregn"]
+[ext_resource type="Texture2D" path="res://assets/textures/lunar_regolith_roughness.png" id="28_lregr"]
+[ext_resource type="PackedScene" path="res://scenes/props/prop_oscilloscope.tscn" id="29_posc"]
+[ext_resource type="PackedScene" path="res://scenes/props/prop_mainframe_rack.tscn" id="30_pmfr"]
+[ext_resource type="PackedScene" path="res://scenes/props/prop_optical_bench.tscn" id="31_popt"]
+[ext_resource type="PackedScene" path="res://scenes/props/prop_swivel_chair.tscn" id="32_pchr"]
+[ext_resource type="PackedScene" path="res://scenes/props/prop_file_cabinet.tscn" id="33_pcab"]
+[ext_resource type="PackedScene" path="res://scenes/props/prop_cryo_tank.tscn" id="34_ptnk"]
+[ext_resource type="PackedScene" path="res://scenes/props/prop_ceiling_conduit.tscn" id="35_pcnd"]
+
 
 [sub_resource type="StandardMaterial3D" id="Mat_Floor"]
 albedo_texture = ExtResource("2_flr")
+roughness_texture = ExtResource("21_flrr")
+normal_enabled = true
+normal_texture = ExtResource("20_flrn")
+normal_scale = 1.0
 uv1_scale = Vector3(0.25, 0.25, 0.25)
 uv1_triplanar = true
-metallic = 0.2
-roughness = 0.45
+metallic = 0.35
+roughness = 0.8
 
 [sub_resource type="StandardMaterial3D" id="Mat_Wall"]
 albedo_texture = ExtResource("3_wal")
+roughness_texture = ExtResource("23_walr")
+normal_enabled = true
+normal_texture = ExtResource("22_waln")
+normal_scale = 1.0
 uv1_scale = Vector3(0.25, 0.25, 0.25)
 uv1_triplanar = true
-metallic = 0.4
-roughness = 0.5
+metallic = 0.25
+roughness = 0.9
 
 [sub_resource type="StandardMaterial3D" id="Mat_Desk"]
 albedo_texture = ExtResource("17_csk")
+roughness_texture = ExtResource("25_cskr")
+normal_enabled = true
+normal_texture = ExtResource("24_cskn")
+normal_scale = 1.0
 uv1_scale = Vector3(0.5, 0.5, 0.5)
 uv1_triplanar = true
-metallic = 0.6
-roughness = 0.35
+metallic = 0.4
+roughness = 0.7
 
 [sub_resource type="StandardMaterial3D" id="Mat_Glass"]
 transparency = 1
@@ -48,10 +77,15 @@ metallic = 0.95
 roughness = 0.05
 
 [sub_resource type="StandardMaterial3D" id="Mat_LunarRegolith"]
-albedo_color = Color(0.35, 0.37, 0.4, 1)
+albedo_texture = ExtResource("26_lreg")
+roughness_texture = ExtResource("28_lregr")
+normal_enabled = true
+normal_texture = ExtResource("27_lregn")
+normal_scale = 1.2
+uv1_scale = Vector3(0.08, 0.08, 0.08)
+uv1_triplanar = true
 metallic = 0.05
-roughness = 0.95
-
+roughness = 1.0
 [sub_resource type="StandardMaterial3D" id="Mat_GoldFoil"]
 albedo_color = Color(0.95, 0.75, 0.15, 1)
 metallic = 0.9
@@ -238,7 +272,8 @@ material = SubResource("Mat_Desk")
 [node name="Terminal_Apollo" parent="Act1_ControlRoom" instance=ExtResource("9_tap")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.5, 0.95, 0)
 tape_title = "Archive 11-A: Project Apollo LRRR"
-tape_transcript = "BASE TRANQUILLITATIS LUNAR RANGING ARCHIVE (1969-1979)\nIn July 1969, Apollo 11 astronauts Armstrong and Aldrin placed the first 100-corner-cube quartz retroreflector at Mare Tranquillitatis. For a decade, we fired ruby lasers from Earth to measure lunar distance down to centimeters. During the solar eclipse, Dr. Vance rotated our Coude emitter toward the deep Perseus Void. The pulse was returned by something in the dark... and it used our beam as a bridge to cross into the station."
+tape_transcript = "BASE TRANQUILLITATIS LUNAR RANGING ARCHIVE (1969-1974)
+In July 1969, the Apollo 11 crew placed the quartz retroreflector array at Mare Tranquillitatis. For five years, we fired ruby lasers from this station to measure lunar distance down to centimeters. During the October eclipse calibration, the Coude emitter recorded an anomalous return photon signature. The return signal stabilized into an active optical conduit, and shadow silhouettes began moving in unreflected dark spaces across the facility."
 tape_voice_clip = "vocal_warning"
 
 ; Polaroid on Desk
@@ -493,16 +528,29 @@ use_collision = true
 size = Vector3(2.5, 0.9, 1.4)
 material = SubResource("Mat_Desk")
 
-; Capacitor Breaker 1
+; Capacitor Breaker 1 (Prominently mounted on East wall of BR1)
 [node name="CapacitorBreaker1" parent="Act2_Gallery" instance=ExtResource("10_brk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 1.6, 9.7)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 12.7, 1.6, 6.0)
 capacitor_index = 1
+
+[node name="BR1_Light" type="OmniLight3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.0, 2.8, 6.0)
+light_color = Color(0.92, 0.96, 1.0, 1)
+light_energy = 2.0
+omni_range = 8.0
+
+[node name="BR1_Breaker_Spot" type="SpotLight3D" parent="Act2_Gallery"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0.5, 0.866025, -2.18557e-08, 0.866025, -0.5, -3.78552e-08, 10.5, 2.8, 6.0)
+light_color = Color(1.0, 0.9, 0.7, 1)
+light_energy = 3.5
+spot_range = 5.0
+spot_angle = 35.0
 
 ; Tape Recorder 1
 [node name="TapeRecorder1" parent="Act2_Gallery" instance=ExtResource("9_tap")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.8, 0.95, 7.5)
-tape_title = "Log 77-B: The Argon Line & Void Return"
-tape_transcript = "Mount Hale Observatory. October 14, 1974. Dr. Thorne recording. We fired the primary laser pulse at the Apollo 11 array, but the return did not bounce back. It anchored! Something in the deep space void used our light beam as a bridge to enter the station. Direct light cannot destroy them, you must bounce the laser off mirrors to invert their quantum phase! If the cleanroom seals, the keypad code is our Argon ion line: 488. Code is 4, 8, 8."
+tape_title = "Log 77-B: The Argon Line & Optical Return"
+tape_transcript = "Mount Hale Observatory. October 14, 1974. Dr. Thorne recording. The return beam from the Apollo array has stabilized into an active optical conduit. Shadow silhouettes are moving along the floor line. Direct illumination slows them, but they absorb raw forward light. To dissipate them, the beam must be reflected—the phase shift of a mirrored reflection destabilizes their silhouette structure. If the cleanroom interlock engages, use the Argon-ion laser wavelength: 488. Four, eight, eight."
 tape_voice_clip = "tape_log_1"
 
 ; Portable Mirror Stand in Breaker Room 1
@@ -561,10 +609,23 @@ use_collision = true
 size = Vector3(2.5, 0.9, 1.4)
 material = SubResource("Mat_Desk")
 
-; Capacitor Breaker 2
+; Capacitor Breaker 2 (Mounted on solid North wall of BR2)
 [node name="CapacitorBreaker2" parent="Act2_Gallery" instance=ExtResource("10_brk")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.3, 1.6, -8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 1.6, -11.7)
 capacitor_index = 2
+
+[node name="BR2_Light" type="OmniLight3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.5, 2.8, -8.0)
+light_color = Color(0.92, 0.96, 1.0, 1)
+light_energy = 2.0
+omni_range = 8.0
+
+[node name="BR2_Breaker_Spot" type="SpotLight3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 11.5, 2.8, -9.5)
+light_color = Color(1.0, 0.9, 0.7, 1)
+light_energy = 3.5
+spot_range = 5.0
+spot_angle = 35.0
 
 ; Shadow Entity 2
 [node name="ShadowEntity2" parent="Act2_Gallery" instance=ExtResource("11_shd")]
@@ -625,10 +686,17 @@ use_collision = true
 size = Vector3(2.5, 0.9, 1.4)
 material = SubResource("Mat_Desk")
 
-; Capacitor Breaker 3
+; Capacitor Breaker 3 (Mounted on solid North wall of BR3)
 [node name="CapacitorBreaker3" parent="Act2_Gallery" instance=ExtResource("10_brk")]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 28.7, 1.6, -8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.5, 1.6, -11.7)
 capacitor_index = 3
+
+[node name="BR3_Breaker_Spot" type="SpotLight3D" parent="Act2_Gallery"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 24.5, 2.8, -9.5)
+light_color = Color(1.0, 0.9, 0.7, 1)
+light_energy = 3.5
+spot_range = 5.0
+spot_angle = 35.0
 
 ; Room 3 Wall Mirror
 [node name="Mirror_BR3" parent="Act2_Gallery" instance=ExtResource("5_mir")]
@@ -712,8 +780,8 @@ material = SubResource("Mat_Desk")
 
 [node name="TapeRecorder2" parent="Act2_Gallery" instance=ExtResource("9_tap")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.5, 0.95, -2.0)
-tape_title = "Log 78-C: The Interlock Triad & Capacitor Sequence"
-tape_transcript = "Dr. Thorne, Cleanroom Lab. If you are hearing this, the gallery capacitors are locked under safety interlock. CRITICAL WARNING: Do not discharge the capacitors in arbitrary order! You will blow the cryogenic seals and trigger an electrical arc blowout! The optical sequence is strict: First Bay A Cryo-Coolant, second Bay C Laser Oscillator, third Bay B Magnetic Flux! The sequence is A, then C, then B. One, Three, Two!"
+tape_title = "Log 78-C: Capacitor Interlock Sequence"
+tape_transcript = "Dr. Thorne, Cleanroom Lab. If you are hearing this, the gallery capacitors are held under automatic safety interlock. Do not trip the breakers out of order—the cryogenic coolant loop will blow its safety seals and force an interlock reset. The charging sequence must strictly follow the optical path: Bay A Cryo-Coolant first, then Bay C Oscillator, and Bay B Magnetic Flux last. One, then three, then two."
 tape_voice_clip = "tape_log_2"
 
 [node name="PortableMirrorPickup2" parent="Act2_Gallery" instance=ExtResource("15_pmir")]
@@ -760,13 +828,16 @@ material = SubResource("Mat_Desk")
 
 [node name="TapeRecorder3" parent="Act2_Gallery" instance=ExtResource("9_tap")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0, 0.95, -14.0)
-tape_title = "Log 79-D: The Equilateral Cage & Master Azimuth"
-tape_transcript = "The entities have encircled the dome console! Direct light cannot banish them, but an equilateral cage of reflected light will vaporize them. Set Station Alpha to 45 degrees, Station Beta to 135 degrees, and Station Gamma to 315 degrees! Once the reflected triangle locks, enter the Master Azimuth override code on the console keypad: 8352. Code is 8, 3, 5, 2! Then pull the shutdown lever and seal the roof shutter!"
+tape_title = "Log 79-D: Dome Triad Alignment & Azimuth"
+tape_transcript = "The silhouettes have concentrated around the dome console platform. Direct light will not clear them in time, but a closed triad of reflected beams will sweep the entire dome floor. Station Alpha must be set to 45 degrees, Station Beta to 135 degrees, and Station Gamma to 315 degrees. Once the reflected triangle locks, enter the Master Azimuth code on the console keypad: 8352. Eight, three, five, two. Then engage the discharge lever and seal the dome shutter."
 tape_voice_clip = "tape_log_3"
 
 [node name="Archive_Chalkboard" type="Label3D" parent="Act2_Gallery"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.3, 1.8, -14.0)
-text = "ASTROMETRIC CALIBRATION • BOÖTES VOID (RA 14h 50m, DEC +46°)\nMASTER AZIMUTH CLAMP OVERRIDE: [ 8352 ]\nCAPACITOR SAFETY DISCHARGE: BAY A (CRYO) -> BAY C (OSCILLATOR) -> BAY B (FLUX)\nSEQUENCE: [ 1 -> 3 -> 2 ]"
+text = "LUNAR LASER RANGING EXPERIMENT // CALIBRATION RECORD
+MASTER AZIMUTH CONSOLE CODE: [ 8352 ]
+CAPACITOR INTERLOCK SEQUENCE: BAY A -> BAY C -> BAY B
+SEQUENCE: [ 1 -> 3 -> 2 ]"
 font_size = 14
 outline_size = 4
 outline_modulate = Color(0, 0, 0, 1)
@@ -957,8 +1028,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3.6)
 ; Dome Alignment Log Slate
 [node name="TelescopeLog" parent="Act3_Dome" instance=ExtResource("9_tap")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2, 0.9, 3.6)
-tape_title = "Log 80-E: Dr. Vance's Last Stand"
-tape_transcript = "The shadows surround the Master Firing Terminal! They cannot withstand an equilateral cage of reflected light. Rotate Station Alpha to 45 degrees, Station Beta to 135 degrees, and Station Gamma to 315 degrees! When the primary beam bounces between all three stations in a triangle, the entire dome floor will be flooded in inverted phase light, collapsing them. Enter Master Azimuth Inversion Code 8352, then pull the Retro-Inversion Trigger to fire the 100-Petawatt Hyper-Pulse back down the void bridge and annihilate the rift forever!"
+tape_title = "Log 80-E: Houston Telemetry Dispatch"
+tape_transcript = "Emergency Dispatch. Flight Director Vance, Houston link. Leo, the silhouettes have clustered on the Coude console platform. The only way to clear them is an equilateral circuit of reflected light across the dome floor. Station Alpha to 45 degrees, Station Beta to 135 degrees, Station Gamma to 315 degrees. When the beam forms the closed triangle, the platform will be clear. Enter Master Azimuth 8352 on the console, pull the primary discharge lever to collapse the return conduit, and seal the shutter."
 
 ; 3 Rotating Telescope Reflector Stations
 [node name="StationAlpha" parent="Act3_Dome" instance=ExtResource("12_dref")]
@@ -979,28 +1050,51 @@ station_name = "Reflector Station Gamma"
 target_angle_deg = 315.0
 current_angle_deg = 90.0
 
-; Triangle Beam Visual Mesh
-[node name="TriangleBeams" type="MeshInstance3D" parent="Act3_Dome"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+; Equilateral Reflected Triangle Laser Rays & Mirror Bounce Glows
+[node name="TriangleBeams" type="Node3D" parent="Act3_Dome"]
 visible = false
 
-[node name="BeamAB" type="CSGCylinder3D" parent="Act3_Dome/TriangleBeams"]
-transform = Transform3D(0.83205, 0, 0.5547, 0, 1, 0, -0.5547, 0, 0.83205, 4.5, 0, 2.25)
-radius = 0.08
-height = 16.2
+[node name="BeamCenterToAlpha" type="CSGCylinder3D" parent="Act3_Dome/TriangleBeams"]
+transform = Transform3D(0.44721, 0.89443, 0.00000, 0.00000, 0.00000, 1.00000, 0.89443, -0.44721, 0.00000, 4.50, 1.80, -2.25)
+radius = 0.09
+height = 10.06
 material = SubResource("Mat_MegaBeam")
 
-[node name="BeamBC" type="CSGCylinder3D" parent="Act3_Dome/TriangleBeams"]
-transform = Transform3D(0.83205, 0, -0.5547, 0, 1, 0, 0.5547, 0, 0.83205, -4.5, 0, 2.25)
-radius = 0.08
-height = 16.2
+[node name="BeamAlphaToBeta" type="CSGCylinder3D" parent="Act3_Dome/TriangleBeams"]
+transform = Transform3D(-0.83205, -0.55470, 0.00000, 0.00000, 0.00000, 1.00000, -0.55470, 0.83205, 0.00000, 4.50, 1.80, 2.25)
+radius = 0.09
+height = 16.22
 material = SubResource("Mat_MegaBeam")
 
-[node name="BeamCA" type="CSGCylinder3D" parent="Act3_Dome/TriangleBeams"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, -4.5)
-radius = 0.08
-height = 18.0
+[node name="BeamBetaToGamma" type="CSGCylinder3D" parent="Act3_Dome/TriangleBeams"]
+transform = Transform3D(0.83205, -0.55470, 0.00000, 0.00000, 0.00000, 1.00000, -0.55470, -0.83205, 0.00000, -4.50, 1.80, 2.25)
+radius = 0.09
+height = 16.22
 material = SubResource("Mat_MegaBeam")
+
+[node name="BeamGammaToAlpha" type="CSGCylinder3D" parent="Act3_Dome/TriangleBeams"]
+transform = Transform3D(0.00000, 1.00000, 0.00000, 0.00000, 0.00000, 1.00000, 1.00000, 0.00000, 0.00000, 0.00, 1.80, -4.50)
+radius = 0.09
+height = 18.00
+material = SubResource("Mat_MegaBeam")
+
+[node name="AlphaReflectGlow" type="OmniLight3D" parent="Act3_Dome/TriangleBeams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.0, 1.8, -4.5)
+light_color = Color(0.2, 0.9, 1.0, 1)
+light_energy = 5.0
+omni_range = 7.0
+
+[node name="BetaReflectGlow" type="OmniLight3D" parent="Act3_Dome/TriangleBeams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 1.8, 9.0)
+light_color = Color(0.2, 0.9, 1.0, 1)
+light_energy = 5.0
+omni_range = 7.0
+
+[node name="GammaReflectGlow" type="OmniLight3D" parent="Act3_Dome/TriangleBeams"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.0, 1.8, -4.5)
+light_color = Color(0.2, 0.9, 1.0, 1)
+light_energy = 5.0
+omni_range = 7.0
 
 ; 3 Dome Shadow Entities Guarding Console
 [node name="DomeEntity1" parent="Act3_Dome" instance=ExtResource("11_shd")]
@@ -1078,3 +1172,86 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 1.5, -1.8)
 ; Final Exit Door
 [node name="ExitDoor" parent="Act3_Dome" instance=ExtResource("14_ext")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -24, 0, 0)
+
+; Additional Optical Reflection Elements
+[node name="Mirror_Hall1_Turn" parent="Act2_Gallery" instance=ExtResource("5_mir")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 18.0, 1.5, 0.0)
+
+[node name="Mirror_BR1" parent="Act2_Gallery" instance=ExtResource("5_mir")]
+transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 12.7, 1.5, 3.5)
+
+[node name="Mirror_BR2" parent="Act2_Gallery" instance=ExtResource("5_mir")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 7.3, 1.5, -5.0)
+
+[node name="Mirror_Cleanroom" parent="Act2_Gallery" instance=ExtResource("5_mir")]
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, 28.7, 1.5, -2.0)
+
+[node name="Mirror_Archive" parent="Act2_Gallery" instance=ExtResource("5_mir")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, 14.0, 1.5, -15.8)
+
+; 3D High-Detail Physical Props
+[node name="Prop_Oscilloscope1" parent="Act1_ControlRoom" instance=ExtResource("29_posc")]
+transform = Transform3D(0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, 0.965926, -2.8, 0.9, -3.4)
+
+[node name="Prop_Chair1" parent="Act1_ControlRoom" instance=ExtResource("32_pchr")]
+transform = Transform3D(0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -2.8, 0.0, -2.6)
+
+[node name="Prop_Chair2" parent="Act1_ControlRoom" instance=ExtResource("32_pchr")]
+transform = Transform3D(0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -1.4, 0.0, -2.6)
+
+[node name="Prop_Cabinet1" parent="Act1_ControlRoom" instance=ExtResource("33_pcab")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 5.5, 0.0, 4.0)
+
+[node name="MainframeRack1" parent="Act1_ControlRoom" instance=ExtResource("30_pmfr")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 4.2, 0.0, -4.8)
+
+[node name="MainframeRack2" parent="Act1_ControlRoom" instance=ExtResource("30_pmfr")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 3.2, 0.0, -4.8)
+
+[node name="Conduit_Act1_1" parent="Act1_ControlRoom" instance=ExtResource("35_pcnd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0, 3.4, 0.0)
+
+[node name="Conduit_Hall1" parent="Act2_Gallery" instance=ExtResource("35_pcnd")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 12.0, 3.4, 0.0)
+
+[node name="Conduit_Hall2" parent="Act2_Gallery" instance=ExtResource("35_pcnd")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 24.0, 3.4, 0.0)
+
+[node name="Conduit_Spine" parent="Act2_Gallery" instance=ExtResource("35_pcnd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.0, 3.4, -8.0)
+
+[node name="Prop_OpticalBench1" parent="Act2_Gallery" instance=ExtResource("31_popt")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 26.5, 0.0, -2.0)
+
+[node name="Prop_Oscilloscope2" parent="Act2_Gallery" instance=ExtResource("29_posc")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 26.2, 0.9, -1.6)
+
+[node name="Prop_CryoTank_Clean1" parent="Act2_Gallery" instance=ExtResource("34_ptnk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 0.0, 0.5)
+
+[node name="Prop_CryoTank_Clean2" parent="Act2_Gallery" instance=ExtResource("34_ptnk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 0.0, 1.2)
+
+[node name="Prop_CryoTank_BR1" parent="Act2_Gallery" instance=ExtResource("34_ptnk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.2, 0.0, 8.5)
+
+[node name="Prop_CryoTank_BR2" parent="Act2_Gallery" instance=ExtResource("34_ptnk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.8, 0.0, -11.0)
+
+[node name="Prop_CryoTank_BR3" parent="Act2_Gallery" instance=ExtResource("34_ptnk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.2, 0.0, -11.0)
+
+[node name="Prop_Cabinet_Archive1" parent="Act2_Gallery" instance=ExtResource("33_pcab")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.5, 0.0, -14.0)
+
+[node name="Prop_Cabinet_Archive2" parent="Act2_Gallery" instance=ExtResource("33_pcab")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 8.2, 0.0, -14.0)
+
+[node name="Prop_Chair_Archive" parent="Act2_Gallery" instance=ExtResource("32_pchr")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 10.0, 0.0, -13.0)
+
+[node name="MainframeRack_Dome1" parent="Act3_Dome" instance=ExtResource("30_pmfr")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 18.5, 0.0, -32.0)
+
+[node name="MainframeRack_Dome2" parent="Act3_Dome" instance=ExtResource("30_pmfr")]
+transform = Transform3D(4.37114e-08, 0, -1, 0, 1, 0, 1, 0, 4.37114e-08, 29.5, 0.0, -32.0)

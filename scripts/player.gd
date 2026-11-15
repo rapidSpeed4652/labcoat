@@ -23,14 +23,12 @@ var step_interval: float = 2.2
 var is_sprinting: bool = false
 var checkpoint_pos: Vector3 = Vector3.ZERO
 
-# Health & Survival
 var health: float = 100.0
 var max_health: float = 100.0
 var time_since_damage: float = 0.0
 
 signal health_changed(current_health: float, maximum_health: float)
 
-# Targeted interactable
 var current_interactable: Node = null
 
 func _ready():
@@ -44,9 +42,10 @@ func _ready():
 	
 	GameManager.player_respawn_requested.connect(respawn_at_checkpoint)
 	_update_gun_visibility()
+	if flashlight:
+		GameManager.flashlight_toggled.emit(flashlight.visible)
 
 func _unhandled_input(event: InputEvent):
-	# Recapture mouse on any click inside window
 	if event is InputEventMouseButton and event.pressed:
 		if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED and not get_tree().paused and not GameManager.is_inspecting_polaroid:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
@@ -61,18 +60,14 @@ func _input(event: InputEvent):
 			GameManager.close_polaroid()
 		return
 	
-	# Mouse look: rock solid pitch & yaw with zero drift
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		var mouse_x = event.relative.x * mouse_sensitivity
 		var mouse_y = event.relative.y * mouse_sensitivity
 		
-		# Yaw on player body
 		rotate_y(-mouse_x)
 		
-		# Pitch directly on camera rotation.x
 		camera.rotation.x = clamp(camera.rotation.x - mouse_y, deg_to_rad(-85.0), deg_to_rad(85.0))
 		
-		# Weapon lag sway
 		sway_offset.x = clamp(sway_offset.x - mouse_x * 0.15, -0.03, 0.03)
 		sway_offset.y = clamp(sway_offset.y - mouse_y * 0.15, -0.03, 0.03)
 	
@@ -98,6 +93,7 @@ func _input(event: InputEvent):
 func toggle_flashlight():
 	if flashlight:
 		flashlight.visible = not flashlight.visible
+		GameManager.flashlight_toggled.emit(flashlight.visible)
 		AudioManager.play_sfx("switch_flip", 1.8 if flashlight.visible else 1.4, 0.9)
 
 func _physics_process(delta: float):
@@ -109,26 +105,22 @@ func _physics_process(delta: float):
 	
 	_update_gun_visibility()
 	
-	# Gravity & Ground Snapping
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 	else:
-		velocity.y = -0.5 # downward stickiness to prevent ground bounce
+		velocity.y = -0.5
 		var jump_triggered = Input.is_action_just_pressed("jump") or Input.is_key_pressed(KEY_SPACE) or Input.is_physical_key_pressed(KEY_SPACE)
 		if jump_triggered:
 			velocity.y = jump_velocity
 	
-	# Health regeneration after delay
 	time_since_damage += delta
 	if time_since_damage > 4.5 and health < max_health and health > 0.0:
 		health = min(max_health, health + delta * 25.0)
 		health_changed.emit(health, max_health)
 
-	# Sprint check with direct hardware fallback
 	is_sprinting = Input.is_action_pressed("sprint") or Input.is_key_pressed(KEY_SHIFT) or Input.is_physical_key_pressed(KEY_SHIFT)
 	var target_speed = sprint_speed if is_sprinting else walk_speed
 	
-	# Movement input with direct hardware WASD fallback
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
 	if input_dir == Vector2.ZERO:
 		var left = 1.0 if (Input.is_key_pressed(KEY_A) or Input.is_physical_key_pressed(KEY_A) or Input.is_key_pressed(KEY_LEFT)) else 0.0
@@ -144,7 +136,6 @@ func _physics_process(delta: float):
 		velocity.x = move_toward(velocity.x, target_vel.x, acceleration * delta * target_speed)
 		velocity.z = move_toward(velocity.z, target_vel.z, acceleration * delta * target_speed)
 		
-		# Footsteps & weapon bob
 		if is_on_floor():
 			var h_speed = Vector2(velocity.x, velocity.z).length()
 			weapon_bob_timer += delta * (h_speed * 2.5)

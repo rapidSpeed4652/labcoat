@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="PackedScene" path="res://levels/observatory.tscn" id="1_obs"]
 [ext_resource type="PackedScene" path="res://scenes/player.tscn" id="2_plr"]
 [ext_resource type="PackedScene" path="res://scenes/ui.tscn" id="3_ui"]
 [ext_resource type="Texture2D" path="res://assets/textures/lunar_skybox.png" id="4_skytex"]
 [ext_resource type="PackedScene" path="res://scenes/lunar_exterior.tscn" id="5_ext"]
+[ext_resource type="PackedScene" path="res://scenes/cutscene_ending.tscn" id="6_cut"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_lunar"]
 panorama = ExtResource("4_skytex")
@@ -73,3 +74,5 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.1, 0)
 
 [node name="UI" parent="." instance=ExtResource("3_ui")]
+
+[node name="EndingCutscene" parent="." instance=ExtResource("6_cut")]

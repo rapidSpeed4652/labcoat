@@ -1,8 +1,5 @@
 extends Control
 
-# World Bounds for Coordinate Mapping
-# Facility World X: ~-5 to 36 (Center ~15.5)
-# Facility World Z: ~-46 to 10 (Center ~-18.0)
 const WORLD_CENTER_X: float = 15.5
 const WORLD_CENTER_Z: float = -18.0
 const WORLD_SPAN_X: float = 44.0
@@ -23,14 +20,13 @@ func world_to_map(world_pos: Vector3) -> Vector2:
 	var ox = 10.0
 	var oy = 20.0
 	
-	# Scale factor preserving aspect ratio or fitting map frame
 	var scale_x = w / WORLD_SPAN_X
 	var scale_z = h / WORLD_SPAN_Z
 	var s = min(scale_x, scale_z)
 	
 	var center_canvas = Vector2(ox + w * 0.5, oy + h * 0.5)
 	var dx = (world_pos.x - WORLD_CENTER_X) * s
-	var dy = (world_pos.z - WORLD_CENTER_Z) * s # North in world (-Z) is Up on screen (-Y)
+	var dy = (world_pos.z - WORLD_CENTER_Z) * s
 	
 	return center_canvas + Vector2(dx, dy)
 
@@ -42,46 +38,40 @@ func world_rect_to_map(x1: float, z1: float, x2: float, z2: float) -> Rect2:
 	return Rect2(top_left, sz)
 
 func _draw():
-	# Background
 	var bg_col = Color(0.02, 0.05, 0.08, 0.85) if not is_fullscreen_map else Color(0.01, 0.03, 0.06, 0.95)
 	draw_rect(Rect2(Vector2.ZERO, size), bg_col, true)
 	
-	# Border frame
 	var frame_col = Color(0.15, 0.6, 0.8, 0.7) if not is_fullscreen_map else Color(0.2, 0.85, 0.95, 0.9)
 	draw_rect(Rect2(Vector2.ZERO, size), frame_col, false, 2.0)
 	
-	# Radar grid lines on minimap
 	if not is_fullscreen_map:
 		var grid_col = Color(0.1, 0.35, 0.45, 0.25)
 		draw_line(Vector2(size.x * 0.5, 0), Vector2(size.x * 0.5, size.y), grid_col, 1.0)
 		draw_line(Vector2(0, size.y * 0.5), Vector2(size.x, size.y * 0.5), grid_col, 1.0)
 		draw_arc(size * 0.5, size.x * 0.4, 0, TAU, 32, grid_col, 1.0)
 	
-	# Room Data: [name, x1, z1, x2, z2, color]
 	var room_fill = Color(0.06, 0.18, 0.25, 0.6)
 	var room_border = Color(0.2, 0.75, 0.9, 0.8)
 	var rooms = [
-		["CONTROL", -6.0, -6.0, 6.0, 6.0],         # Act 1 Control Room
-		["LRRR SITE", -6.0, -14.0, 6.0, -7.0],     # Apollo 11 LRRR Surface Site
-		["H1", 6.0, -2.0, 24.0, 2.0],              # Hallway 1 Spine
-		["CLEANROOM", 26.0, -4.0, 35.0, 0.0],      # Spectrometry Cleanroom (Lab Alpha)
-		["BAY-A (CRYO)", 11.0, 2.0, 19.0, 10.0],   # Bay A Capacitor 1
-		["H2", 22.0, -16.0, 26.0, 0.0],            # Hallway 2
-		["ARCHIVE", 13.0, -16.0, 22.0, -12.0],     # Astrometric Archive & Darkroom
-		["BAY-B (FLUX)", 13.0, -12.0, 22.0, -4.0], # Bay B Capacitor 2
-		["BAY-C (OSC)", 26.0, -12.0, 35.0, -4.0],  # Bay C Capacitor 3
-		["VESTIBULE", 22.0, -18.0, 26.0, -16.0],   # Vestibule
-		["COUDÉ DOME", 10.0, -46.0, 38.0, -18.0],  # Act 3 Dome
-		["EXIT", 0.0, -34.0, 10.0, -30.0]          # Exit Hallway
+		["CONTROL", -6.0, -6.0, 6.0, 6.0],
+		["LRRR SITE", -6.0, -14.0, 6.0, -7.0],
+		["H1", 6.0, -2.0, 24.0, 2.0],
+		["CLEANROOM", 26.0, -4.0, 35.0, 0.0],
+		["BAY-A (CRYO)", 11.0, 2.0, 19.0, 10.0],
+		["H2", 22.0, -16.0, 26.0, 0.0],
+		["ARCHIVE", 13.0, -16.0, 22.0, -12.0],
+		["BAY-B (FLUX)", 13.0, -12.0, 22.0, -4.0],
+		["BAY-C (OSC)", 26.0, -12.0, 35.0, -4.0],
+		["VESTIBULE", 22.0, -18.0, 26.0, -16.0],
+		["COUDÉ DOME", 10.0, -46.0, 38.0, -18.0],
+		["EXIT", 0.0, -34.0, 10.0, -30.0]
 	]
 	
-	# Draw Rooms
 	for r in rooms:
 		var rect = world_rect_to_map(r[1], r[2], r[3], r[4])
 		draw_rect(rect, room_fill, true)
 		draw_rect(rect, room_border, false, 1.5)
 		
-		# In fullscreen map, label rooms
 		if is_fullscreen_map:
 			var font = ThemeDB.fallback_font
 			var font_size = 11
@@ -89,29 +79,21 @@ func _draw():
 			var text_pos = rect.position + rect.size * 0.5 - Vector2(text.length() * 3.0, -4.0)
 			draw_string(font, text_pos, text, HORIZONTAL_ALIGNMENT_CENTER, -1, font_size, Color(0.6, 0.9, 1.0, 0.75))
 	
-	# Draw Doors & Security Locks
-	# 1. Act 1 Security Door at (6, 0)
 	var act1_door_pos = world_to_map(Vector3(6.0, 0, 0))
 	var act1_open = GameManager.act1_door_unlocked
 	var act1_door_col = Color(0.2, 1.0, 0.4) if act1_open else Color(1.0, 0.2, 0.2)
 	draw_circle(act1_door_pos, 3.5, act1_door_col)
 	
-	# 2. Dome Blast Door at (24, -16)
 	var dome_door_pos = world_to_map(Vector3(24.0, 0, -16.0))
 	var dome_open = GameManager.dome_door_unlocked
 	var dome_door_col = Color(0.2, 1.0, 0.4) if dome_open else Color(1.0, 0.3, 0.1)
 	draw_circle(dome_door_pos, 4.0, dome_door_col)
 	
-	# 3. Exit Door at (0, -32)
 	var exit_door_pos = world_to_map(Vector3(0.0, 0, -32.0))
 	var exit_open = GameManager.shutdown_lever_pulled
 	var exit_door_col = Color(0.2, 1.0, 0.5) if exit_open else Color(0.8, 0.2, 0.2)
 	draw_circle(exit_door_pos, 3.5, exit_door_col)
 	
-	# Draw Key Objectives / Capacitors
-	# Cap 1 at (15.0, 0, 9.7) [BR1 / Bay A]
-	# Cap 2 at (13.3, 0, -8.0) [BR2 / Bay B]
-	# Cap 3 at (34.7, 0, -8.0) [BR3 / Bay C]
 	var caps = [
 		Vector3(15.0, 0, 9.7),
 		Vector3(13.3, 0, -8.0),
@@ -124,23 +106,20 @@ func _draw():
 		var c_col = Color(0.2, 1.0, 0.4) if is_flipped else Color(1.0, 0.7, 0.1)
 		_draw_diamond(cp, 4.0, c_col, is_flipped)
 	
-	# Draw Optical Receptor in Act 1 at (5.8, 0, -0.6)
 	var rec_pos = world_to_map(Vector3(5.8, 0, -0.6))
 	var rec_col = Color(0.2, 1.0, 0.5) if act1_open else Color(0.1, 0.9, 1.0)
 	_draw_star(rec_pos, 3.5, rec_col)
 	
-	# Draw Dome Stations Alpha, Beta, Gamma in Dome
 	var stations = [
-		Vector3(33.0, 0, -36.5), # Alpha
-		Vector3(24.0, 0, -23.0), # Beta
-		Vector3(15.0, 0, -36.5)  # Gamma
+		Vector3(33.0, 0, -36.5),
+		Vector3(24.0, 0, -23.0),
+		Vector3(15.0, 0, -36.5)
 	]
 	for st in stations:
 		var st_pos = world_to_map(st)
 		var st_col = Color(0.3, 0.9, 1.0) if not GameManager.dome_puzzle_solved else Color(0.2, 1.0, 0.4)
 		draw_circle(st_pos, 2.5, st_col)
 	
-	# Draw Nearby Entities as pulsing warning blips
 	var tree = get_tree()
 	if tree:
 		var entities = tree.get_nodes_in_group("ShadowEntity")
@@ -151,14 +130,12 @@ func _draw():
 				var ent_col = Color(0.9, 0.1, 0.3, 0.8 + 0.2 * pulse)
 				draw_circle(ep, 3.0 + pulse * 1.5, ent_col)
 	
-	# Draw Player marker
 	var player = tree.get_first_node_in_group("Player") if tree else null
 	if player:
 		var pp = world_to_map(player.global_position)
 		var fwd = -player.camera.global_transform.basis.z if player.camera else -player.global_transform.basis.z
-		var fwd_2d = Vector2(fwd.x, fwd.z).normalized() * 8.0 # world -z is up on screen
+		var fwd_2d = Vector2(fwd.x, fwd.z).normalized() * 8.0
 		
-		# Directional cone / pointer
 		var left_wing = fwd_2d.rotated(2.5) * 0.55
 		var right_wing = fwd_2d.rotated(-2.5) * 0.55
 		var player_col = Color(0.2, 0.95, 1.0)
@@ -166,7 +143,6 @@ func _draw():
 		draw_colored_polygon([pp + fwd_2d, pp + left_wing, pp + right_wing], player_col)
 		draw_circle(pp, 3.5, Color(1.0, 1.0, 1.0))
 		
-		# Pulsing radar ping around player
 		var ping_r = fmod(pulse_time * 8.0, 16.0)
 		var ping_alpha = max(0.0, 1.0 - ping_r / 16.0) * 0.6
 		draw_arc(pp, ping_r, 0, TAU, 24, Color(0.2, 0.9, 1.0, ping_alpha), 1.0)

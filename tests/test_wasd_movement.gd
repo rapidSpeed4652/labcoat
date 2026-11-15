@@ -11,14 +11,12 @@ func _init():
     var start_pos = player.global_position
     print("Start position: ", start_pos)
     
-    # Simulate W key press (keycode W)
     var ev_w = InputEventKey.new()
     ev_w.keycode = KEY_W
     ev_w.pressed = true
     Input.parse_input_event(ev_w)
     Input.flush_buffered_events()
     
-    # Process physics frames
     for i in range(15):
         player._physics_process(0.016)
     

@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3]
+
+[sub_resource type="StandardMaterial3D" id="Mat_Cabinet"]
+albedo_color = Color(0.24, 0.28, 0.26, 1)
+metallic = 0.85
+roughness = 0.35
+
+[sub_resource type="StandardMaterial3D" id="Mat_Handles"]
+albedo_color = Color(0.85, 0.88, 0.92, 1)
+metallic = 0.95
+roughness = 0.15
+
+[sub_resource type="BoxMesh" id="Mesh_Cabinet"]
+material = SubResource("Mat_Cabinet")
+size = Vector3(0.5, 1.35, 0.65)
+
+[sub_resource type="BoxMesh" id="Mesh_DrawerLine"]
+material = SubResource("Mat_Handles")
+size = Vector3(0.42, 0.015, 0.02)
+
+[sub_resource type="BoxMesh" id="Mesh_Handle"]
+material = SubResource("Mat_Handles")
+size = Vector3(0.14, 0.025, 0.035)
+
+[node name="PropFileCabinet" type="Node3D"]
+
+[node name="Body" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.675, 0)
+mesh = SubResource("Mesh_Cabinet")
+
+[node name="Handle1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.15, 0.335)
+mesh = SubResource("Mesh_Handle")
+
+[node name="Handle2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.82, 0.335)
+mesh = SubResource("Mesh_Handle")
+
+[node name="Handle3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.49, 0.335)
+mesh = SubResource("Mesh_Handle")
+
+[node name="Handle4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.16, 0.335)
+mesh = SubResource("Mesh_Handle")

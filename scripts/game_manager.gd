@@ -1,6 +1,5 @@
 extends Node
 
-# Game Acts
 enum Act {
 	ACT_1_CONTROL_ROOM,
 	ACT_2_GALLERY,
@@ -11,11 +10,9 @@ enum Act {
 
 var current_act: Act = Act.ACT_1_CONTROL_ROOM
 
-# Inventory & Equipment
 var has_laser: bool = false
 var portable_mirrors_count: int = 1
 
-# Puzzle states
 var act1_door_unlocked: bool = false
 var lrrr_calibrated: bool = false
 var capacitors_activated: int = 0
@@ -27,10 +24,8 @@ var dome_puzzle_solved: bool = false
 var dome_override_unlocked: bool = false
 var shutdown_lever_pulled: bool = false
 
-# Current active objective
-var current_objective: String = "Inspect the control room. Find the handheld alignment laser."
+var current_objective: String = "Locate alignment laser on control desk."
 
-# Signals
 signal objective_updated(new_objective: String)
 signal radio_message_started(speaker: String, text: String, duration: float)
 signal radio_message_ended()
@@ -41,6 +36,7 @@ signal player_respawn_requested()
 signal game_won()
 signal game_lost()
 signal mirror_count_changed(count: int)
+signal flashlight_toggled(is_on: bool)
 signal keypad_requested(target_id: String, expected_code: String, title: String)
 signal keypad_unlocked(target_id: String)
 
@@ -56,7 +52,6 @@ func _ready():
 	call_deferred("_start_intro_radio")
 
 func _setup_inputs():
-	# Ensure default actions have both keycode and physical_keycode registered
 	var key_actions = {
 		"move_forward": [KEY_W, KEY_UP],
 		"move_backward": [KEY_S, KEY_DOWN],
@@ -75,16 +70,13 @@ func _setup_inputs():
 		if not InputMap.has_action(act_name):
 			InputMap.add_action(act_name)
 		for k in key_actions[act_name]:
-			# Register keycode
 			var ev_k = InputEventKey.new()
 			ev_k.keycode = k
 			InputMap.action_add_event(act_name, ev_k)
-			# Register physical_keycode
 			var ev_p = InputEventKey.new()
 			ev_p.physical_keycode = k
 			InputMap.action_add_event(act_name, ev_p)
 	
-	# Mouse button actions
 	if not InputMap.has_action("fire_laser"):
 		InputMap.add_action("fire_laser")
 	var ev_lmb = InputEventMouseButton.new()
@@ -100,16 +92,16 @@ func _setup_inputs():
 func _start_intro_radio():
 	await get_tree().create_timer(1.2).timeout
 	trigger_radio(
-		"SUPERVISOR VANCE (EARTH STATION)",
-		"Leo, this is Vance at Earth Station. Listen carefully: DO NOT try to shut down the laser or cut main power! The Boötes rift has formed a self-sustaining quantum bridge—cutting power will invert spacetime and swallow the station! We must execute the RETRO-INVERSION PROTOCOL: overcharge and phase-invert the laser to fire a 100-Petawatt Hyper-Pulse back down the bridge, annihilating the rift at its source! Find the alignment laser and calibrate the Apollo 11 array on the lunar crater floor to lock our Stokes baseline sync!",
-		9.5
+		"FLIGHT DIRECTOR VANCE (HOUSTON)",
+		"Mount Hale, this is Houston Flight. Leo, copy? Do not attempt a standard power cut on that Coude line. The dish return loop is drawing power from whatever answered on the other end—cutting line voltage will collapse the collector field and breach the pressurized envelope. We need a clean phase inversion. Check the control desk for an alignment laser, then cycle through Airlock Alpha to benchmark the Apollo 11 array on the crater floor.",
+		18.0
 	)
 
 func set_objective(text: String):
 	current_objective = text
 	objective_updated.emit(text)
 
-func trigger_radio(speaker: String, text: String, duration: float = 6.0):
+func trigger_radio(speaker: String, text: String, duration: float = 16.0):
 	radio_message_started.emit(speaker, text, duration)
 	AudioManager.play_radio_static()
 
@@ -133,11 +125,11 @@ func calibrate_lrrr():
 	if lrrr_calibrated:
 		return
 	lrrr_calibrated = true
-	set_objective("Apollo 11 LRRR Calibrated! Re-enter the base and bounce laser onto the Sector 1 sensor.")
+	set_objective("Apollo 11 benchmark locked. Return inside and bounce laser onto Sector 1 sensor.")
 	trigger_radio(
-		"SUPERVISOR VANCE (EARTH STATION)",
-		"Telemetry lock confirmed! Apollo 11 retroreflectors are pinging our Earth beacon! Stokes baseline sync locked! Return inside and bounce the laser off the wall mirror to open Sector 1!",
-		7.5
+		"FLIGHT DIRECTOR VANCE (HOUSTON)",
+		"Houston confirms benchmark lock on Apollo 11. Array telemetry is active and feeding the internal optical relays. Head back inside—bounce your alignment beam off the gallery mirror to trip the Sector 1 safety release.",
+		16.0
 	)
 	var receptor = get_tree().root.find_child("OpticalReceptor_Act1", true, false)
 	if receptor and receptor.has_method("_update_visuals"):
@@ -148,31 +140,34 @@ func on_keypad_success(target_id: String):
 	match target_id:
 		"airlock_alpha":
 			airlock_alpha_unlocked = true
-			set_objective("Airlock Alpha UNSEALED! Suit up and step out onto the lunar surface.")
+			set_objective("Airlock Alpha cycled. Proceed to Apollo 11 array on crater floor.")
 			trigger_radio(
-				"SUPERVISOR VANCE (EARTH STATION)",
-				"Airlock Alpha cycled! You're cleared for exterior lunar traverse. Head to the Apollo 11 array on the crater floor and align the primary benchmark!",
-				7.0
+				"FLIGHT DIRECTOR VANCE (HOUSTON)",
+				"Airlock Alpha cycled. You're clear for surface traverse. Proceed to the Apollo 11 reflector array on the crater floor and align the primary benchmark.",
+				16.0
 			)
 			var door = get_tree().root.find_child("AirlockAlpha_Door", true, false)
 			if door and door.has_method("open"):
 				door.open()
 		"cleanroom_barrier":
 			cleanroom_unlocked = true
-			set_objective("Laser grid deactivated! Access the Spectrometry Lab and recover Tape Log 2.")
+			set_objective("Cleanroom barrier down. Access lab terminals and review Log 2.")
 			var barrier = get_tree().root.find_child("CleanroomLaserBarrier", true, false)
 			if barrier:
-				barrier.queue_free()
+				if barrier.has_method("deactivate"):
+					barrier.deactivate()
+				else:
+					barrier.queue_free()
 			var terminal = get_tree().root.find_child("CleanroomKeypadTerminal", true, false)
 			if terminal and terminal.has_method("open"):
 				terminal.open()
 		"dome_override":
 			dome_override_unlocked = true
-			set_objective("Master Azimuth clamp released! PULL THE MASTER RETRO-INVERSION TRIGGER!")
+			set_objective("Azimuth clamps released. Pull main discharge lever.")
 			trigger_radio(
-				"SUPERVISOR VANCE (EARTH STATION)",
-				"Master Azimuth frequency 8352 verified! The hydraulic firing clamps have released! PULL THE RETRO-INVERSION TRIGGER!",
-				6.0
+				"FLIGHT DIRECTOR VANCE (HOUSTON)",
+				"Azimuth 8352 verified. Hydraulic clamps disengaged. Pull the main discharge lever.",
+				15.0
 			)
 
 func schedule_entity_respawn(spawn_pos: Vector3, delay: float):
@@ -189,22 +184,22 @@ func schedule_entity_respawn(spawn_pos: Vector3, delay: float):
 
 func pickup_laser():
 	has_laser = true
-	set_objective("BOUNCE LASER: Aim beam at the wall mirror so the reflection hits the Optical Receptor.")
+	set_objective("Bounce beam off wall mirror to strike Sector 1 optical sensor.")
 	trigger_radio(
-		"SUPERVISOR VANCE (EARTH STATION)",
-		"Good, you found the alignment laser. Direct coherent light is useless against the shadow apparitions—it only feeds them! You must bounce the beam off mirrors. Reflected light inverts their quantum phase and burns their silhouette away!",
-		7.0
+		"FLIGHT DIRECTOR VANCE (HOUSTON)",
+		"Laser unit acquired. Remember: direct optical output won't disperse those silhouettes—coherent light just scatters off their surface. You have to reflect the beam off polished surfaces to shift the phase.",
+		16.0
 	)
 
 func unlock_act1_door():
 	if act1_door_unlocked:
 		return
 	act1_door_unlocked = true
-	set_objective("Enter the Gallery. Synthesize 488nm phase code and energize Bays A, C, and B.")
+	set_objective("Enter Gallery. Synthesize 488nm phase line and energize Bays A, C, B.")
 	trigger_radio(
-		"SUPERVISOR VANCE (EARTH STATION)",
-		"Security aperture unsealed! Enter the central gallery spine. Open your tactical schematic with M or TAB. We must acquire the 488nm carrier wave from the cleanroom, then charge the 3 capacitor bays in harmonic resonance to power the 100-Petawatt retro-strike!",
-		7.5
+		"FLIGHT DIRECTOR VANCE (HOUSTON)",
+		"Sector 1 confirmed open. The primary capacitor bank is segmented across Bays A, B, and C. Check the cleanroom lab for Dr. Thorne's calibration logs before cycling any breakers—they're interlocked to prevent transformer blowouts.",
+		16.0
 	)
 
 func try_activate_capacitor(idx: int, _breaker: Node) -> bool:
@@ -215,51 +210,49 @@ func try_activate_capacitor(idx: int, _breaker: Node) -> bool:
 		var dome_door = get_tree().root.find_child("DomeBlastDoor", true, false)
 		
 		if current_seq_idx == 1:
-			set_objective("Step 1/3: Bay A Cryo-Coolant primed! Next: Bay C (Laser Oscillator) [Check Thorne's Log 2].")
+			set_objective("Bay A coolant loop online (1/3). Next: Bay C Oscillator (Log 2).")
 			trigger_radio(
-				"SUPERVISOR VANCE (EARTH STATION)",
-				"Cryo-coolant loop primed! Cryogenic temperature stabilized for 100-Petawatt pulse. Now energize Bay C's oscillator before touching the magnetic flux loop!",
-				6.5
+				"FLIGHT DIRECTOR VANCE (HOUSTON)",
+				"Bay A coolant loop engaged. Line pressure nominal. Bay C oscillator next—keep away from the flux coil until the oscillator is online.",
+				15.0
 			)
 			if dome_door:
-				dome_door.lock_text = "[BLAST LOCK: 2 CAPACITORS REMAINING]"
-				dome_door.lock_hint = "Energize Bay C and Bay B in harmonic sequence."
+				dome_door.lock_text = "[INTERLOCK: 2 CAPACITORS REMAINING]"
+				dome_door.lock_hint = "Energize Bay C and Bay B in sequence."
 		elif current_seq_idx == 2:
-			set_objective("Step 2/3: Oscillator energized! Final: Bay B (Magnetic Flux Chamber).")
+			set_objective("Bay C Oscillator online (2/3). Final: Bay B Magnetic Flux.")
 			trigger_radio(
-				"SUPERVISOR VANCE (EARTH STATION)",
-				"Oscillator in phase lock! Magnetic flux loop is now ready to charge in Bay B. Complete the sequence, Leo!",
-				6.5
+				"FLIGHT DIRECTOR VANCE (HOUSTON)",
+				"Bay C oscillator synchronized. Now energize the magnetic flux in Bay B to complete the bank.",
+				15.0
 			)
 			if dome_door:
-				dome_door.lock_text = "[BLAST LOCK: 1 CAPACITOR REMAINING]"
+				dome_door.lock_text = "[INTERLOCK: 1 CAPACITOR REMAINING]"
 				dome_door.lock_hint = "Energize Bay B (Magnetic Flux) to release blast lock."
 		elif current_seq_idx == 3:
 			dome_door_unlocked = true
-			set_objective("All 3 bays energized! 100-Petawatt resonance achieved! Head into the Coudé Dome.")
+			set_objective("Capacitor bank fully charged (3/3). Proceed to Coude Dome.")
 			trigger_radio(
-				"SUPERVISOR VANCE (EARTH STATION)",
-				"100-Petawatt resonance cascade locked! The carrier wave is inverted! The Coudé Dome blast doors are OPEN! Get to the dome, align the triad, and prepare the retro-strike!",
-				7.5
+				"FLIGHT DIRECTOR VANCE (HOUSTON)",
+				"All three capacitor bays online and holding charge. Coude dome blast door interlock cleared. Proceed to the dome.",
+				16.0
 			)
 			if dome_door:
-				dome_door.lock_text = "[BLAST LOCK DISENGAGED - ACCESS GRANTED]"
-				dome_door.lock_hint = "Blast doors unlocked. Head into the Coudé Dome."
+				dome_door.lock_text = "[INTERLOCK CLEARED - ACCESS GRANTED]"
+				dome_door.lock_hint = "Blast doors unlocked. Proceed into the Coude Dome."
 				if dome_door.has_method("open"):
 					dome_door.open()
 		return true
 	else:
-		# Sequence violation!
 		AudioManager.play_sfx("dome_alarm", 1.0, 5.0)
 		trigger_radio(
-			"SUPERVISOR VANCE (EARTH STATION)",
-			"WARNING! Harmonic sequence mismatch! Arc fault tripped the breaker interlock! Thorne's log explicitly states: Bay A (1) -> Bay C (3) -> Bay B (2)! Follow the sequence!",
-			7.0
+			"FLIGHT DIRECTOR VANCE (HOUSTON)",
+			"Warning: Interlock trip on the capacitor grid. Sequence was Bay A, then C, then B. Resetting breakers now.",
+			16.0
 		)
-		set_objective("[ARC FAULT: GRID RESET] Sequence violated! Required: Bay A -> Bay C -> Bay B (1 -> 3 -> 2)!")
+		set_objective("[INTERLOCK RESET] Sequence error. Order required: Bay A -> Bay C -> Bay B.")
 		reset_all_capacitors()
 		
-		# Punish mistake: spawn an aggressive Void Stalker in the gallery spine!
 		var obs = get_tree().root.find_child("Observatory", true, false)
 		if obs:
 			schedule_entity_respawn(Vector3(18.0, 0.0, -4.0), 0.5)
@@ -274,57 +267,56 @@ func reset_all_capacitors():
 			b.reset_breaker()
 	var dome_door = get_tree().root.find_child("DomeBlastDoor", true, false)
 	if dome_door:
-		dome_door.lock_text = "[BLAST LOCK: 3 AUXILIARY CAPACITORS REQUIRED]"
-		dome_door.lock_hint = "Energize all 3 auxiliary capacitors in Bay A, Bay B, and Bay C in harmonic sequence."
+		dome_door.lock_text = "[INTERLOCK: 3 CAPACITORS REQUIRED]"
+		dome_door.lock_hint = "Energize Bay A, Bay C, and Bay B in sequence."
 
 func activate_capacitor():
 	capacitors_activated += 1
 	var remaining = CAPACITORS_REQUIRED - capacitors_activated
 	
-	# Update Dome Blast Door live telemetry if present
 	var dome_door = get_tree().root.find_child("DomeBlastDoor", true, false)
 	if dome_door:
 		if remaining <= 0:
-			dome_door.lock_text = "[BLAST LOCK DISENGAGED - ACCESS GRANTED]"
-			dome_door.lock_hint = "Blast doors unlocked. Head into the Coudé Dome."
+			dome_door.lock_text = "[INTERLOCK CLEARED - ACCESS GRANTED]"
+			dome_door.lock_hint = "Blast doors unlocked. Proceed into the Coude Dome."
 			if dome_door.has_method("open"):
 				dome_door.open()
 		else:
-			dome_door.lock_text = "[BLAST LOCK: %d/3 CAPACITORS REMAINING]" % remaining
-			dome_door.lock_hint = "Energize %d more auxiliary capacitor(s) in sequence." % remaining
+			dome_door.lock_text = "[INTERLOCK: %d/3 CAPACITORS REMAINING]" % remaining
+			dome_door.lock_hint = "Energize %d more capacitor bay(s) in sequence." % remaining
 	
 	if remaining <= 0:
 		dome_door_unlocked = true
-		set_objective("All 3 bays energized! 100-Petawatt resonance achieved! Head into the Coudé Dome.")
+		set_objective("Capacitor bank charged. Proceed to Coude Dome.")
 		trigger_radio(
-			"SUPERVISOR VANCE (EARTH STATION)",
-			"All three capacitors energized! Power redirected to the central dome! The heavy blast doors are open! Leo, get to the dome and align the triad!",
-			7.0
+			"FLIGHT DIRECTOR VANCE (HOUSTON)",
+			"All three capacitors online. Dome blast door is open. Proceed inside and align the mirror triad.",
+			16.0
 		)
 	elif capacitors_activated == 1:
-		set_objective("Capacitor 1/3 energized. Continue sequence in bays (Check Map [M]).")
+		set_objective("Capacitor 1/3 online. Continue sequence (Check Map [M]).")
 		trigger_radio(
-			"SUPERVISOR VANCE (EARTH STATION)",
-			"Capacitor One energized! Cryogenic surge detected in Bay B. Two remaining! Keep your distance from those Void Phantoms!",
-			6.5
+			"FLIGHT DIRECTOR VANCE (HOUSTON)",
+			"Capacitor One online. Two remaining.",
+			15.0
 		)
 	else:
-		set_objective("Capacitor 2/3 energized. Finish sequence at Bay B (Check Map [M]).")
+		set_objective("Capacitor 2/3 online. Final bay remaining (Check Map [M]).")
 		trigger_radio(
-			"SUPERVISOR VANCE (EARTH STATION)",
-			"Capacitor Two online! One auxiliary capacitor remains in Bay B. The entity signatures are converging on your coordinates!",
-			6.5
+			"FLIGHT DIRECTOR VANCE (HOUSTON)",
+			"Capacitor Two online. Complete the bank at Bay B.",
+			15.0
 		)
 
 func solve_dome_puzzle():
 	if dome_puzzle_solved:
 		return
 	dome_puzzle_solved = true
-	set_objective("Equilateral triad locked! The entities are banished. Enter Code 8352 at the Firing Terminal!")
+	set_objective("Mirror triad locked. Enter Code 8352 at main console.")
 	trigger_radio(
 		"LEO",
-		"It worked! The reflected equilateral beam cage collapsed the entity nexus! The Firing Terminal is clear!",
-		5.5
+		"Triad locked. Reflected beam cleared the platform. Console access is open.",
+		15.0
 	)
 
 func pull_shutdown_lever():
@@ -332,11 +324,11 @@ func pull_shutdown_lever():
 		return
 	shutdown_lever_pulled = true
 	current_act = Act.ENDING
-	set_objective("Rift collapsed! Evacuate via the West Rover Air-Lock.")
+	set_objective("Discharge complete. Evacuate to surface airlock.")
 	trigger_radio(
-		"SUPERVISOR VANCE (EARTH STATION)",
-		"RETRO-INVERSION STRIKE SUCCESSFUL! The 100-Petawatt pulse bounced back down the bridge! Destructive interference confirmed across all deep-space sensors—the Boötes rift has collapsed! Head to the West Rover Air-Lock, Leo. You saved us all!",
-		8.0
+		"FLIGHT DIRECTOR VANCE (HOUSTON)",
+		"Discharge confirmed. Beam collapse verified on Houston telemetry. Roof shutter is sealing down. Evacuate to the rover airlock, Leo. Good work.",
+		18.0
 	)
 
 func player_died():

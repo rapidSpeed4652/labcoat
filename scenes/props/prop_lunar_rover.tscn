@@ -1,0 +1,114 @@
+[gd_scene load_steps=12 format=3]
+
+[sub_resource type="StandardMaterial3D" id="Mat_RoverChassis"]
+albedo_color = Color(0.85, 0.88, 0.92, 1)
+metallic = 0.9
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="Mat_GoldMylar"]
+albedo_color = Color(0.95, 0.75, 0.15, 1)
+metallic = 0.95
+roughness = 0.25
+
+[sub_resource type="StandardMaterial3D" id="Mat_WheelWire"]
+albedo_color = Color(0.3, 0.32, 0.35, 1)
+metallic = 0.9
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="Mat_HeadlightGlass"]
+albedo_color = Color(1.0, 1.0, 0.9, 1)
+emission_enabled = true
+emission = Color(1.0, 1.0, 0.9, 1)
+emission_energy_multiplier = 4.0
+
+[sub_resource type="BoxMesh" id="Mesh_Chassis"]
+material = SubResource("Mat_GoldMylar")
+size = Vector3(1.8, 0.35, 3.1)
+
+[sub_resource type="CylinderMesh" id="Mesh_Wheel"]
+material = SubResource("Mat_WheelWire")
+top_radius = 0.42
+bottom_radius = 0.42
+height = 0.28
+
+[sub_resource type="BoxMesh" id="Mesh_Seat"]
+material = SubResource("Mat_RoverChassis")
+size = Vector3(0.55, 0.65, 0.5)
+
+[sub_resource type="CylinderMesh" id="Mesh_Mast"]
+material = SubResource("Mat_RoverChassis")
+top_radius = 0.025
+bottom_radius = 0.025
+height = 1.2
+
+[sub_resource type="CylinderMesh" id="Mesh_Dish"]
+material = SubResource("Mat_GoldMylar")
+top_radius = 0.45
+bottom_radius = 0.05
+height = 0.15
+
+[sub_resource type="CylinderMesh" id="Mesh_Headlight"]
+material = SubResource("Mat_HeadlightGlass")
+top_radius = 0.09
+bottom_radius = 0.09
+height = 0.05
+
+[node name="LunarRover" type="Node3D"]
+
+[node name="Chassis" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+mesh = SubResource("Mesh_Chassis")
+
+[node name="WheelFL" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -1.05, 0.42, 1.1)
+mesh = SubResource("Mesh_Wheel")
+
+[node name="WheelFR" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 1.05, 0.42, 1.1)
+mesh = SubResource("Mesh_Wheel")
+
+[node name="WheelRL" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, -1.05, 0.42, -1.1)
+mesh = SubResource("Mesh_Wheel")
+
+[node name="WheelRR" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 1.05, 0.42, -1.1)
+mesh = SubResource("Mesh_Wheel")
+
+[node name="SeatLeft" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.4, 0.95, -0.1)
+mesh = SubResource("Mesh_Seat")
+
+[node name="SeatRight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.4, 0.95, -0.1)
+mesh = SubResource("Mesh_Seat")
+
+[node name="CommsMast" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 1.2)
+mesh = SubResource("Mesh_Mast")
+
+[node name="HighGainDish" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 1.85, 1.2)
+mesh = SubResource("Mesh_Dish")
+
+[node name="HeadlightL" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.65, 0.55, 1.55)
+mesh = SubResource("Mesh_Headlight")
+
+[node name="LightSpotL" type="SpotLight3D" parent="HeadlightL"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0.1)
+light_color = Color(1, 0.95, 0.85, 1)
+light_energy = 5.0
+spot_range = 35.0
+spot_angle = 38.0
+
+[node name="HeadlightR" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.65, 0.55, 1.55)
+mesh = SubResource("Mesh_Headlight")
+
+[node name="LightSpotR" type="SpotLight3D" parent="HeadlightR"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0.1)
+light_color = Color(1, 0.95, 0.85, 1)
+light_energy = 5.0
+spot_range = 35.0
+spot_angle = 38.0

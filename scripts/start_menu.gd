@@ -29,7 +29,6 @@ func _ready():
 	$UI/ControlsModal/Center/Panel/VBox/BtnCloseControls.pressed.connect(func(): controls_modal.visible = false)
 	$UI/MissionsModal/Center/Panel/VBox/BtnCloseMissions.pressed.connect(func(): missions_modal.visible = false)
 	
-	# Mission chapter selector buttons
 	$UI/MissionsModal/Center/Panel/VBox/M1_Btn.pressed.connect(func(): _launch_mission(1))
 	$UI/MissionsModal/Center/Panel/VBox/M2_Btn.pressed.connect(func(): _launch_mission(2))
 	$UI/MissionsModal/Center/Panel/VBox/M3_Btn.pressed.connect(func(): _launch_mission(3))
@@ -51,22 +50,21 @@ func _launch_mission(mission_num: int):
 		if am.has_method("play_radio_static"):
 			am.play_radio_static()
 			
-	# Configure game manager starting act/objective if selecting later mission
 	var gm = get_node_or_null("/root/GameManager")
 	if gm:
 		match mission_num:
-			1: # Mission 1: Command Deck Breach
+			1:
 				gm.current_act = gm.Act.ACT_1_CONTROL_ROOM
 				gm.has_laser = false
-			2: # Mission 2: EVA Lunar Surface
+			2:
 				gm.current_act = gm.Act.ACT_1_CONTROL_ROOM
 				gm.has_laser = true
 				gm.act1_door_unlocked = true
-			3: # Mission 3: Capacitor Research Bays
+			3:
 				gm.current_act = gm.Act.ACT_2_GALLERY
 				gm.has_laser = true
 				gm.act1_door_unlocked = true
-			4: # Mission 4: Coudé Dome Finale
+			4:
 				gm.current_act = gm.Act.ACT_3_DOME
 				gm.has_laser = true
 				gm.act1_door_unlocked = true

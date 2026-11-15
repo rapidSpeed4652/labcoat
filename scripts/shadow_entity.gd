@@ -85,7 +85,6 @@ func _physics_process(delta: float):
 	if is_banished or not is_active:
 		return
 	
-	# Light hover gravity
 	if not is_on_floor():
 		velocity.y -= gravity * 0.4 * delta
 	else:
@@ -106,7 +105,6 @@ func _physics_process(delta: float):
 	if absorb_timer > 0.0:
 		absorb_timer = max(0.0, absorb_timer - delta * 2.0)
 	
-	# Update Shader Visual Effects
 	if shader_mat:
 		shader_mat.set_shader_parameter("absorb_intensity", clamp(absorb_timer / 0.5, 0.0, 1.5))
 		shader_mat.set_shader_parameter("banish_intensity", clamp(banish_stun_timer / 0.5, 0.0, 2.0))
@@ -137,7 +135,6 @@ func _physics_process(delta: float):
 			var dir = (target_pos - global_position).normalized()
 			var is_player_overheated = (player.laser_system and player.laser_system.is_overheated)
 			
-			# Hunger surge visuals
 			if is_player_overheated:
 				if shader_mat:
 					shader_mat.set_shader_parameter("surge_color", Color(1.0, 0.15, 0.1, 1.0))
@@ -149,13 +146,12 @@ func _physics_process(delta: float):
 				if eye_light:
 					eye_light.light_color = Color(0.1, 0.85, 1.0, 1.0)
 			
-			# Psychological Phase Glitch: When player looks away, teleport closer!
 			var cam = player.get_node_or_null("Camera3D")
 			if cam and dist > 5.5 and dist < 18.0 and not is_halted:
 				var cam_fwd = -cam.global_transform.basis.z.normalized()
 				var to_ent = (global_position - player.global_position).normalized()
 				var dot = cam_fwd.dot(to_ent)
-				if dot < 0.2: # Player is facing away
+				if dot < 0.2:
 					glitch_timer += delta
 					if glitch_timer >= 2.8:
 						glitch_timer = 0.0
@@ -201,7 +197,6 @@ func _perform_phase_glitch(dir: Vector3, player: Node):
 		if hit.is_empty():
 			global_position = dest
 			AudioManager.play_sfx("entity_glitch", randf_range(0.9, 1.2), 3.0)
-			# Brief glitch flicker tween
 			var tween = create_tween()
 			tween.tween_property(self, "scale", Vector3(1.3, 0.8, 1.3), 0.08)
 			tween.tween_property(self, "scale", Vector3(1.0, 1.0, 1.0), 0.08)
@@ -217,7 +212,6 @@ func on_laser_hit(is_reflected: bool, delta: float):
 	var time_step = max(0.016, delta)
 	
 	if not is_reflected:
-		# Direct beam damages the entity and holds it in photon stasis!
 		var direct_dmg = 45.0 * time_step
 		health -= direct_dmg
 		absorb_timer = 0.6
@@ -225,7 +219,6 @@ func on_laser_hit(is_reflected: bool, delta: float):
 			sfx_audio.stream = load("res://assets/audio/entity_absorb.wav")
 			sfx_audio.play()
 	else:
-		# Reflected beam: CRITICAL PHASE INVERSION! Burns away the silhouette at 5x damage!
 		var dmg = 250.0 * time_step
 		health -= dmg
 		banish_stun_timer = 0.6
@@ -250,7 +243,6 @@ func banish():
 	if can_respawn and GameManager.has_method("schedule_entity_respawn"):
 		GameManager.schedule_entity_respawn(global_position, respawn_time)
 	
-	# Death explosion pop
 	var tween = create_tween()
 	tween.tween_property(self, "scale", Vector3(2.0, 0.1, 2.0), 0.25)
 	tween.tween_callback(queue_free)
@@ -270,13 +262,13 @@ func _discharge_attack(player: Node):
 		GameManager.player_died()
 
 func get_category_badge() -> String:
-	return "👁 [VOID PHANTOM: BOÖTES SILHOUETTE - %d HP]" % int(max(0, health))
+	return "[SHADOW ENTITY: ANOMALOUS SILHOUETTE - %d HP]" % int(max(0, health))
 
 func get_category_color() -> Color:
 	return Color(0.2, 0.85, 1.0)
 
 func get_interaction_prompt() -> String:
-	return "DIRECT BEAM DAMAGES & STUNS • BOUNCE OFF MIRRORS FOR 5X CRITICAL DAMAGE!"
+	return "DIRECT BEAM SUPPRESSES • REFLECT OFF MIRRORS FOR RAPID DISPERSION"
 
 func get_hint() -> String:
-	return "Direct laser light steadily damages and holds the phantom in photon stasis. Bouncing light off mirrors inverts its quantum phase for catastrophic 5x vaporization!"
+	return "Direct laser beam suppresses entity movement and deals steady damage. Reflected light shifts the optical phase, dealing critical damage."

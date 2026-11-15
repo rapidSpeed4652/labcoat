@@ -61,7 +61,9 @@ func _load_sound_assets():
 		"interact.wav",
 		"keypad_beep.wav",
 		"access_denied.wav",
-		"entity_glitch.wav"
+		"entity_glitch.wav",
+		"quindar_intro.wav",
+		"quindar_outro.wav"
 	]
 	
 	for file in audio_files:
@@ -97,7 +99,6 @@ func _load_sound_assets():
 func play_ambient():
 	if sounds.has("ambient_drone"):
 		ambient_player.stream = sounds["ambient_drone"]
-		# Loop
 		if ambient_player.stream is AudioStreamWAV:
 			ambient_player.stream.loop_mode = AudioStreamWAV.LOOP_FORWARD
 		ambient_player.play()

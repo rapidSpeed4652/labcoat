@@ -21,7 +21,7 @@ func _ready():
 	_update_visuals()
 
 func get_category_badge() -> String:
-	return "🎯 [SECURITY: OPTICAL SENSOR LOCK]"
+	return "[OPTICAL SENSOR: MAGNETIC INTERLOCK]"
 
 func get_category_color() -> Color:
 	if requires_lrrr_benchmark and not GameManager.lrrr_calibrated:
@@ -47,13 +47,13 @@ func interact():
 		if requires_lrrr_benchmark and not GameManager.lrrr_calibrated:
 			AudioManager.play_sfx("access_denied")
 			GameManager.trigger_radio(
-				"SUPERVISOR VANCE (EARTH STATION)",
-				"The optical lock circuit is unpowered, Leo! You must cycle Airlock Alpha, go outside onto the lunar crater floor, and calibrate the Apollo 11 retroreflector array to provide benchmark sync!",
-				7.0
+				"FLIGHT DIRECTOR VANCE (HOUSTON)",
+				"That sensor circuit is unpowered until the benchmark baseline is locked. Cycle Airlock Alpha and align the Apollo 11 array on the crater floor.",
+				16.0
 			)
 			return
 		AudioManager.play_sfx("laser_click", 0.6)
-		GameManager.trigger_radio("LEO", "Direct access is blocked by the baffle wall. I need to bounce the laser beam off that wall mirror.", 4.5)
+		GameManager.trigger_radio("LEO", "Direct line of sight is obstructed. I need to reflect the beam off the wall mirror.", 12.0)
 
 func _process(delta: float):
 	if is_activated and is_permanent:
@@ -68,11 +68,9 @@ func on_laser_hit(is_reflected: bool, delta: float):
 		return
 	
 	if requires_lrrr_benchmark and not GameManager.lrrr_calibrated:
-		# Sensor unpowered without exterior lunar benchmark!
 		return
 	
 	if requires_reflected_beam and not is_reflected:
-		# Direct beam rejected!
 		return
 	
 	current_charge += delta

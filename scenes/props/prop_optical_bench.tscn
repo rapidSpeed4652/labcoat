@@ -1,0 +1,91 @@
+[gd_scene load_steps=12 format=3]
+
+[sub_resource type="StandardMaterial3D" id="Mat_BreadboardTop"]
+albedo_color = Color(0.68, 0.72, 0.76, 1)
+metallic = 0.95
+roughness = 0.25
+
+[sub_resource type="StandardMaterial3D" id="Mat_Legs"]
+albedo_color = Color(0.18, 0.2, 0.22, 1)
+metallic = 0.8
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="Mat_LaserTube"]
+albedo_color = Color(0.12, 0.14, 0.16, 1)
+metallic = 0.9
+roughness = 0.2
+
+[sub_resource type="StandardMaterial3D" id="Mat_BeamSplitter"]
+transparency = 1
+albedo_color = Color(0.3, 0.85, 1.0, 0.35)
+metallic = 0.9
+roughness = 0.05
+
+[sub_resource type="StandardMaterial3D" id="Mat_OpticMount"]
+albedo_color = Color(0.25, 0.28, 0.3, 1)
+metallic = 0.85
+roughness = 0.3
+
+[sub_resource type="BoxMesh" id="Mesh_TableTop"]
+material = SubResource("Mat_BreadboardTop")
+size = Vector3(1.6, 0.1, 0.9)
+
+[sub_resource type="CylinderMesh" id="Mesh_Leg"]
+material = SubResource("Mat_Legs")
+top_radius = 0.045
+bottom_radius = 0.045
+height = 0.85
+
+[sub_resource type="CylinderMesh" id="Mesh_LaserTube"]
+material = SubResource("Mat_LaserTube")
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.55
+
+[sub_resource type="BoxMesh" id="Mesh_Splitter"]
+material = SubResource("Mat_BeamSplitter")
+size = Vector3(0.09, 0.09, 0.09)
+
+[sub_resource type="CylinderMesh" id="Mesh_Post"]
+material = SubResource("Mat_OpticMount")
+top_radius = 0.018
+bottom_radius = 0.018
+height = 0.14
+
+[node name="PropOpticalBench" type="Node3D"]
+
+[node name="TableTop" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0)
+mesh = SubResource("Mesh_TableTop")
+
+[node name="Leg1" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0.425, -0.35)
+mesh = SubResource("Mesh_Leg")
+
+[node name="Leg2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0.425, -0.35)
+mesh = SubResource("Mesh_Leg")
+
+[node name="Leg3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0.425, 0.35)
+mesh = SubResource("Mesh_Leg")
+
+[node name="Leg4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0.425, 0.35)
+mesh = SubResource("Mesh_Leg")
+
+[node name="LaserTube" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -0.4, 0.98, -0.15)
+mesh = SubResource("Mesh_LaserTube")
+
+[node name="SplitterPost" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0.97, -0.15)
+mesh = SubResource("Mesh_Post")
+
+[node name="SplitterCube" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0.1, 1.08, -0.15)
+mesh = SubResource("Mesh_Splitter")
+
+[node name="DetectorPost" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.45, 0.97, -0.15)
+mesh = SubResource("Mesh_Post")

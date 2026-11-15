@@ -28,27 +28,27 @@ func _ready():
 func get_category_badge() -> String:
 	match interaction_type:
 		InteractType.PICKUP_LASER:
-			return "⚡ [EQUIPMENT: MODEL 74 EMITTER]"
+			return "[EQUIPMENT: MODEL 74 ALIGNMENT LASER]"
 		InteractType.POLAROID:
-			return "📷 [EVIDENCE: DR. THORNE'S POLAROID]"
+			return "[PHOTOGRAPH: DR. THORNE'S POLAROID]"
 		InteractType.TAPE_RECORDER:
-			return "📻 [AUDIO LOG: C-60 REEL CASSETTE]"
+			return "[AUDIO LOG: CASSETTE RECORDER]"
 		InteractType.CAPACITOR_SWITCH:
 			var bay_name = "Bay A (Cryo)" if capacitor_index == 1 else ("Bay B (Flux)" if capacitor_index == 2 else "Bay C (Oscillator)")
-			return "⚡ [CAPACITOR %s: %s]" % [bay_name, "DISCHARGED" if has_been_used else "ACTIVE"]
+			return "[CAPACITOR %s: %s]" % [bay_name, "DISCHARGED" if has_been_used else "ARMED"]
 		InteractType.SHUTDOWN_LEVER:
 			if not GameManager.dome_puzzle_solved:
-				return "🚨 [FIRING TERMINAL: BLOCKED BY SHADOW NEXUS]"
+				return "[FIRING CONSOLE: PLATFORM BLOCKED]"
 			if not GameManager.dome_override_unlocked:
-				return "🔒 [FIRING TERMINAL: MASTER AZIMUTH CLAMPED]"
-			return "⚡ [MASTER RETRO-INVERSION FIRING TRIGGER]"
+				return "[FIRING CONSOLE: AZIMUTH CODE REQUIRED]"
+			return "[PRIMARY DISCHARGE TRIGGER]"
 		InteractType.EXIT_DOOR:
-			return "🚪 [EXIT: PRESSURIZED LUNAR ROVER AIRLOCK]"
+			return "[AIRLOCK: SURFACE ROVER EXIT]"
 		InteractType.LRRR_ARRAY:
-			return "🔭 [LUNAR APPARATUS: APOLLO 11 LRRR ARRAY]"
+			return "[LUNAR SURFACE: APOLLO 11 LRRR ARRAY]"
 		InteractType.PORTABLE_MIRROR_PICKUP:
-			return "🔭 [OPTICAL ITEM: +2 PORTABLE MIRRORS]"
-	return "🔍 [INTERACTABLE]"
+			return "[OPTICAL GEAR: +2 TRIPOD MIRRORS]"
+	return "[INTERACTABLE]"
 
 func get_category_color() -> Color:
 	match interaction_type:
@@ -73,27 +73,27 @@ func get_category_color() -> Color:
 func get_hint() -> String:
 	match interaction_type:
 		InteractType.PICKUP_LASER:
-			return "Heavy optical laser. Raw beam is absorbed by shadows; must bounce off mirrors to banish."
+			return "Handheld optical alignment laser. Direct beam suppresses entities; reflected beam vaporizes them."
 		InteractType.POLAROID:
-			return "Dr. Thorne's last photograph. Read the handwritten margin note for the Airlock Alpha code."
+			return "Dr. Thorne's photograph. Note on margin records the airlock keypad code."
 		InteractType.TAPE_RECORDER:
 			return "Audio log from Dr. Thorne. Press [E] to play cassette recording."
 		InteractType.CAPACITOR_SWITCH:
 			if has_been_used:
 				return "Capacitor safely isolated in sequence."
-			return "Follow Dr. Thorne's Astrometric Log to discharge in sequence (Bay A -> Bay C -> Bay B) or risk arc blowout!"
+			return "Discharge in verified order (Bay A -> Bay C -> Bay B) to avoid interlock reset."
 		InteractType.SHUTDOWN_LEVER:
 			if not GameManager.dome_puzzle_solved:
-				return "Banish the shadow entities using the 3 telescope reflectors to secure the firing console."
+				return "Clear the platform using the 3 rotating telescope reflectors."
 			if not GameManager.dome_override_unlocked:
-				return "Hydraulic clamps locked. Enter the 4-digit Master Azimuth override code from Tape Log 3."
-			return "Pull trigger to fire 100-Petawatt Hyper-Pulse back down the bridge and collapse the Boötes rift!"
+				return "Enter the 4-digit Master Azimuth code from Log 3 on the keypad."
+			return "Engage discharge lever to collapse the optical return loop and seal the roof shutter."
 		InteractType.EXIT_DOOR:
-			return "Rift collapsed. Evacuate via the pressurized Lunar Rover airlock." if GameManager.shutdown_lever_pulled else "Locked until Retro-Inversion strike is completed."
+			return "Return loop collapsed. Evacuate to surface rover." if GameManager.shutdown_lever_pulled else "Locked until main laser loop has been discharged."
 		InteractType.LRRR_ARRAY:
 			if GameManager.lrrr_calibrated:
 				return "Apollo 11 corner cubes aligned to Azimuth 214°. Pinging Earth Station."
-			return "Align quartz corner cube retroreflector array to Azimuth 214° to re-energize Sector 1 sensor."
+			return "Calibrate Apollo 11 array to Azimuth 214° to benchmark the optical system."
 		InteractType.PORTABLE_MIRROR_PICKUP:
 			return "Precision optical tripod mirrors for complex multi-bounce routing."
 	return ""
@@ -110,13 +110,13 @@ func get_interaction_prompt() -> String:
 			return "Engage Capacitor Isolation Breaker" if not has_been_used else "[DISCHARGED & ISOLATED]"
 		InteractType.SHUTDOWN_LEVER:
 			if not GameManager.dome_puzzle_solved:
-				return "[LOCKED - Shadow nexus surrounds firing terminal]"
+				return "[LOCKED - Reflected beam triangle required to clear platform]"
 			if not GameManager.dome_override_unlocked:
-				return "[E] Enter Master Azimuth Code (Check Tape Log 3)"
-			return "FIRE MASTER RETRO-INVERSION HYPER-PULSE"
+				return "[E] Enter Master Azimuth Code (Check Log 3)"
+			return "DISCHARGE MAIN LASER CAVITY"
 		InteractType.EXIT_DOOR:
 			if not GameManager.shutdown_lever_pulled:
-				return "[SEALED - Retro-Inversion strike required first]"
+				return "[SEALED - Main laser discharge required first]"
 			return "Evacuate to Lunar Surface Rover"
 		InteractType.LRRR_ARRAY:
 			if GameManager.lrrr_calibrated:
@@ -147,14 +147,20 @@ func interact():
 				var success = GameManager.try_activate_capacitor(capacitor_index, self)
 				if success:
 					has_been_used = true
-					AudioManager.play_sfx("switch_flip", 0.8)
+					AudioManager.play_sfx("switch_flip", 0.75, 2.0)
 					var lever_mesh = get_node_or_null("LeverHandle")
 					if lever_mesh:
 						var tween = create_tween()
-						tween.tween_property(lever_mesh, "rotation_degrees:x", 60.0, 0.2)
+						tween.tween_property(lever_mesh, "rotation_degrees:x", -8.0, 0.05).set_trans(Tween.TRANS_BACK)
+						tween.tween_property(lever_mesh, "rotation_degrees:x", 72.0, 0.22).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+						tween.tween_property(lever_mesh, "rotation_degrees:x", 65.0, 0.08).set_trans(Tween.TRANS_SINE)
 					var light = get_node_or_null("StatusLight")
 					if light:
-						light.light_color = Color(0.2, 1.0, 0.4)
+						var lt = create_tween()
+						lt.tween_property(light, "light_color", Color(0.85, 0.95, 1.0), 0.06)
+						lt.tween_property(light, "light_energy", 6.0, 0.06)
+						lt.tween_property(light, "light_color", Color(0.2, 1.0, 0.4), 0.16)
+						lt.tween_property(light, "light_energy", 3.0, 0.16)
 				
 		InteractType.SHUTDOWN_LEVER:
 			if not GameManager.dome_puzzle_solved:
@@ -165,12 +171,21 @@ func interact():
 				return
 			if not has_been_used:
 				has_been_used = true
-				AudioManager.play_sfx("switch_flip", 0.6)
+				AudioManager.play_sfx("switch_flip", 0.5, 3.0)
 				AudioManager.play_sfx("shutter_close")
 				var lever_mesh = get_node_or_null("LeverHandle")
 				if lever_mesh:
 					var tween = create_tween()
-					tween.tween_property(lever_mesh, "rotation_degrees:x", 65.0, 0.3)
+					tween.tween_property(lever_mesh, "rotation_degrees:x", -10.0, 0.08).set_trans(Tween.TRANS_BACK)
+					tween.tween_property(lever_mesh, "rotation_degrees:x", 78.0, 0.32).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+					tween.tween_property(lever_mesh, "rotation_degrees:x", 70.0, 0.12).set_trans(Tween.TRANS_SINE)
+				var beacon = get_node_or_null("BeaconLight")
+				if beacon:
+					var bt = create_tween()
+					bt.tween_property(beacon, "light_color", Color(0.2, 0.9, 1.0), 0.1)
+					bt.tween_property(beacon, "light_energy", 8.0, 0.1)
+					bt.tween_property(beacon, "light_color", Color(0.2, 1.0, 0.4), 0.3)
+					bt.tween_property(beacon, "light_energy", 3.0, 0.3)
 				GameManager.pull_shutdown_lever()
 				
 		InteractType.EXIT_DOOR:
@@ -202,7 +217,9 @@ func reset_breaker():
 	var lever_mesh = get_node_or_null("LeverHandle")
 	if lever_mesh:
 		var tween = create_tween()
-		tween.tween_property(lever_mesh, "rotation_degrees:x", 0.0, 0.2)
+		tween.tween_property(lever_mesh, "rotation_degrees:x", -6.0, 0.22).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		tween.tween_property(lever_mesh, "rotation_degrees:x", 0.0, 0.08)
 	var light = get_node_or_null("StatusLight")
 	if light:
 		light.light_color = Color(1.0, 0.7, 0.1)
+		light.light_energy = 2.5

@@ -3,7 +3,6 @@ extends Node
 func _ready():
 	print("=== RUNNING AUTOMATED GAMEPLAY TESTS ===")
 	
-	# Load main scene
 	var main_scene = load("res://scenes/main.tscn").instantiate()
 	add_child(main_scene)
 	
@@ -13,7 +12,6 @@ func _ready():
 	assert(player != null, "Player must exist in scene")
 	print("✓ Player instantiated successfully")
 	
-	# Test 0: WASD Movement Verification
 	var start_pos = player.global_position
 	var ev_w = InputEventKey.new()
 	ev_w.keycode = KEY_W
@@ -34,7 +32,6 @@ func _ready():
 	Input.parse_input_event(ev_w)
 	Input.flush_buffered_events()
 	
-	# Test 1: Laser pickup & Flashlight
 	assert(GameManager.has_laser == false, "Player should start without laser")
 	var laser_pickup = get_node("Main/Observatory/Act1_ControlRoom/LaserPickup")
 	assert(laser_pickup != null, "Laser pickup prop must exist")
@@ -44,17 +41,20 @@ func _ready():
 	
 	assert(player.flashlight != null, "Flashlight SpotLight3D must exist on player")
 	var initial_flash = player.flashlight.visible
+	var ui_node = get_node_or_null("Main/UI")
+	if ui_node and ui_node.flashlight_label:
+		assert(ui_node.flashlight_label.text.contains("FLASHLIGHT"), "Flashlight HUD label must display status")
 	player.toggle_flashlight()
 	assert(player.flashlight.visible != initial_flash, "Flashlight toggle must flip visibility")
+	if ui_node and ui_node.flashlight_label:
+		assert(ui_node.flashlight_label.text.contains("OFF" if not player.flashlight.visible else "ON"), "HUD must reflect flashlight state")
 	player.toggle_flashlight()
 	assert(player.flashlight.visible == initial_flash, "Flashlight toggle must restore visibility")
-	print("✓ Test 1B: Player Flashlight (Key F) toggles cleanly")
+	print("✓ Test 1B: Player Flashlight (Key F) and HUD indicator toggle cleanly")
 	
-	# Test 2: Direct Laser vs Reflected Laser on Shadow Entity
 	var entity = get_node("Main/Observatory/Act2_Gallery/ShadowEntity1")
 	assert(entity != null, "Shadow Entity 1 must exist")
 	
-	# Direct hit (unreflected) - damages entity and holds in stasis
 	var initial_hp = entity.health
 	entity.on_laser_hit(false, 0.5)
 	assert(entity.health < initial_hp, "Direct beam must damage shadow entity")
@@ -63,23 +63,19 @@ func _ready():
 	assert(entity.is_banished == false, "Entity must not be immediately banished after only 0.5s of direct beam")
 	print("✓ Test 2A: Direct beam damages and halts Shadow Entity in stasis")
 	
-	# Reflected hit - Critical phase inversion banishes entity
 	entity.on_laser_hit(true, 1.0)
 	assert(entity.is_banished == true, "Entity must be banished by reflected beam")
 	print("✓ Test 2B: Reflected beam successfully banishes Shadow Entity with critical damage")
 	
-	# Test 3: Airlock Alpha (Keypad 1974) & Apollo 11 LRRR Pallet Calibration
 	var airlock_alpha = get_node("Main/Observatory/Act1_ControlRoom/AirlockAlpha_Door")
 	assert(airlock_alpha != null, "Airlock Alpha door must exist")
 	assert(airlock_alpha.is_open == false, "Airlock Alpha must be locked initially")
 	
-	# Enter code 1974 from Dr. Thorne's Polaroid
 	GameManager.on_keypad_success("airlock_alpha")
 	assert(airlock_alpha.is_open == true, "Airlock Alpha must open after code 1974")
 	assert(GameManager.airlock_alpha_unlocked == true, "GameManager airlock state unlocked")
 	print("✓ Test 3A: Airlock Alpha opens with Dr. Thorne's Polaroid code (1974)")
 	
-	# Verify Optical Receptor rejects hits before LRRR calibration
 	var receptor = get_node("Main/Observatory/Act1_ControlRoom/OpticalReceptor_Act1")
 	var mirror = get_node("Main/Observatory/Act1_ControlRoom/WallMirror_Act1")
 	var door = get_node("Main/Observatory/Act1_ControlRoom/Act1SecurityDoor")
@@ -89,14 +85,12 @@ func _ready():
 	assert(door.is_open == false, "Receptor must be unpowered before exterior LRRR calibration")
 	print("✓ Test 3B: Interior security receptor rejects hits while exterior LRRR benchmark is uncalibrated")
 	
-	# Calibrate Apollo 11 LRRR Pallet on the lunar surface
 	var lrrr = get_node("Main/Observatory/Act1_ControlRoom/LRRR_Array")
 	assert(lrrr != null, "Apollo 11 LRRR Array must exist on the lunar surface")
 	lrrr.interact()
 	assert(GameManager.lrrr_calibrated == true, "LRRR array must be calibrated")
 	print("✓ Test 3C: Apollo 11 LRRR array calibrated to Azimuth 214°!")
 	
-	# Physical in-world reflection off WallMirror_Act1 into receptor
 	player.global_position = Vector3(-2.4, 0.0, 0.0)
 	player.camera.look_at(mirror.global_position + Vector3(0, 0, 0.02), Vector3.UP)
 	var laser_sys_test = player.laser_system
@@ -106,7 +100,6 @@ func _ready():
 		await get_tree().physics_frame
 	laser_sys_test.is_firing = false
 	
-	# Verify Law of Reflection: theta_i == theta_r
 	var seg0 = laser_sys_test.beam_segments[0]
 	var seg1 = laser_sys_test.beam_segments[1]
 	assert(seg0.visible and seg1.visible, "Both incident and reflected beams must be rendered")
@@ -123,7 +116,6 @@ func _ready():
 	assert(door.is_open == true, "Security door must open")
 	print("✓ Test 3E: Reflected laser beam successfully unlocked Sector 1 magnetic security door")
 	
-	# Test 4: Laser Overheating & 3s lockout
 	var laser_sys = player.laser_system
 	laser_sys.heat = 0.99
 	laser_sys.is_firing = true
@@ -131,29 +123,24 @@ func _ready():
 	assert(laser_sys.is_overheated == true, "Laser should enter overheat state")
 	print("✓ Test 4: Laser overheating & 3s lockout mechanic works")
 	
-	# Test 5: Spectrometry Cleanroom Keypad (Code 488)
 	var cleanroom_barrier = get_node_or_null("Main/Observatory/Act2_Gallery/CleanroomLaserBarrier")
 	assert(cleanroom_barrier != null, "Cleanroom laser barrier must exist initially")
 	GameManager.on_keypad_success("cleanroom_barrier")
 	assert(GameManager.cleanroom_unlocked == true, "Cleanroom state must be unlocked")
 	print("✓ Test 5A: Cleanroom laser barrier deactivated using Argon-ion code 488")
 	
-	# Test 6: Strict Capacitor Sequence Enforcement (Bay A [1] -> Bay C [3] -> Bay B [2])
 	var cap1 = get_node("Main/Observatory/Act2_Gallery/CapacitorBreaker1")
 	var cap2 = get_node("Main/Observatory/Act2_Gallery/CapacitorBreaker2")
 	var cap3 = get_node("Main/Observatory/Act2_Gallery/CapacitorBreaker3")
 	assert(cap1 != null and cap2 != null and cap3 != null, "All 3 capacitor breakers must exist")
 	
-	# Step 1: Bay A
 	cap1.interact()
 	assert(GameManager.capacitors_activated == 1, "Capacitor 1 activated")
 	
-	# Intentional Sequence Violation: try Bay B (2) before Bay C (3)
 	cap2.interact()
 	assert(GameManager.capacitors_activated == 0, "Out-of-order activation must reset capacitors to 0!")
 	print("✓ Test 6A: Arc fault protection successfully catches sequence violation and resets grid")
 	
-	# Execute True Sequence: 1 -> 3 -> 2
 	cap1.interact()
 	assert(GameManager.capacitors_activated == 1, "Capacitor 1 (Bay A Cryo) activated")
 	cap3.interact()
@@ -164,7 +151,6 @@ func _ready():
 	assert(GameManager.dome_door_unlocked == true, "Dome blast doors must unlock after completing sequence 1->3->2")
 	print("✓ Test 6B: Strict lore sequence 1 -> 3 -> 2 successfully unlocks Coudé Dome access")
 	
-	# Test 7: Dome Reflector Triangle Alignment
 	var station_a = get_node("Main/Observatory/Act3_Dome/StationAlpha")
 	var station_b = get_node("Main/Observatory/Act3_Dome/StationBeta")
 	var station_c = get_node("Main/Observatory/Act3_Dome/StationGamma")
@@ -177,13 +163,11 @@ func _ready():
 	assert(GameManager.dome_puzzle_solved == true, "Dome triangle alignment should solve puzzle")
 	print("✓ Test 7: Dome reflector triangle alignment banishes entities & unlocks console")
 	
-	# Test 8: Master Azimuth Keypad Override (Code 8352) & Emergency Shutdown Lever
 	var console_lever = get_node("Main/Observatory/Act3_Dome/ShutdownConsole")
 	assert(GameManager.dome_override_unlocked == false, "Console should be locked without azimuth code")
 	console_lever.interact()
 	assert(GameManager.shutdown_lever_pulled == false, "Lever cannot be pulled before entering code 8352")
 	
-	# Enter code 8352 from Dr. Thorne's Tape Log 3
 	GameManager.on_keypad_success("dome_override")
 	assert(GameManager.dome_override_unlocked == true, "Master azimuth override must unlock lever")
 	console_lever.interact()
@@ -191,31 +175,30 @@ func _ready():
 	assert(GameManager.current_act == GameManager.Act.ENDING, "Current act should be ENDING")
 	print("✓ Test 8: Master Azimuth Code 8352 releases console clamps & seals roof shutter")
 	
-	# Test 9: Complete Map Geometry & Floor Continuity (Zero Void Gaps Across Entire Observatory)
 	var waypoints = [
-		Vector3(0, 1.0, 0),         # Act 1 Control Room
-		Vector3(0, 1.0, -7.5),      # Apollo 11 LRRR Approach on Crater Floor
-		Vector3(-4.0, 1.0, -6.0),   # Airlock Alpha
-		Vector3(5.5, 1.0, 0),       # Act 1 Doorway
-		Vector3(12.0, 1.0, 0),      # Hallway 1 Spine
-		Vector3(15.0, 1.0, 6.0),    # Bay A Cryo Vault
-		Vector3(15.0, 1.0, 10.0),   # Airlock Beta Doorway
-		Vector3(24.0, 1.0, 0),      # Hallway 1/2 Corner
-		Vector3(28.0, 1.0, -2.0),   # Spectrometry Cleanroom (Lab Alpha)
-		Vector3(22.0, 1.0, -8.0),   # Bay B Entrance
-		Vector3(17.5, 1.0, -8.0),   # Bay B Flux Chamber
-		Vector3(19.0, 1.0, -14.0),  # Astrometric Archive & Darkroom
-		Vector3(26.0, 1.0, -8.0),   # Bay C Entrance
-		Vector3(30.5, 1.0, -8.0),   # Bay C Primary Oscillator
-		Vector3(24.0, 1.0, -16.0),  # Hallway 2 Blast Door
-		Vector3(24.0, 1.0, -17.0),  # Vestibule Transition
-		Vector3(24.0, 1.0, -19.0),  # Act 3 Dome Entrance
-		Vector3(24.0, 1.0, -32.0),  # Dome Center
-		Vector3(31.5, 1.0, -36.5),  # Station Alpha Approach
-		Vector3(24.0, 1.0, -24.5),  # Station Beta Approach
-		Vector3(16.5, 1.0, -36.5),  # Station Gamma Approach
-		Vector3(10.0, 1.0, -32.0),  # Exit Hallway Entrance
-		Vector3(1.0, 1.0, -32.0)    # Final Exit Door
+		Vector3(0, 1.0, 0),
+		Vector3(0, 1.0, -7.5),
+		Vector3(-4.0, 1.0, -6.0),
+		Vector3(5.5, 1.0, 0),
+		Vector3(12.0, 1.0, 0),
+		Vector3(15.0, 1.0, 6.0),
+		Vector3(15.0, 1.0, 10.0),
+		Vector3(24.0, 1.0, 0),
+		Vector3(28.0, 1.0, -2.0),
+		Vector3(22.0, 1.0, -8.0),
+		Vector3(17.5, 1.0, -8.0),
+		Vector3(19.0, 1.0, -14.0),
+		Vector3(26.0, 1.0, -8.0),
+		Vector3(30.5, 1.0, -8.0),
+		Vector3(24.0, 1.0, -16.0),
+		Vector3(24.0, 1.0, -17.0),
+		Vector3(24.0, 1.0, -19.0),
+		Vector3(24.0, 1.0, -32.0),
+		Vector3(31.5, 1.0, -36.5),
+		Vector3(24.0, 1.0, -24.5),
+		Vector3(16.5, 1.0, -36.5),
+		Vector3(10.0, 1.0, -32.0),
+		Vector3(1.0, 1.0, -32.0)
 	]
 	var space_state = player.get_world_3d().direct_space_state
 	for i in range(waypoints.size()):
@@ -231,7 +214,6 @@ func _ready():
 		assert(abs(floor_y) < 0.1, "Floor level inconsistent at waypoint %d: %s (y=%.3f, expected ~0.0)" % [i, wp, floor_y])
 	print("✓ Test 9: All 23 map waypoints verified with continuous solid floors - ZERO VOID GAPS")
 	
-	# Test 10: Minimap & Fullscreen GUI Schematic Map
 	var ui = get_node("Main/UI")
 	assert(ui != null and ui.minimap_panel != null, "Minimap panel must exist")
 	assert(ui.full_map_modal != null, "Full map modal must exist")
@@ -242,7 +224,6 @@ func _ready():
 	assert(ui.full_map_modal.visible == false, "Full map modal should be closed after second toggle")
 	print("✓ Test 10: Minimap and Fullscreen GUI Facility Map toggle cleanly with live telemetry")
 	
-	# Test 11: 3D Lunar Exterior Surface & Outpost Infrastructure
 	var lunar_ext = get_node_or_null("Main/LunarExterior")
 	assert(lunar_ext != null, "LunarExterior node must exist in main scene")
 	assert(lunar_ext.get_node_or_null("LunarBedrock") != null, "LunarBedrock terrain must exist")
@@ -252,7 +233,6 @@ func _ready():
 	assert(lunar_ext.get_node_or_null("RoverBody") != null, "Lunar Rover Sled must exist")
 	print("✓ Test 11: 3D Lunar exterior landscape, craters, comms dishes & solar arrays verified!")
 	
-	# Test 12: Audio Log Voicelines & Start Menu
 	assert(AudioManager.voice_clips.has("radio_intro"), "Radio intro voice clip must be loaded")
 	assert(AudioManager.voice_clips.has("tape_log_1"), "Dr. Thorne Tape Log 1 must be loaded")
 	assert(AudioManager.voice_clips.has("tape_log_2"), "Dr. Thorne Tape Log 2 must be loaded")
@@ -266,9 +246,43 @@ func _ready():
 	assert(menu_inst.get_node_or_null("UI/VBoxContainer/BtnDossier") != null or menu_inst.get_node_or_null("VBoxContainer/BtnDossier") != null, "Dossier button must exist")
 	menu_inst.queue_free()
 	print("✓ Test 12: Analog cassette voice pipeline, audio logs & Start Menu verified!")
+	
+	var cutscene = get_node_or_null("Main/EndingCutscene")
+	assert(cutscene != null, "EndingCutscene node must exist in Main")
+	assert(cutscene.get_node_or_null("CutsceneCamera") != null, "CutsceneCamera must exist")
+	assert(cutscene.get_node_or_null("LetterboxTop") != null, "Letterbox bars must exist")
+	
+	var obs = get_node("Main/Observatory")
+	assert(obs.find_child("Mirror_Hall1_Turn", true, false) != null, "Hallway 1 Turn Mirror must exist")
+	assert(obs.find_child("Mirror_BR1", true, false) != null, "BR1 Mirror must exist")
+	assert(obs.find_child("Mirror_BR2", true, false) != null, "BR2 Mirror must exist")
+	assert(obs.find_child("Mirror_Cleanroom", true, false) != null, "Cleanroom Mirror must exist")
+	assert(obs.find_child("Mirror_Archive", true, false) != null, "Archive Mirror must exist")
+	
+	var br1 = obs.find_child("CapacitorBreaker1", true, false)
+	assert(br1 != null, "CapacitorBreaker1 must exist")
+	assert(abs(br1.position.x - 12.7) < 0.1, "CapacitorBreaker1 must be mounted on BR1 east wall")
+	assert(obs.find_child("BR1_Breaker_Spot", true, false) != null, "BR1_Breaker_Spot must illuminate breaker")
+	
+	var osc = obs.find_child("Prop_Oscilloscope1", true, false)
+	var mainframe = obs.find_child("MainframeRack1", true, false)
+	var bench = obs.find_child("Prop_OpticalBench1", true, false)
+	assert(osc != null and mainframe != null and bench != null, "3D hardware props must exist")
+	
+	var sample_door = obs.find_child("Act1SecurityDoor", true, false)
+	assert(sample_door != null, "Act1SecurityDoor must exist")
+	assert(sample_door.get_node_or_null("DoorLeft") != null and sample_door.get_node_or_null("DoorRight") != null, "Bolted bulkhead must have dual sliding panels")
+	assert(sample_door.get_node_or_null("DoorLeft/BoltUpperLeft") != null, "Bolted bulkhead locking bolt must exist")
+	
+	cutscene.play_ending_sequence()
+	assert(cutscene.is_playing == true, "Cutscene should be playing")
+	cutscene.finish_cutscene()
+	assert(cutscene.is_playing == false, "Cutscene should be stopped")
+	assert(ui.win_screen.visible == true, "Win screen must be displayed after cutscene finishes")
+	print("✓ Test 13: 3D laboratory props, sliding bulkheads, optical mirrors & cinematic cutscene verified!")
 
 	print("======================================================")
-	print("ALL 13 ADVANCED GAMEPLAY, LORE & OPTICS TESTS PASSED!")
+	print("ALL 14 ADVANCED GAMEPLAY, LORE & OPTICS TESTS PASSED!")
 	print("======================================================")
 	
 	get_tree().quit(0)

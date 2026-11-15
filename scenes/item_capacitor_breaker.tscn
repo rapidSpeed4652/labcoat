@@ -1,32 +1,50 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://scripts/interactable.gd" id="1_int"]
+[ext_resource type="Texture2D" path="res://assets/textures/capacitor_metal.png" id="2_capm"]
+[ext_resource type="Texture2D" path="res://assets/textures/capacitor_metal_normal.png" id="3_capmn"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_col"]
-size = Vector3(0.9, 1.2, 0.6)
+size = Vector3(1.0, 1.4, 0.7)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_box"]
-albedo_color = Color(0.85, 0.45, 0.05, 1) 
-metallic = 0.5
+[sub_resource type="StandardMaterial3D" id="Mat_BreakerCasing"]
+albedo_texture = ExtResource("2_capm")
+normal_enabled = true
+normal_texture = ExtResource("3_capmn")
+metallic = 0.75
+roughness = 0.35
+
+[sub_resource type="StandardMaterial3D" id="Mat_LeverShaft"]
+albedo_color = Color(0.85, 0.88, 0.92, 1)
+metallic = 0.95
+roughness = 0.15
+
+[sub_resource type="StandardMaterial3D" id="Mat_LeverGrip"]
+albedo_color = Color(0.95, 0.2, 0.15, 1)
+metallic = 0.3
 roughness = 0.4
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_handle"]
-albedo_color = Color(0.9, 0.1, 0.1, 1) 
-metallic = 0.4
-roughness = 0.3
+[sub_resource type="BoxMesh" id="Mesh_Casing"]
+material = SubResource("Mat_BreakerCasing")
+size = Vector3(0.75, 1.05, 0.28)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_metal"]
-albedo_color = Color(0.2, 0.22, 0.25, 1)
-metallic = 0.9
-roughness = 0.3
+[sub_resource type="CylinderMesh" id="Mesh_PivotBracket"]
+material = SubResource("Mat_LeverShaft")
+top_radius = 0.06
+bottom_radius = 0.06
+height = 0.2
 
-[sub_resource type="BoxMesh" id="BoxMesh_box"]
-material = SubResource("StandardMaterial3D_box")
-size = Vector3(0.65, 0.9, 0.25)
+[sub_resource type="CylinderMesh" id="Mesh_Shaft"]
+material = SubResource("Mat_LeverShaft")
+top_radius = 0.035
+bottom_radius = 0.035
+height = 0.42
 
-[sub_resource type="BoxMesh" id="BoxMesh_handle"]
-material = SubResource("StandardMaterial3D_handle")
-size = Vector3(0.1, 0.45, 0.1)
+[sub_resource type="CylinderMesh" id="Mesh_Grip"]
+material = SubResource("Mat_LeverGrip")
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.22
 
 [node name="CapacitorBreaker" type="StaticBody3D"]
 script = ExtResource("1_int")
@@ -36,14 +54,25 @@ interaction_type = 3
 shape = SubResource("BoxShape3D_col")
 
 [node name="BoxMesh" type="MeshInstance3D" parent="."]
-mesh = SubResource("BoxMesh_box")
+mesh = SubResource("Mesh_Casing")
 
-[node name="LeverHandle" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0.16)
-mesh = SubResource("BoxMesh_handle")
+[node name="PivotBracket" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, -0.05, 0.16)
+mesh = SubResource("Mesh_PivotBracket")
+
+[node name="LeverHandle" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.16)
+
+[node name="ShaftMesh" type="MeshInstance3D" parent="LeverHandle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.18, 0)
+mesh = SubResource("Mesh_Shaft")
+
+[node name="GripMesh" type="MeshInstance3D" parent="LeverHandle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.32, 0)
+mesh = SubResource("Mesh_Grip")
 
 [node name="StatusLight" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0.25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.42, 0.2)
 light_color = Color(1, 0.7, 0.1, 1)
-light_energy = 2.5
+light_energy = 2.8
 omni_range = 3.5

@@ -11,6 +11,7 @@ extends CanvasLayer
 @onready var objective_label: Label = $Control/ObjectivePanel/ObjectiveLabel
 @onready var heat_bar: ProgressBar = $Control/LaserPanel/HeatBar
 @onready var heat_label: Label = $Control/LaserPanel/HeatLabel
+@onready var flashlight_label: Label = $Control/FlashlightPanel/FlashlightLabel
 @onready var mirror_label: Label = $Control/MirrorPanel/MirrorLabel
 @onready var laser_panel: Control = $Control/LaserPanel
 
@@ -62,9 +63,11 @@ func _ready():
 	GameManager.game_lost.connect(_on_game_lost)
 	GameManager.game_won.connect(_on_game_won)
 	GameManager.player_respawn_requested.connect(_on_player_respawn)
+	GameManager.flashlight_toggled.connect(update_flashlight)
 	
 	update_objective(GameManager.current_objective)
 	_on_mirror_count_changed(GameManager.portable_mirrors_count)
+	update_flashlight(true)
 	
 	if keypad_modal:
 		keypad_modal.visible = false
@@ -123,8 +126,8 @@ func _update_map_checklist():
 	text += "[x] Dome Blast Doors: OPEN\n" if GameManager.dome_door_unlocked else "[ ] Dome Blast Doors: SEALED (3/3 REQ)\n"
 	text += "[x] Coudé Equilateral Triad: ALIGNED\n" if GameManager.dome_puzzle_solved else "[ ] Coudé Equilateral Triad: PENDING\n"
 	text += "[x] Master Azimuth Code: UNLOCKED\n" if GameManager.dome_override_unlocked else "[ ] Master Azimuth Code: CLAMPED (8352)\n"
-	text += "[x] Retro-Inversion Strike: FIRED\n" if GameManager.shutdown_lever_pulled else "[ ] Retro-Inversion Strike: ARMED\n"
-	text += "[x] Lunar Rover Evacuation: CLEARED\n" if GameManager.current_act == GameManager.Act.ENDING else "[ ] Lunar Rover Evacuation: SEALED\n"
+	text += "[x] Primary Cavity Discharge: COMPLETE\n" if GameManager.shutdown_lever_pulled else "[ ] Primary Cavity Discharge: ARMED\n"
+	text += "[x] Surface Rover Evacuation: CLEARED\n" if GameManager.current_act == GameManager.Act.ENDING else "[ ] Surface Rover Evacuation: SEALED\n"
 	checklist_label.text = text
 
 func toggle_pause():
@@ -159,7 +162,6 @@ func set_targeted_object(obj: Node):
 	target_card.visible = true
 	_set_reticle_state(true)
 	
-	# Extract badge, prompt, and hint
 	var badge = obj.get_category_badge() if obj.has_method("get_category_badge") else "🔍 [OBJECT]"
 	var badge_col = obj.get_category_color() if obj.has_method("get_category_color") else Color(1, 0.9, 0.4)
 	var prompt = obj.get_interaction_prompt() if obj.has_method("get_interaction_prompt") else "Interact"
@@ -194,7 +196,6 @@ func show_radio_message(speaker: String, text: String, duration: float):
 	if typewriter_tween:
 		typewriter_tween.kill()
 	
-	# Generous reading duration: minimum 16.0s or scaled by text length
 	var calc_duration = max(duration, max(16.0, text.length() * 0.08))
 	
 	typewriter_tween = create_tween()
@@ -233,6 +234,11 @@ func _on_keypad_requested(target_id: String, expected_code: String, title: Strin
 func _on_mirror_count_changed(count: int):
 	mirror_label.text = "PORTABLE MIRRORS: " + str(count) + " [RMB/Q PLACE]"
 
+func update_flashlight(is_on: bool):
+	if flashlight_label:
+		flashlight_label.text = "FLASHLIGHT: " + ("ON" if is_on else "OFF") + " [F TOGGLE]"
+		flashlight_label.modulate = Color(0.2, 0.9, 1.0) if is_on else Color(0.5, 0.6, 0.7)
+
 func _on_game_lost():
 	death_screen.visible = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -244,8 +250,12 @@ func _on_player_respawn():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _on_game_won():
-	win_screen.visible = true
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	var cutscene = get_tree().root.find_child("EndingCutscene", true, false)
+	if cutscene and cutscene.has_method("play_ending_sequence"):
+		cutscene.play_ending_sequence()
+	else:
+		win_screen.visible = true
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _on_restart_button_pressed():
 	GameManager.restart_checkpoint()

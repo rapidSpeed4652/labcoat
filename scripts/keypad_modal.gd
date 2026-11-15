@@ -87,7 +87,6 @@ func _on_clear_pressed():
 func _on_enter_pressed():
 	code_submitted.emit(input_buffer)
 	if expected_code != "" and input_buffer == expected_code:
-		# Access Granted
 		AudioManager.play_sfx("switch_flip", 1.2)
 		status_label.text = "[ACCESS GRANTED - PROTOCOL ENGAGED]"
 		status_label.modulate = Color(0.2, 1.0, 0.4)
@@ -96,7 +95,6 @@ func _on_enter_pressed():
 		await get_tree().create_timer(0.6).timeout
 		close()
 	else:
-		# Access Denied
 		AudioManager.play_sfx("access_denied")
 		status_label.text = "[ERR: INVALID CODE - CHECK AUDIO/POLAROID LORE]"
 		status_label.modulate = Color(1.0, 0.25, 0.2)

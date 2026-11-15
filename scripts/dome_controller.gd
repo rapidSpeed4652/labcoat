@@ -45,7 +45,6 @@ func _trigger_dome_solve():
 	if triangle_beam_mesh:
 		triangle_beam_mesh.visible = true
 	
-	# Banish all remaining shadow entities in dome
 	var entities = get_tree().get_nodes_in_group("ShadowEntity")
 	for e in entities:
 		if e.has_method("banish"):
@@ -59,7 +58,6 @@ func _perform_shutdown():
 	AudioManager.play_sfx("mirror_reflect", 0.6, 6.0)
 	var beam_light = get_node_or_null("BeamLight")
 	
-	# 100-Petawatt Inverted Hyper-Pulse Surge
 	if central_beam:
 		var tween = create_tween()
 		tween.tween_property(central_beam, "scale", Vector3(3.2, 1.0, 3.2), 0.35).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
@@ -81,12 +79,10 @@ func _perform_shutdown():
 		if beam_light:
 			beam_light.visible = false
 	
-	# Shutter close animation
 	if roof_shutter:
 		var tween = create_tween()
 		tween.tween_property(roof_shutter, "position:y", roof_shutter.position.y - 4.0, 3.0).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	
-	# Emergency amber lights flicker on
 	if emergency_lights_root:
 		emergency_lights_root.visible = true
 		for child in emergency_lights_root.get_children():
