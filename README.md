@@ -33,9 +33,9 @@ R — Restart at Checkpoint
 Escape — Pause / Resume
 
 ## Credits
-@DevAyaan123
+<a href="https://github.com/devayaan123">@DevAyaan123</a>
 
-@koundinyag-eventhorizon
+<a href="https://github.com/koundinyag-eventhorizon">@koundinyag</a>
 
-@rapidSpeed4652
+<a href="https://github.com/rapidSpeed4652">@rapidSpeed4652</a>
 
